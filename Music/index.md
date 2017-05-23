@@ -1,3 +1,6 @@
-# HEADER
+---
+title: This is my title
+layout: post
+---
 
-comment
+Here is my page.
