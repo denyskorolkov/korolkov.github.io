@@ -1,0 +1,1856 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"fun",
+				"fun\tFunction"
+			],
+			[
+				"mo",
+				"modelCid"
+			],
+			[
+				"for",
+				"formCid"
+			],
+			[
+				"set",
+				"setRelation"
+			],
+			[
+				"lab",
+				"labelPath"
+			],
+			[
+				"typ",
+				"typeof"
+			],
+			[
+				"pa",
+				"pathPrefix"
+			],
+			[
+				"defa",
+				"default"
+			],
+			[
+				"de",
+				"default"
+			],
+			[
+				"sectio",
+				"sectionModel"
+			],
+			[
+				"Fo",
+				"FormEncodeHandlers"
+			],
+			[
+				"Term",
+				"TermCategoryItem"
+			],
+			[
+				"ter",
+				"term2category"
+			],
+			[
+				"form",
+				"formData"
+			],
+			[
+				"on",
+				"onKeyPress"
+			],
+			[
+				"comp",
+				"component"
+			],
+			[
+				"rel",
+				"relations"
+			],
+			[
+				"rela",
+				"relations"
+			],
+			[
+				"com",
+				"component"
+			],
+			[
+				"elem",
+				"elements"
+			],
+			[
+				"fo",
+				"formTarget"
+			],
+			[
+				"vali",
+				"validation"
+			],
+			[
+				"is",
+				"isAutoValidate"
+			],
+			[
+				"chan",
+				"changed"
+			],
+			[
+				"def",
+				"defaultData"
+			],
+			[
+				"inpu",
+				"inputName"
+			],
+			[
+				"un",
+				"undefined"
+			],
+			[
+				"h",
+				"helpers"
+			],
+			[
+				"mode",
+				"modelData"
+			],
+			[
+				"err",
+				"errorAttr"
+			],
+			[
+				"erro",
+				"errorPath"
+			],
+			[
+				"er",
+				"errors"
+			],
+			[
+				"in",
+				"inline-block"
+			],
+			[
+				"clo",
+				"closeTriggers"
+			],
+			[
+				"temp",
+				"templatePath"
+			],
+			[
+				"tem",
+				"templatePath"
+			],
+			[
+				"attr",
+				"attributes"
+			],
+			[
+				"F",
+				"FormModelItem"
+			],
+			[
+				"CH",
+				"CHECKBOX3"
+			],
+			[
+				"ra",
+				"rangeLength"
+			],
+			[
+				"max",
+				"maxLength"
+			],
+			[
+				"val",
+				"validation"
+			],
+			[
+				"cli",
+				"clientX"
+			],
+			[
+				"_get",
+				"_getPopoverContentFor"
+			],
+			[
+				"re",
+				"required"
+			],
+			[
+				"c",
+				"checkbox"
+			],
+			[
+				"han",
+				"handler"
+			],
+			[
+				"dis",
+				"display_name"
+			],
+			[
+				"remo",
+				"removeData"
+			],
+			[
+				"isD",
+				"isDisabledPopover"
+			],
+			[
+				"des",
+				"destroyPopover"
+			],
+			[
+				"po",
+				"popoverTemplate"
+			],
+			[
+				"en",
+				"entryType"
+			],
+			[
+				"reu",
+				"request"
+			],
+			[
+				"compo",
+				"components"
+			],
+			[
+				"req",
+				"required"
+			],
+			[
+				"condi",
+				"condition"
+			],
+			[
+				"con",
+				"condition"
+			],
+			[
+				"name",
+				"nameValidation"
+			],
+			[
+				"nam",
+				"nameValidation"
+			],
+			[
+				"get",
+				"getAttrsString"
+			],
+			[
+				"te",
+				"templateHelpers"
+			],
+			[
+				"to",
+				"toLowerCase"
+			],
+			[
+				"clas",
+				"className"
+			],
+			[
+				"lo",
+				"toLowerCase"
+			],
+			[
+				"op",
+				"opacity"
+			],
+			[
+				"bak",
+				"background-color"
+			],
+			[
+				"di",
+				"display"
+			],
+			[
+				"sele",
+				"selectedGroupClass"
+			],
+			[
+				"mul",
+				"multiselect"
+			],
+			[
+				"mu",
+				"multiselect"
+			],
+			[
+				"lan",
+				"languages"
+			],
+			[
+				"lang",
+				"languages"
+			],
+			[
+				"ev",
+				"event2"
+			],
+			[
+				"a",
+				"arguments"
+			],
+			[
+				"C",
+				"ClassView"
+			],
+			[
+				"cu",
+				"currentModuleName"
+			],
+			[
+				"pr",
+				"protected"
+			],
+			[
+				"cure",
+				"currentModule"
+			],
+			[
+				"ext",
+				"extends"
+			],
+			[
+				"ha",
+				"handleInputEvent"
+			],
+			[
+				"o",
+				"options"
+			],
+			[
+				"getCon",
+				"getContext"
+			],
+			[
+				"too",
+				"toolbar"
+			],
+			[
+				"acti",
+				"activate"
+			],
+			[
+				"DO",
+				"DocumentView"
+			],
+			[
+				"Docu",
+				"DocumentView"
+			],
+			[
+				"cat",
+				"catalogId"
+			],
+			[
+				"bi",
+				"bindUIElementsLayoutView"
+			],
+			[
+				"bind",
+				"bindUIElements"
+			],
+			[
+				"ar",
+				"article\tTag"
+			],
+			[
+				"or",
+				"original"
+			],
+			[
+				"actions",
+				"getActions"
+			],
+			[
+				"isl",
+				"islockAction"
+			],
+			[
+				"cre",
+				"createNode"
+			],
+			[
+				"upda",
+				"updateNode"
+			],
+			[
+				"licen",
+				"licenseList"
+			],
+			[
+				"se",
+				"setHandleAction"
+			],
+			[
+				"serv",
+				"servers_collection"
+			],
+			[
+				"data",
+				"dataItem"
+			],
+			[
+				"st",
+				"status"
+			],
+			[
+				"att",
+				"attributes"
+			],
+			[
+				"add",
+				"addEventAction"
+			],
+			[
+				"An",
+				"AnalysisController"
+			],
+			[
+				"cons",
+				"constructor"
+			],
+			[
+				"import",
+				"importStatus"
+			],
+			[
+				"modu",
+				"moduleName"
+			],
+			[
+				"disa",
+				"disabled"
+			],
+			[
+				"policy",
+				"policyModel"
+			],
+			[
+				"else",
+				"elements"
+			],
+			[
+				"formS",
+				"formSelector"
+			],
+			[
+				"CON",
+				"CONDITION_ID"
+			],
+			[
+				"EN",
+				"ENTRY_ID"
+			],
+			[
+				"eor",
+				"errorMessage"
+			],
+			[
+				"dest",
+				"destModel"
+			],
+			[
+				"remove",
+				"removeAttr"
+			],
+			[
+				"start",
+				"start_datetime"
+			],
+			[
+				"la",
+				"last_30_days"
+			],
+			[
+				"th",
+				"this_month"
+			],
+			[
+				"i",
+				"interval"
+			],
+			[
+				"star",
+				"startDate"
+			],
+			[
+				"sta",
+				"startDate"
+			],
+			[
+				"ch",
+				"chosenLabel"
+			],
+			[
+				"ca",
+				"capture_date"
+			],
+			[
+				"l",
+				"last_30_days"
+			],
+			[
+				"dater",
+				"daterangepicker"
+			],
+			[
+				"colle",
+				"collectionChanged"
+			],
+			[
+				"TE",
+				"TEXT_STRING"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "_config.yml",
+			"settings":
+			{
+				"buffer_size": 857,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "korolkov.sublime-project",
+			"settings":
+			{
+				"buffer_size": 45,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "pack in",
+		"selected_items":
+		[
+			[
+				"pack in",
+				"Package Control: Add Repository"
+			],
+			[
+				"git status",
+				"Git: Status"
+			],
+			[
+				"git ad",
+				"Git: Add All"
+			],
+			[
+				"git st",
+				"Git: Status"
+			],
+			[
+				"pack",
+				"Package Control: List Packages"
+			],
+			[
+				"git di ",
+				"Git: Diff Current File"
+			],
+			[
+				"git dif",
+				"Git: Diff Current File"
+			],
+			[
+				"gi bl",
+				"Git: Blame"
+			],
+			[
+				"u c",
+				"Convert Case: Upper Case"
+			],
+			[
+				"git bl",
+				"Git: Blame"
+			],
+			[
+				"git ch cu",
+				"Git: Checkout Current File"
+			],
+			[
+				"gi b",
+				"Git: Blame"
+			],
+			[
+				"g l",
+				"Git: Log All"
+			],
+			[
+				"gti ch cu",
+				"Git: Checkout Current File"
+			],
+			[
+				"git di",
+				"Git: Diff Tool All"
+			],
+			[
+				"git  di",
+				"GitGutter: Show Diff Popup"
+			],
+			[
+				"gti",
+				"Git: Blame"
+			],
+			[
+				"git log cu",
+				"Git: Log Current File"
+			],
+			[
+				"git diff",
+				"Git: Diff All Files"
+			],
+			[
+				"lo cas",
+				"Convert Case: Lower Case"
+			],
+			[
+				"git ch c",
+				"Git: Checkout Current File"
+			],
+			[
+				"git che cu",
+				"Git: Checkout Current File"
+			],
+			[
+				"git bla",
+				"Git: Blame"
+			],
+			[
+				"pa",
+				"Package Control: List Packages"
+			],
+			[
+				"pa rem pa",
+				"Package Control: Remove Package"
+			],
+			[
+				"subli",
+				"Sublimall: Retrieve"
+			],
+			[
+				"pa ins",
+				"Package Control: Install Package"
+			],
+			[
+				"gb",
+				"Git: Blame"
+			],
+			[
+				"git hi",
+				"Git: Show Current File"
+			],
+			[
+				"git re",
+				"GitGutter: Compare Against HEAD"
+			],
+			[
+				"git lo cu",
+				"Git: Log Current File"
+			],
+			[
+				"git status ",
+				"Git: Status"
+			],
+			[
+				"git gui",
+				"GitGutter: Show Diff Popup"
+			],
+			[
+				"git ",
+				"GitGutter: Compare Against HEAD"
+			],
+			[
+				"git stat",
+				"GitGutter: Show Comparing Against"
+			],
+			[
+				"g lo cu",
+				"Git: Log Current File"
+			],
+			[
+				"git log",
+				"Git: Log All"
+			],
+			[
+				"git sta",
+				"Git: Status"
+			],
+			[
+				"g log cu",
+				"Git: Log Current File"
+			],
+			[
+				"gitb",
+				"Git: Blame"
+			],
+			[
+				"gi ch c",
+				"Git: Checkout Current File"
+			],
+			[
+				"git log c",
+				"Git: Log Current File"
+			],
+			[
+				"git che ",
+				"Git: Checkout Current File"
+			],
+			[
+				"pack ins ",
+				"Package Control: Install Package"
+			],
+			[
+				"git ch  cu",
+				"Git: Checkout Current File"
+			],
+			[
+				"gi sta",
+				"Git: Stash Apply"
+			],
+			[
+				"gi lo cu",
+				"Git: Log Current File"
+			],
+			[
+				"g b",
+				"Git: Blame"
+			],
+			[
+				"pack re",
+				"Package Control: Remove Package"
+			],
+			[
+				"pac r",
+				"Package Control: Remove Package"
+			],
+			[
+				"git statu",
+				"Git: Status"
+			],
+			[
+				"git reset",
+				"Git: Reset (hard) HEAD"
+			],
+			[
+				"git lgo",
+				"Git: Log All"
+			],
+			[
+				"gi lgo c",
+				"Git: Log Current File"
+			],
+			[
+				"git lo",
+				"Git: Log Current File"
+			],
+			[
+				"pa li",
+				"Package Control: List Packages"
+			],
+			[
+				"pack ins",
+				"Package Control: Install Package"
+			],
+			[
+				"pa list",
+				"Package Control: List Packages"
+			],
+			[
+				"git log ",
+				"Git: Log Current File"
+			],
+			[
+				"f",
+				"File: Copy Path From Project"
+			],
+			[
+				"js",
+				"JSHint"
+			],
+			[
+				"git ch",
+				"Git: Checkout Current File"
+			],
+			[
+				"git d",
+				"Git: Diff Current File"
+			],
+			[
+				"gti bla",
+				"Git: Blame"
+			],
+			[
+				"git b",
+				"Git: Blame"
+			],
+			[
+				"log cu",
+				"Git: Log Current File"
+			],
+			[
+				"git che",
+				"Git: Checkout Current File"
+			],
+			[
+				"set s js",
+				"Set Syntax: JSON"
+			],
+			[
+				"c p",
+				"File: Copy Path"
+			],
+			[
+				"lc",
+				"Convert Case: Lower Case"
+			],
+			[
+				"git chec",
+				"Git: Checkout Current File"
+			],
+			[
+				"git add",
+				"Git: Add Current File"
+			],
+			[
+				"git co",
+				"Git: Commit"
+			],
+			[
+				"git com",
+				"Git: Commit"
+			],
+			[
+				"git stash",
+				"Git: Stash Changes"
+			],
+			[
+				"uc",
+				"Convert Case: Upper Case"
+			],
+			[
+				"git",
+				"Git: Gitk"
+			],
+			[
+				"g status",
+				"Git: Status"
+			],
+			[
+				"git s",
+				"Git: Status"
+			],
+			[
+				"git st ",
+				"Git: Status"
+			],
+			[
+				"sn log",
+				"Snippet: log"
+			],
+			[
+				"sn cla",
+				"Snippet: Class"
+			],
+			[
+				"s cla",
+				"Snippet: Class"
+			],
+			[
+				"Snippet: cla",
+				"Snippet: Class"
+			],
+			[
+				"set js",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"snip",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"g r c",
+				"Git: Reset (unstage) Current File"
+			],
+			[
+				"g r",
+				"Git: Reset (unstage) Current File"
+			],
+			[
+				"fcn",
+				"File: Copy Name"
+			],
+			[
+				"s s co",
+				"Set Syntax: CoffeeScript"
+			],
+			[
+				"bsa",
+				"Bookmarks: Select All"
+			],
+			[
+				"bt",
+				"Bookmarks: Toggle"
+			],
+			[
+				"fcpf",
+				"File: Copy Path From Project"
+			],
+			[
+				"f c",
+				"File: Copy Path From Project"
+			],
+			[
+				"task new d",
+				"Tasks: New document"
+			],
+			[
+				"tnew",
+				"Tasks: New"
+			],
+			[
+				"tnd",
+				"Tasks: New document"
+			],
+			[
+				"bsn",
+				"Bookmarks: Select Next"
+			],
+			[
+				"fcp",
+				"File: Copy Path"
+			],
+			[
+				"ccl",
+				"Convert Case: Lower Case"
+			],
+			[
+				"ccu",
+				"Convert Case: Upper Case"
+			],
+			[
+				"br",
+				"Side Bar: Refresh"
+			],
+			[
+				"file",
+				"Package Control: Create Package File"
+			],
+			[
+				"bca",
+				"Bookmarks: Clear All"
+			],
+			[
+				"b t",
+				"Bookmarks: Toggle"
+			],
+			[
+				"gir log",
+				"Git: Diff Current File (Ignore Whitespace)"
+			],
+			[
+				"git blame",
+				"Git: Blame"
+			],
+			[
+				"coff",
+				"Coffee: Lint"
+			],
+			[
+				"coffe",
+				"Set Syntax: CoffeeScript"
+			],
+			[
+				"git  blame",
+				"Git: Blame"
+			]
+		],
+		"width": 540.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = 'eb2297e1a458f27d836c04bb0cbaf282' + 'd0e7a3098092775ccb37ca9d6b2e4b7d'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/dannysabor/pro/denyskorolkov.github.io",
+		"/Users/dannysabor/pro/denyskorolkov.github.io/_includes"
+	],
+	"file_history":
+	[
+		"/Users/dannysabor/pro/denyskorolkov.github.io/korolkov.sublime-project",
+		"/Users/dannysabor/Library/Application Support/Sublime Text 3/Packages/Package Control/Package Control.sublime-settings",
+		"/Users/dannysabor/pro/denyskorolkov.github.io/README.md",
+		"/Users/dannysabor/Library/Application Support/Alfred 3/Alfred.alfredpreferences/workflows/user.workflow.B3AFA789-5F3F-471A-BA4C-F06B1CCD8FEB/main.js",
+		"/private/var/folders/g5/ylv9qbsx7f58y24sjwymkj2m0000gn/T/BetterZip Temporary Folder.rbyxzX/BetterZip Temporary Folder.kAebb2/socicon/fonts/Socicon.svg",
+		"/Users/dannysabor/Projects/Infowatch/src/tm4/web/front/@build/scripts/main.js",
+		"/Users/dannysabor/Library/Mobile Documents/com~apple~CloudDocs/Draft/src/main.js",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/models/policy/policy.coffee",
+		"/Users/dannysabor/Library/Application Support/nvALT/custom.css",
+		"/Users/dannysabor/Documents/temp/form.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/configuration/entities/Category.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/analysis/dialogs/group_term.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/controllers/debug.controller.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/common/mocks.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/views/debug/content.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/views/analysis/dialogs/group.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/views/analysis/dialogs/category.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/models/analysis/term.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/common/backbone-paginator.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/models/relation.model.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/views/controls/grid.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/models/analysis/text_object_pattern.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/models/analysis/text_object.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/models/protected/document.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/models/entry.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/views/analysis/dialogs/group_fingerprint.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/views/analysis/dialogs/term.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/helpers/template.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/models/organization/groups.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/models/protected/catalog.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/analysis/dialogs/group.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/models/analysis/table.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/layouts/application.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/components/dialog/main.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/views/analysis/dialogs/table.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/views/configuration/dialogs/configuration.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/policy/rule/transfer.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/policy/rule/placement.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/policy/rule/person.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/policy/rule/copy.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/policy/rule/clipboard.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/policy/action.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/controls/select2/selection.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/controls/select2/result.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/controls/popover/list.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/controls/popover.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/controls/entry/label.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/policy/sidebar/action/person.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/person_workstation/fields/contact_fields.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/header.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/analysis/dialogs/text_object.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/dashboards/content.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/nls/error/default/validation.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/views/controls/dialog.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/views/header.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/views/controls/form.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/controls/dialog/delete.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/dialog/delete.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/dialog/wrapper.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/sidebar/wrapper.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/behaviors/common/dialog.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/controls/dialog/wrapper.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/handlers/actions.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/components/form/date.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/common/entry.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/components/components.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/components/component.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/controls/form/date.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/form/date.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/form/hint.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/form/dates.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/form/attrs.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/form/textarea.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/models/debug/form.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/controllers/analysis.controller.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/views/analysis/handlers.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/handlers/toolbar.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/behaviors/common/toolbar.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/common/validators.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/crawler/tasks/task.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/form/datetime.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/config.yml",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/models/analysis/fingerprint.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/models/analysis/graphic.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/styles/common/form-advanced.scss",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/form/helpers.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/helpers.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/form/error.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/form/wrap_popup.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/form/wrap_sidebar.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/form/submit.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/form/error_child.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/form/label.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/form/row.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/handlers/form.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/form/tumbler.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/form/select.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/form/label_wrap.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/common/i18n.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/app.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/handlers/test.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/form/number.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/form/toggle.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/form/checkbox.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/common/event.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/events/query_builder/_partials/analysis_text.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/styles/components/form/validate.scss",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/styles/plugins/select2/select2.scss",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/handlers/main.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/common/marionette.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/common/backbone-syphon.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/common/backbone.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/analysis/dialogs/term.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/nls/ru/entry.json",
+		"/Applications/TorBrowser.app/Contents/Resources/TorBrowser/Tor/torrc-defaults",
+		"/Applications/TorBrowser.app/Contents/Resources/TorBrowser/Tor/torrc",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/debug/form.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/models/analysis/category.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/debug/form_collection.ect.html",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/styles/common/form.scss",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/common/style.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/common/select2.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/styles/common/form-validate.scss",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/behaviors/common/form.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/components/form/submit.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/routes/application.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/components/form/form.coffee",
+		"/Users/dannysabor/Desktop/tm/tm4/web/front/app/scripts/templates/components/form/reset.ect.html"
+	],
+	"find":
+	{
+		"height": 23.0
+	},
+	"find_in_files":
+	{
+		"height": 102.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"images",
+			"categories"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "_config.yml",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 857,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								549,
+								549
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/YAML/YAML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "korolkov.sublime-project",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 45,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								45,
+								45
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 38.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 142.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 194.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 148.0
+	},
+	"pinned_build_system": "",
+	"project": "korolkov.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"kor",
+				"korolkov.sublime-project"
+			],
+			[
+				"re",
+				"README.md"
+			],
+			[
+				"ma",
+				"~/Library/Application Support/Alfred 3/Alfred.alfredpreferences/workflows/user.workflow.B3AFA789-5F3F-471A-BA4C-F06B1CCD8FEB/main.js"
+			],
+			[
+				"mai",
+				"~/Library/Application Support/Alfred 3/Alfred.alfredpreferences/workflows/user.workflow.B3AFA789-5F3F-471A-BA4C-F06B1CCD8FEB/main.js"
+			],
+			[
+				"group",
+				"scripts/templates/analysis/dialogs/group_term.ect.html"
+			],
+			[
+				"term",
+				"scripts/models/analysis/term.coffee"
+			],
+			[
+				"form",
+				"scripts/handlers/form.coffee"
+			],
+			[
+				"compform",
+				"scripts/components/form/form.coffee"
+			],
+			[
+				"",
+				"scripts/templates/debug/form.ect.html"
+			],
+			[
+				"m",
+				"scripts/components/dialog/main.coffee"
+			],
+			[
+				"debug",
+				"scripts/models/debug/form.coffee"
+			],
+			[
+				"ana",
+				"scripts/controllers/analysis.controller.coffee"
+			],
+			[
+				"entry.js",
+				"scripts/nls/ru/entry.json"
+			],
+			[
+				"term.ec",
+				"scripts/templates/analysis/dialogs/term.ect.html"
+			],
+			[
+				"term.ect.hm",
+				"scripts/templates/components/form/select.ect.html"
+			],
+			[
+				"row.e",
+				"scripts/templates/components/form/row.ect.html"
+			],
+			[
+				"row.ect",
+				"scripts/templates/components/form/row.ect.html"
+			],
+			[
+				"group_te",
+				"scripts/templates/analysis/dialogs/group_term.ect.html"
+			],
+			[
+				"row.ec",
+				"scripts/templates/components/form/row.ect.html"
+			],
+			[
+				"i18n",
+				"scripts/common/i18n.coffee"
+			],
+			[
+				"label",
+				"scripts/templates/components/form/label.ect.html"
+			],
+			[
+				"term.ect",
+				"scripts/templates/analysis/dialogs/term.ect.html"
+			],
+			[
+				"app",
+				"scripts/app.coffee"
+			],
+			[
+				"hanfor",
+				"scripts/handlers/form.coffee"
+			],
+			[
+				"ca",
+				"scripts/models/analysis/category.coffee"
+			],
+			[
+				"category",
+				"scripts/models/analysis/category.coffee"
+			],
+			[
+				"termect",
+				"scripts/templates/analysis/dialogs/term.ect.html"
+			],
+			[
+				"rela",
+				"scripts/models/relation.model.coffee"
+			],
+			[
+				"aciton",
+				"scripts/views/analysis/actions.coffee"
+			],
+			[
+				"event",
+				"scripts/common/event.coffee"
+			],
+			[
+				"relat",
+				"scripts/models/relation.model.coffee"
+			],
+			[
+				"rel",
+				"scripts/models/relation.model.coffee"
+			],
+			[
+				"anal",
+				"scripts/controllers/analysis.controller.coffee"
+			],
+			[
+				"categor",
+				"scripts/models/analysis/category.coffee"
+			],
+			[
+				"grid",
+				"scripts/views/controls/grid.coffee"
+			],
+			[
+				"back",
+				"scripts/common/backbone-paginator.coffee"
+			],
+			[
+				"vali",
+				"scripts/common/validation.coffee"
+			],
+			[
+				"grouterm",
+				"scripts/templates/analysis/dialogs/group_term.ect.html"
+			],
+			[
+				"terme",
+				"scripts/templates/analysis/dialogs/term.ect.html"
+			],
+			[
+				"valid",
+				"scripts/common/validators.coffee"
+			],
+			[
+				"toolba",
+				"scripts/behaviors/common/toolbar.coffee"
+			],
+			[
+				"toolbar",
+				"scripts/handlers/toolbar.coffee"
+			],
+			[
+				"temp",
+				"scripts/helpers/template.coffee"
+			],
+			[
+				"submiec",
+				"scripts/templates/components/form/submit.ect.html"
+			],
+			[
+				"subm",
+				"scripts/components/form/submit.coffee"
+			],
+			[
+				"hel",
+				"scripts/templates/components/form/helpers.ect.html"
+			],
+			[
+				"grupterm",
+				"scripts/templates/analysis/dialogs/group_term.ect.html"
+			],
+			[
+				"debug.ect",
+				"scripts/templates/debug/form.ect.html"
+			],
+			[
+				"routes.coffee",
+				"scripts/routes/application.coffee"
+			],
+			[
+				"dialmai",
+				"scripts/components/dialog/main.coffee"
+			],
+			[
+				"action",
+				"scripts/handlers/actions.coffee"
+			],
+			[
+				"row",
+				"scripts/templates/components/form/row.ect.html"
+			],
+			[
+				"handlform",
+				"scripts/handlers/form.coffee"
+			],
+			[
+				"group_",
+				"scripts/templates/analysis/dialogs/group_term.ect.html"
+			],
+			[
+				"controls/dialog/delete",
+				"scripts/templates/controls/dialog/delete.ect.html"
+			],
+			[
+				"catego",
+				"scripts/views/analysis/dialogs/category.coffee"
+			],
+			[
+				"actin",
+				"scripts/handlers/actions.coffee"
+			],
+			[
+				"main",
+				"scripts/components/dialog/main.coffee"
+			],
+			[
+				"submi",
+				"scripts/components/form/submit.coffee"
+			],
+			[
+				"group_t",
+				"scripts/templates/analysis/dialogs/group_term.ect.html"
+			],
+			[
+				"_popup",
+				"scripts/templates/components/form/wrap_popup.ect.html"
+			],
+			[
+				"dialog/m",
+				"scripts/components/dialog/main.coffee"
+			],
+			[
+				"dialog",
+				"scripts/behaviors/common/dialog.coffee"
+			],
+			[
+				"comp",
+				"scripts/components/components.coffee"
+			],
+			[
+				"helpeect",
+				"scripts/templates/components/form/helpers.ect.html"
+			],
+			[
+				"heect",
+				"scripts/templates/header.ect.html"
+			],
+			[
+				"wrap_pop",
+				"scripts/templates/components/form/wrap_popup.ect.html"
+			],
+			[
+				"controls/dialog/wrapper",
+				"scripts/templates/controls/dialog/wrapper.ect.html"
+			],
+			[
+				"submit",
+				"scripts/components/form/submit.coffee"
+			],
+			[
+				"debug/con",
+				"scripts/views/debug/content.coffee"
+			],
+			[
+				"form.c",
+				"scripts/views/controls/form.coffee"
+			],
+			[
+				"tem",
+				"scripts/helpers/template.coffee"
+			],
+			[
+				"group.ect",
+				"scripts/templates/analysis/dialogs/group.ect.html"
+			],
+			[
+				"text_ect",
+				"scripts/templates/analysis/dialogs/text_object.ect.html"
+			],
+			[
+				"header.ec",
+				"scripts/templates/header.ect.html"
+			],
+			[
+				"headr",
+				"scripts/views/header.coffee"
+			],
+			[
+				"template.co",
+				"scripts/helpers/template.coffee"
+			],
+			[
+				"group_term",
+				"scripts/templates/analysis/dialogs/group_term.ect.html"
+			],
+			[
+				"templa",
+				"scripts/helpers/template.coffee"
+			],
+			[
+				"group.",
+				"scripts/views/analysis/dialogs/group.coffee"
+			],
+			[
+				"categ",
+				"scripts/models/analysis/category.coffee"
+			],
+			[
+				"debugect",
+				"scripts/templates/debug/form.ect.html"
+			],
+			[
+				"groupterm",
+				"scripts/templates/analysis/dialogs/group_term.ect.html"
+			],
+			[
+				"categoryect",
+				"scripts/templates/configuration/entities/Category.ect.html"
+			],
+			[
+				"tempform",
+				"~/Documents/temp/form.coffee"
+			],
+			[
+				"toggle",
+				"scripts/templates/components/form/toggle.ect.html"
+			],
+			[
+				"handform",
+				"scripts/handlers/form.coffee"
+			],
+			[
+				"debu",
+				"scripts/models/debug/form.coffee"
+			],
+			[
+				"mock",
+				"scripts/common/mocks.coffee"
+			],
+			[
+				"tempfor",
+				"~/Documents/temp/form.coffee"
+			],
+			[
+				"hafor",
+				"scripts/handlers/form.coffee"
+			],
+			[
+				"hanform",
+				"scripts/handlers/form.coffee"
+			],
+			[
+				"confi",
+				"scripts/config.yml"
+			],
+			[
+				"attr",
+				"scripts/templates/components/form/attrs.ect.html"
+			],
+			[
+				"numer",
+				"scripts/templates/components/form/number.ect.html"
+			],
+			[
+				"nu",
+				"scripts/templates/components/form/number.ect.html"
+			],
+			[
+				"from",
+				"scripts/components/form/form.coffee"
+			],
+			[
+				"debugcoll",
+				"scripts/templates/debug/form_collection.ect.html"
+			],
+			[
+				"toggleect",
+				"scripts/templates/components/form/toggle.ect.html"
+			],
+			[
+				"checkect",
+				"scripts/templates/components/form/checkbox.ect.html"
+			],
+			[
+				"componform",
+				"scripts/components/form/form.coffee"
+			],
+			[
+				"even",
+				"scripts/common/event.coffee"
+			],
+			[
+				"hanf",
+				"scripts/handlers/form.coffee"
+			],
+			[
+				"debug.ec",
+				"scripts/templates/debug/form.ect.html"
+			],
+			[
+				"helect",
+				"scripts/templates/components/form/helpers.ect.html"
+			],
+			[
+				"error",
+				"scripts/templates/components/form/error.ect.html"
+			],
+			[
+				"submect",
+				"scripts/templates/components/form/submit.ect.html"
+			],
+			[
+				"error.e",
+				"scripts/templates/components/form/error.ect.html"
+			],
+			[
+				"debug/f",
+				"scripts/templates/debug/form_collection.ect.html"
+			],
+			[
+				"debug.e",
+				"scripts/templates/debug/form.ect.html"
+			],
+			[
+				"validation.ec",
+				"scripts/templates/nls/error/default/validation.ect.html"
+			],
+			[
+				"style",
+				"scripts/common/style.coffee"
+			],
+			[
+				"com",
+				"scripts/components/component.coffee"
+			],
+			[
+				"formect",
+				"scripts/templates/components/form/form.ect.html"
+			],
+			[
+				"compect",
+				"scripts/templates/components/form/component.ect.html"
+			],
+			[
+				"debug/form_collection",
+				"scripts/templates/debug/form_collection.ect.html"
+			],
+			[
+				"formec",
+				"scripts/templates/debug/form.ect.html"
+			],
+			[
+				"can.c",
+				"scripts/common/can.coffee"
+			],
+			[
+				"mario",
+				"scripts/common/marionette.coffee"
+			],
+			[
+				"dialo",
+				"scripts/views/controls/dialog.coffee"
+			],
+			[
+				"dial",
+				"scripts/behaviors/common/dialog.coffee"
+			],
+			[
+				"mari",
+				"scripts/common/marionette.coffee"
+			],
+			[
+				"actio",
+				"scripts/handlers/actions.coffee"
+			],
+			[
+				"form.e",
+				"scripts/templates/debug/form.ect.html"
+			],
+			[
+				"tempfo",
+				"~/Documents/temp/form.coffee"
+			],
+			[
+				"conf",
+				"scripts/config.yml"
+			],
+			[
+				"datetime",
+				"scripts/components/form/datetime.coffee"
+			],
+			[
+				"debugec",
+				"scripts/templates/debug/form.ect.html"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/Library/Mobile Documents/com~apple~CloudDocs/sublime/iw.sublime-workspace"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 503.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 293.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
