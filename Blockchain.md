@@ -1,4 +1,6 @@
-# Blockchain  
+# Подборка ссылок по Blockchain
+
+![Blockchain](https://cdn-images-1.medium.com/max/1600/1*3hyWN8UhcrL7P0Opbu7IQg.jpeg)
   
 * Для ознакомления можно посмотреть ролики на TED  
 	Link: [ted.com/search][1]  
