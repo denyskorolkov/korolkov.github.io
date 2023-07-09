@@ -62,14 +62,19 @@ html {
 body {
   margin: 0px;
   width: 100%;
-  min-height: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
   -webkit-font-smoothing: antialiased;
   background-color: var(--navy);
   color: var(--slate);
   font-family: var(--font-sans);
   font-size: var(--fz-xl);
   line-height: 1.3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
 .resume-button {
@@ -102,15 +107,6 @@ body {
 
 header {
   display: none;
-}
-
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
 }
 
 p > a {
