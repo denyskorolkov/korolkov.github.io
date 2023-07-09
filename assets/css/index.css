@@ -1,0 +1,188 @@
+:root {
+  --dark-navy: #020c1b;
+  --navy: #0a192f;
+  --light-navy: #112240;
+  --lightest-navy: #233554;
+  --navy-shadow: rgba(2, 12, 27, 0.7);
+  --dark-slate: #495670;
+  --slate: #8892b0;
+  --light-slate: #a8b2d1;
+  --lightest-slate: #ccd6f6;
+  --white: #e6f1ff;
+  --green: #64ffda;
+  --green-tint: rgba(100, 255, 218, 0.1);
+  --pink: #f57dff;
+  --blue: #57cbff;
+  --font-sans: 'Calibre', 'Inter', 'San Francisco', 'SF Pro Text', -apple-system,
+    system-ui, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+  --fz-xxs: 12px;
+  --fz-xs: 13px;
+  --fz-sm: 14px;
+  --fz-md: 16px;
+  --fz-lg: 18px;
+  --fz-xl: 20px;
+  --fz-xxl: 22px;
+  --fz-heading: 32px;
+  --border-radius: 4px;
+  --nav-height: 100px;
+  --nav-scroll-height: 70px;
+  --tab-height: 42px;
+  --tab-width: 120px;
+  --easing: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+  --hamburger-width: 30px;
+  --ham-before: top 0.1s ease-in 0.25s, opacity 0.1s ease-in;
+  --ham-before-active: top 0.1s ease-out, opacity 0.1s ease-out 0.12s;
+  --ham-after: bottom 0.1s ease-in 0.25s,
+    transform 0.22s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  --ham-after-active: bottom 0.1s ease-out,
+    transform 0.22s cubic-bezier(0.215, 0.61, 0.355, 1) 0.12s;
+}
+
+@font-face {
+  font-family: 'Calibre';
+  src: local('Calibre'),
+    url('../fonts/calibre/CalibreRegular.otf') format('opentype')
+      tech(color-COLRv1),
+    url('../fonts/calibre/CalibreRegular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'SF Mono';
+  src: local('SF Mono'),
+    url('../fonts/sf-mono-cufonfonts-webfont/SFMonoRegular.woff') format('woff');
+}
+
+body {
+  margin: 0px;
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  background-color: var(--navy);
+  color: var(--slate);
+  font-family: var(--font-sans);
+  font-size: var(--fz-xl);
+  line-height: 1.3;
+}
+
+.resume-button {
+  color: var(--green);
+  background-color: transparent;
+  border: 1px solid var(--green);
+  border-radius: var(--border-radius);
+  padding: 0.75rem 1rem;
+  font-family: var(--font-mono);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-left: 15px;
+  font-size: var(--fz-xs);
+}
+
+.resume-button:hover,
+.resume-button:focus,
+.resume-button:active {
+  background-color: var(--green-tint);
+  outline: none;
+}
+
+.logo a {
+  color: var(--green);
+  width: 42px;
+  height: 42px;
+}
+
+header {
+  display: none;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+p > a {
+  display: inline-block;
+  text-decoration: none;
+  text-decoration-skip-ink: auto;
+  position: relative;
+  transition: var(--transition);
+  color: var(--green);
+  line-height: 1;
+}
+
+p > a:hover,
+p > a:focus,
+p > a:active {
+  color: var(--green);
+  outline: 0px;
+  border: 2px solid var(--green);
+  border-width: 0 0 2px 0;
+  line-height: 0.8;
+}
+
+.me {
+  max-width: 600px;
+}
+
+.hi h1 {
+  margin: 0px 0px 30px 4px;
+  color: var(--green);
+  font-family: var(--font-mono);
+  font-size: clamp(var(--fz-sm), 5vw, var(--fz-md));
+  font-weight: 400;
+}
+
+.name h2 {
+  font-weight: 600;
+  color: var(--lightest-slate);
+  line-height: 1.1;
+  margin: 0px;
+  font-size: clamp(40px, 8vw, 80px);
+}
+
+.title h3 {
+  margin-top: 5px;
+  color: var(--slate);
+  line-height: 0.9;
+  font-weight: 600;
+  margin: 0px;
+  font-size: clamp(40px, 8vw, 60px);
+}
+
+p {
+  margin: 20px 0px 0px;
+  max-width: 650px;
+}
+
+.email-link {
+  color: var(--green);
+  background-color: transparent;
+  border: 1px solid var(--green);
+  border-radius: var(--border-radius);
+  padding: 1.25rem 1.75rem;
+  font-size: var(--fz-sm);
+  font-family: var(--font-mono);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 50px;
+  display: inline-block;
+}
+
+.email-link:hover,
+.email-link:focus,
+.email-link:active {
+  background-color: var(--green-tint);
+  outline: none;
+}
+
+.contacts {
+  font-size: 80%;
+}
