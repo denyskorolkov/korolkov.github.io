@@ -128,6 +128,7 @@ p > a:active {
 
 .me {
   max-width: 600px;
+  margin: 0 1rem;
 }
 
 .hi h1 {
