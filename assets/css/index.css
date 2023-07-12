@@ -148,6 +148,15 @@ p > a:active {
   line-height: 1.1;
   margin: 0px;
   font-size: clamp(40px, 8vw, 80px);
+
+  background-image: linear-gradient(
+    #cedbe9 0%,
+    #aac5de 27%,
+    #6199c7 40%,
+    #26558b 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .title h3 {
