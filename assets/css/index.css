@@ -208,7 +208,7 @@ p {
   text-transform: uppercase;
   transition: 0.5s;
   background-size: 200% auto;
-  color: var(--slate);
+  color: #26558b;
   font-weight: bold;
   border-radius: 10px;
   border-width: 0;
