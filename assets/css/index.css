@@ -9,8 +9,8 @@
   --light-slate: #a8b2d1;
   --lightest-slate: #ccd6f6;
   --white: #e6f1ff;
-  --darkgray: #8af763;
-  --darkgray-tint: rgba(100, 255, 218, 0.1);
+  --green: #8af763;
+  --green-tint: rgba(100, 255, 218, 0.1);
   --pink: #f57dff;
   --blue: #57cbff;
   --font-sans: 'Calibre', 'Inter', 'San Francisco', 'SF Pro Text', -apple-system,
@@ -78,9 +78,9 @@ body {
 }
 
 .resume-button {
-  color: var(--darkgray);
+  color: var(--green);
   background-color: transparent;
-  border: 1px solid var(--darkgray);
+  border: 1px solid var(--green);
   border-radius: var(--border-radius);
   padding: 0.75rem 1rem;
   font-family: var(--font-mono);
@@ -95,12 +95,12 @@ body {
 .resume-button:hover,
 .resume-button:focus,
 .resume-button:active {
-  background-color: var(--darkgray-tint);
+  background-color: var(--green-tint);
   outline: none;
 }
 
 .logo a {
-  color: var(--darkgray);
+  color: var(--green);
   width: 42px;
   height: 42px;
 }
@@ -115,16 +115,16 @@ p > a {
   text-decoration-skip-ink: auto;
   position: relative;
   transition: var(--transition);
-  color: var(--darkgray);
+  color: var(--dark-slate);
   line-height: 1;
 }
 
 p > a:hover,
 p > a:focus,
 p > a:active {
-  color: var(--darkgray);
+  color: var(--dark-slate);
   outline: 0px;
-  border: 1px solid var(--darkgray);
+  border: 1px solid var(--dark-slate);
   border-width: 0 0 1px 0;
   line-height: 0.8;
 }
@@ -136,7 +136,7 @@ p > a:active {
 
 .hi h1 {
   margin: 0px 0px 30px 4px;
-  color: var(--darkgray);
+  color: var(--dark-slate);
   font-family: var(--font-mono);
   font-size: clamp(var(--fz-sm), 5vw, var(--fz-md));
   font-weight: 400;
@@ -176,9 +176,9 @@ p {
 }
 
 .email-link {
-  color: var(--darkgray);
+  color: var(--green);
   background-color: transparent;
-  border: 1px solid var(--darkgray);
+  border: 1px solid var(--green);
   border-radius: var(--border-radius);
   padding: 1.25rem 1.75rem;
   font-size: var(--fz-sm);
@@ -194,7 +194,7 @@ p {
 .email-link:hover,
 .email-link:focus,
 .email-link:active {
-  background-color: var(--darkgray-tint);
+  background-color: var(--green-tint);
   outline: none;
 }
 
@@ -203,17 +203,19 @@ p {
 }
 
 .btn {
-  flex: 1 1 auto;
   margin-top: 30px;
-  padding: 20px;
+  padding: 20px 20px 15px;
   text-align: center;
+  justify-content: center;
   text-transform: uppercase;
   transition: 0.5s;
   background-size: 200% auto;
-  color: #26558b;
   font-weight: bold;
   border-radius: 10px;
   border-width: 0;
+  text-decoration: none;
+  font-size: 1rem;
+  display: inline-block;
 }
 
 .btn:hover {
@@ -227,7 +229,7 @@ p {
     #fb8463 51%,
     #f6d365 100%
   );
-  color: darkgreen;
+  color: var(--dark-navy);
 }
 
 .btn-4 {
