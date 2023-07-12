@@ -9,7 +9,7 @@
   --light-slate: #a8b2d1;
   --lightest-slate: #ccd6f6;
   --white: #e6f1ff;
-  --darkgray: darkgray;
+  --darkgray: #8af763;
   --darkgray-tint: rgba(100, 255, 218, 0.1);
   --pink: #f57dff;
   --blue: #57cbff;
@@ -124,8 +124,8 @@ p > a:focus,
 p > a:active {
   color: var(--darkgray);
   outline: 0px;
-  border: 2px solid var(--darkgray);
-  border-width: 0 0 2px 0;
+  border: 1px solid var(--darkgray);
+  border-width: 0 0 1px 0;
   line-height: 0.8;
 }
 
@@ -150,6 +150,7 @@ p > a:active {
   font-size: clamp(40px, 8vw, 80px);
 
   background-image: linear-gradient(#cedbe9 0%, #aac5de 27%, #6199c7 100%);
+  background-image: linear-gradient(#ffe285 0%, #fb8463 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -157,15 +158,16 @@ p > a:active {
 .title h3 {
   margin-top: 5px;
   padding-top: 5px;
-  color: var(--slate);
+  color: gray;
   line-height: 0.9;
   font-weight: 600;
   margin: 0px;
   font-size: clamp(40px, 8vw, 50px);
 
-  background-image: linear-gradient(#6199c7 0%, #26558b 100%);
+  /* background-image: linear-gradient(#6199c7 0%, #26558b 100%);
+  background-image: linear-gradient(#fb8463 0%, #ffe285 100%);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: transparent; */
 }
 
 p {
@@ -216,6 +218,16 @@ p {
 
 .btn:hover {
   background-position: right center;
+}
+
+.btn-1 {
+  background-image: linear-gradient(
+    to right,
+    #f6d365 0%,
+    #fb8463 51%,
+    #f6d365 100%
+  );
+  color: darkgreen;
 }
 
 .btn-4 {
