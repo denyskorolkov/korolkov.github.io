@@ -149,23 +149,23 @@ p > a:active {
   margin: 0px;
   font-size: clamp(40px, 8vw, 80px);
 
-  background-image: linear-gradient(
-    #cedbe9 0%,
-    #aac5de 27%,
-    #6199c7 40%,
-    #26558b 100%
-  );
+  background-image: linear-gradient(#cedbe9 0%, #aac5de 27%, #6199c7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .title h3 {
   margin-top: 5px;
+  padding-top: 5px;
   color: var(--slate);
   line-height: 0.9;
   font-weight: 600;
   margin: 0px;
-  font-size: clamp(40px, 8vw, 60px);
+  font-size: clamp(40px, 8vw, 50px);
+
+  background-image: linear-gradient(#6199c7 0%, #26558b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 p {
@@ -208,7 +208,7 @@ p {
   text-transform: uppercase;
   transition: 0.5s;
   background-size: 200% auto;
-  color: var(--dark-slate);
+  color: var(--slate);
   font-weight: bold;
   border-radius: 10px;
   border-width: 0;
