@@ -210,7 +210,6 @@ p {
   text-transform: uppercase;
   transition: 0.5s;
   background-size: 200% auto;
-  font-weight: bold;
   border-radius: 10px;
   border-width: 0;
   text-decoration: none;
@@ -230,6 +229,7 @@ p {
     #f6d365 100%
   );
   color: var(--dark-navy);
+  color: white;
 }
 
 .btn-4 {
