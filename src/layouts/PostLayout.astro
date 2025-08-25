@@ -1,0 +1,183 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import ShareButtons from '../components/ShareButtons.astro';
+import Comments from '../components/Comments.astro';
+
+export interface Props {
+  frontmatter: {
+    title: string;
+    description: string;
+    pubDate: string;
+    tags?: string[];
+    draft?: boolean;
+    image?: string;
+  };
+}
+
+const { frontmatter } = Astro.props;
+const { title, description, pubDate, tags = [], image } = frontmatter;
+
+// Calculate reading time (rough estimate)
+const content = await Astro.slots.render('default');
+const words = content.replace(/<[^>]*>/g, '').split(/\s+/).length;
+const readingTime = Math.ceil(words / 200); // Average reading speed: 200 words per minute
+
+const formattedDate = new Date(pubDate).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={title} description={description} image={image}>
+  <article class="blog-post">
+    <header class="post-header">
+      <div class="post-meta">
+        <time datetime={pubDate}>{formattedDate}</time>
+        <span>•</span>
+        <span>{readingTime} min read</span>
+      </div>
+      <h1 class="post-title">{title}</h1>
+      <p class="post-description">{description}</p>
+      {tags.length > 0 && (
+        <div class="post-tags">
+          {tags.map((tag) => (
+            <span class="tag">#{tag}</span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <div class="post-content">
+      <slot />
+    </div>
+
+    <footer class="post-footer">
+      <ShareButtons title={title} url={Astro.url.href} />
+      <Comments />
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .blog-post {
+    max-width: 48rem;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+
+  .post-header {
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+
+  .post-meta {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+  }
+
+  .post-meta span {
+    margin: 0 0.5rem;
+  }
+
+  .post-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+  }
+
+  .post-description {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .tag {
+    background: var(--accent-color);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .post-content {
+    line-height: 1.7;
+    color: var(--text-primary);
+  }
+
+  .post-content :global(h2) {
+    font-size: 1.875rem;
+    font-weight: 600;
+    margin: 2.5rem 0 1rem;
+    color: var(--text-primary);
+  }
+
+  .post-content :global(h3) {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 2rem 0 0.75rem;
+    color: var(--text-primary);
+  }
+
+  .post-content :global(p) {
+    margin-bottom: 1.5rem;
+  }
+
+  .post-content :global(a) {
+    color: var(--accent-color);
+    text-decoration: underline;
+  }
+
+  .post-content :global(a:hover) {
+    text-decoration: none;
+  }
+
+  .post-content :global(pre) {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    background: var(--code-bg);
+  }
+
+  .post-content :global(code) {
+    font-family: 'Courier New', monospace;
+    font-size: 0.875rem;
+  }
+
+  .post-content :global(blockquote) {
+    border-left: 4px solid var(--accent-color);
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: var(--text-secondary);
+  }
+
+  .post-footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  @media (max-width: 768px) {
+    .post-title {
+      font-size: 2rem;
+    }
+    
+    .post-description {
+      font-size: 1.125rem;
+    }
+  }
+</style>

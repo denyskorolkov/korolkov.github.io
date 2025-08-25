@@ -1,0 +1,294 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Get all blog posts
+const allPosts = await import.meta.glob('./posts/*.{md,mdx}', { eager: true });
+
+// Filter out draft posts and sort by date
+const publishedPosts = Object.values(allPosts)
+  .filter(post => !post.frontmatter.draft)
+  .sort((a, b) => new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf());
+
+// Pagination settings
+const POSTS_PER_PAGE = 10;
+const currentPage = Number(Astro.url.searchParams.get('page')) || 1;
+const totalPages = Math.ceil(publishedPosts.length / POSTS_PER_PAGE);
+const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+const endIndex = startIndex + POSTS_PER_PAGE;
+const paginatedPosts = publishedPosts.slice(startIndex, endIndex);
+
+// Function to get excerpt from content
+function getExcerpt(content: string | undefined, maxLength: number = 160): string {
+  if (!content) return '';
+  const textContent = content.replace(/<[^>]*>/g, '').replace(/\n/g, ' ');
+  if (textContent.length <= maxLength) return textContent;
+  return textContent.slice(0, maxLength).trim() + '...';
+}
+
+// Generate pagination links
+function generatePaginationLinks() {
+  const links = [];
+  const maxVisiblePages = 5;
+  
+  let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+  let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+  
+  if (endPage - startPage + 1 < maxVisiblePages) {
+    startPage = Math.max(1, endPage - maxVisiblePages + 1);
+  }
+  
+  for (let i = startPage; i <= endPage; i++) {
+    links.push(i);
+  }
+  
+  return links;
+}
+
+const paginationLinks = generatePaginationLinks();
+---
+
+<BaseLayout 
+  title="Blog Posts"
+  description="Browse all blog posts by Denys Korolkov covering React, TypeScript, web development, and software engineering insights."
+>
+  <div class="container">
+    <header class="page-header">
+      <h1>Blog Posts</h1>
+      <p class="page-subtitle">
+        Insights on React, TypeScript, web development, and software engineering
+      </p>
+    </header>
+
+    {paginatedPosts.length > 0 ? (
+      <>
+        <div class="posts-grid">
+          {paginatedPosts.map((post) => {
+            const excerpt = getExcerpt(post.frontmatter.description || '', 160);
+            const formattedDate = new Date(post.frontmatter.pubDate).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            });
+            
+            return (
+              <article class="post-card">
+                <div class="post-card-meta">
+                  <time datetime={post.frontmatter.pubDate}>{formattedDate}</time>
+                  {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
+                    <span>• {post.frontmatter.tags.length} tag{post.frontmatter.tags.length !== 1 ? 's' : ''}</span>
+                  )}
+                </div>
+                <h2>
+                  <a href={post.url}>{post.frontmatter.title}</a>
+                </h2>
+                <p class="post-card-excerpt">{excerpt}</p>
+                {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
+                  <div class="post-card-tags">
+                    {post.frontmatter.tags.slice(0, 4).map((tag) => (
+                      <span class="post-card-tag">#{tag}</span>
+                    ))}
+                    {post.frontmatter.tags.length > 4 && (
+                      <span class="post-card-tag">+{post.frontmatter.tags.length - 4}</span>
+                    )}
+                  </div>
+                )}
+              </article>
+            );
+          })}
+        </div>
+
+        {totalPages > 1 && (
+          <nav class="pagination" aria-label="Posts pagination">
+            {currentPage > 1 && (
+              <a href={`/posts${currentPage === 2 ? '' : `?page=${currentPage - 1}`}`} class="pagination-prev">
+                ← Previous
+              </a>
+            )}
+            
+            <div class="pagination-numbers">
+              {currentPage > 1 && (
+                <a href="/posts" class="pagination-number">1</a>
+              )}
+              
+              {currentPage > 3 && (
+                <span class="pagination-ellipsis">...</span>
+              )}
+              
+              {paginationLinks.map((pageNum) => (
+                pageNum === currentPage ? (
+                  <span class="pagination-number current">{pageNum}</span>
+                ) : (
+                  <a 
+                    href={pageNum === 1 ? '/posts' : `/posts?page=${pageNum}`} 
+                    class="pagination-number"
+                  >
+                    {pageNum}
+                  </a>
+                )
+              ))}
+              
+              {currentPage < totalPages - 2 && (
+                <span class="pagination-ellipsis">...</span>
+              )}
+              
+              {currentPage < totalPages && totalPages > 1 && (
+                <a href={`/posts?page=${totalPages}`} class="pagination-number">{totalPages}</a>
+              )}
+            </div>
+            
+            {currentPage < totalPages && (
+              <a href={`/posts?page=${currentPage + 1}`} class="pagination-next">
+                Next →
+              </a>
+            )}
+          </nav>
+        )}
+      </>
+    ) : (
+      <div class="no-posts">
+        <h2>No posts yet</h2>
+        <p>Check back soon for new content, or create your first post!</p>
+        <p><em>To add posts, create markdown files in <code>src/pages/posts/</code></em></p>
+      </div>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .page-header h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+  }
+
+  .page-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .posts-grid {
+    display: grid;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .no-posts {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--background-secondary);
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-color);
+  }
+
+  .no-posts h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+  }
+
+  .no-posts p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    font-size: 1.125rem;
+  }
+
+  .no-posts p:last-child {
+    margin-bottom: 0;
+  }
+
+  .no-posts code {
+    background: var(--code-bg);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin: 3rem 0;
+    flex-wrap: wrap;
+  }
+
+  .pagination-prev,
+  .pagination-next {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 500;
+    transition: var(--transition);
+  }
+
+  .pagination-prev:hover,
+  .pagination-next:hover {
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+  }
+
+  .pagination-numbers {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .pagination-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 500;
+    transition: var(--transition);
+  }
+
+  .pagination-number:hover {
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+  }
+
+  .pagination-number.current {
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+  }
+
+  .pagination-ellipsis {
+    color: var(--text-secondary);
+    padding: 0 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .page-header h1 {
+      font-size: 2.5rem;
+    }
+    
+    .page-subtitle {
+      font-size: 1.125rem;
+    }
+    
+    .pagination {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .pagination-numbers {
+      order: -1;
+    }
+  }
+</style>
