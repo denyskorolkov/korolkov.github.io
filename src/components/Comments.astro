@@ -1,0 +1,126 @@
+---
+// Giscus configuration - update these values for your repository
+const giscusConfig = {
+  repo: "denyskorolkov/korolkov.github.io", // Replace with your repository
+  repoId: "", // Get this from https://giscus.app/
+  category: "General", // Discussion category
+  categoryId: "", // Get this from https://giscus.app/
+  mapping: "pathname",
+  strict: "0",
+  reactionsEnabled: "1",
+  emitMetadata: "0",
+  inputPosition: "bottom",
+  theme: "preferred_color_scheme",
+  lang: "en"
+};
+---
+
+<div class="comments-section">
+  <h3>Comments</h3>
+  <div id="comments-container">
+    <noscript>
+      <p>Please enable JavaScript to view the comments powered by <a href="https://giscus.app/">Giscus</a>.</p>
+    </noscript>
+  </div>
+</div>
+
+<script define:vars={{ giscusConfig }}>
+  // Only load Giscus if configuration is complete
+  if (giscusConfig.repoId && giscusConfig.categoryId) {
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.crossOrigin = 'anonymous';
+    script.async = true;
+    
+    // Set Giscus attributes
+    Object.entries(giscusConfig).forEach(([key, value]) => {
+      const attrName = key === 'repo' ? 'data-repo' : 
+                      key === 'repoId' ? 'data-repo-id' :
+                      key === 'category' ? 'data-category' :
+                      key === 'categoryId' ? 'data-category-id' :
+                      key === 'mapping' ? 'data-mapping' :
+                      key === 'strict' ? 'data-strict' :
+                      key === 'reactionsEnabled' ? 'data-reactions-enabled' :
+                      key === 'emitMetadata' ? 'data-emit-metadata' :
+                      key === 'inputPosition' ? 'data-input-position' :
+                      key === 'theme' ? 'data-theme' :
+                      key === 'lang' ? 'data-lang' : null;
+      
+      if (attrName) {
+        script.setAttribute(attrName, value);
+      }
+    });
+    
+    const container = document.getElementById('comments-container');
+    if (container) {
+      container.appendChild(script);
+    }
+  } else {
+    // Show configuration message if Giscus is not configured
+    const container = document.getElementById('comments-container');
+    if (container) {
+      container.innerHTML = `
+        <div class="config-message">
+          <p><strong>Comments are disabled.</strong></p>
+          <p>To enable comments, configure Giscus in <code>src/components/Comments.astro</code>:</p>
+          <ol>
+            <li>Visit <a href="https://giscus.app/" target="_blank" rel="noopener">giscus.app</a></li>
+            <li>Configure your repository settings</li>
+            <li>Copy the repo ID and category ID to this component</li>
+          </ol>
+        </div>
+      `;
+    }
+  }
+</script>
+
+<style>
+  .comments-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .comments-section h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+  }
+
+  .config-message {
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    background: var(--background-secondary);
+    color: var(--text-secondary);
+  }
+
+  .config-message p {
+    margin-bottom: 1rem;
+  }
+
+  .config-message p:last-child {
+    margin-bottom: 0;
+  }
+
+  .config-message ol {
+    margin: 1rem 0 0 1.5rem;
+  }
+
+  .config-message li {
+    margin-bottom: 0.5rem;
+  }
+
+  .config-message code {
+    background: var(--code-bg);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+  }
+
+  .config-message a {
+    color: var(--accent-color);
+    text-decoration: underline;
+  }
+</style>
