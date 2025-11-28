@@ -9,7 +9,7 @@ Modern React + Vite setup that renders the interactive portfolio previously embe
 ## Scripts
 - `npm install` - install dependencies
 - `npm run dev` - start Vite dev server (default `http://127.0.0.1:5173`)
-- `npm run build` - create production build in `dist/`
+- `npm run build` - create production build in `docs/`
 - `npm run preview` - serve the production build locally
 
 ## Project Structure
