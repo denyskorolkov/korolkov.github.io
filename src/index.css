@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background-color: #020617;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Rich text styling for injected Field Notes content inside the modal */
+.field-notes-html {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: #cbd5f5;
+}
+
+.field-notes-html > *:first-child {
+  margin-top: 0;
+}
+
+.field-notes-html > *:last-child {
+  margin-bottom: 0;
+}
+
+.field-notes-html p,
+.field-notes-html ul,
+.field-notes-html ol,
+.field-notes-html blockquote,
+.field-notes-html pre {
+  margin-bottom: 1.35rem;
+}
+
+.field-notes-html p {
+  color: #cbd5f5;
+}
+
+.field-notes-html strong {
+  color: #fbbf24;
+  font-weight: 600;
+}
+
+.field-notes-html a {
+  color: #fb923c;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(251, 146, 60, 0.4);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.field-notes-html a:hover {
+  color: #f97316;
+  border-color: rgba(249, 115, 22, 0.8);
+}
+
+.field-notes-html ul,
+.field-notes-html ol {
+  padding-left: 1.5rem;
+}
+
+.field-notes-html ul {
+  list-style: disc;
+}
+
+.field-notes-html ol {
+  list-style: decimal;
+}
+
+.field-notes-html li {
+  margin-bottom: 0.5rem;
+  color: #e2e8f0;
+}
+
+.field-notes-html li::marker {
+  color: #f97316;
+}
+
+.field-notes-html blockquote {
+  border-left: 3px solid rgba(129, 140, 248, 0.6);
+  padding-left: 1.25rem;
+  color: #e0e7ff;
+  font-style: italic;
+  background: rgba(15, 23, 42, 0.35);
+  border-radius: 0.4rem;
+}
+
+.field-notes-html code {
+  font-family: 'SFMono-Regular', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
+  font-size: 0.95rem;
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 0.45rem;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  padding: 0.25rem 0.5rem;
+  display: inline-block;
+  color: #c4d7ff;
+}
+
+.field-notes-html pre {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(71, 85, 105, 0.6);
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+}
