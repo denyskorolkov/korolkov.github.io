@@ -301,9 +301,21 @@ const Hero = () => {
                 />
               </div>
               
-              <p className="text-base sm:text-lg md:text-xl text-slate-400 max-w-lg leading-relaxed">
-                I'm <strong className="text-white">Denys Korolkov</strong>. Fullstack Engineer, DevOps Specialist, and Founder of Prema Vision LLC.
-              </p>
+              <div className="text-base sm:text-lg md:text-xl text-slate-400 max-w-2xl leading-relaxed space-y-1">
+                <p>I build production AI systems and observability workflows for LangChain and LangGraph teams.</p>
+                <p>
+                  For consulting engagements, visit{' '}
+                  <a
+                    href="https://premavision.net"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-indigo-300 hover:text-white transition-colors"
+                  >
+                    Prema Vision
+                  </a>
+                  .
+                </p>
+              </div>
             </div>
 
             <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-4">
@@ -320,17 +332,17 @@ const Hero = () => {
             <div className="pt-8 sm:pt-12 opacity-60">
               <p className="text-xs uppercase tracking-widest text-slate-500 mb-3 sm:mb-4">Powering Systems With</p>
               <div className="flex flex-wrap gap-3 sm:gap-6 text-sm sm:text-base text-slate-400">
-                 <span className="hover:text-orange-400 transition-colors">Python</span>
+                 <span className="hover:text-orange-400 transition-colors">LangSmith</span>
                  <span className="hidden sm:inline">•</span>
-                 <span className="hover:text-blue-400 transition-colors">TypeScript</span>
+                 <span className="hover:text-blue-400 transition-colors">LangGraph</span>
                  <span className="hidden sm:inline">•</span>
                  <span className="hover:text-green-400 transition-colors">LangChain</span>
                  <span className="hidden sm:inline">•</span>
-                 <span className="hover:text-purple-400 transition-colors">Kubernetes</span>
+                 <span className="hover:text-purple-400 transition-colors">TypeScript</span>
                  <span className="hidden sm:inline">•</span>
-                 <span className="hover:text-cyan-400 transition-colors">AWS</span>
+                 <span className="hover:text-cyan-400 transition-colors">Python</span>
                  <span className="hidden sm:inline">•</span>
-                 <span className="hover:text-pink-400 transition-colors">n8n</span>
+                 <span className="hover:text-pink-400 transition-colors">AWS</span>
               </div>
             </div>
           </div>
@@ -352,15 +364,20 @@ const Hero = () => {
                   <span>Denys Korolkov</span>
                 </div>
                 <p className="text-green-400">➜  ~ current_status</p>
-                <p>Building AI Agents @ Prema Vision</p>
+                <p>
+                  Building AI Agents @{' '}
+                  <a href="https://premavision.net" target="_blank" rel="noreferrer" className="underline decoration-slate-500 hover:text-white transition-colors">
+                    Prema Vision
+                  </a>
+                </p>
                 <p className="text-green-400">➜  ~ location</p>
                 <p>Palm Coast, FL 🌴</p>
                 <p className="text-green-400">➜  ~ skills --verbose</p>
                 <div className="pl-4 text-orange-300">
-                  [ "Backend Architecture",<br/>
-                   "DevOps Automation",<br/>
-                   "LLM Integration",<br/>
-                   "Next.js / React" ]
+                  [ "AI Quality & Observability",<br/>
+                   "LLM Evaluation",<br/>
+                   "ML Inference Systems",<br/>
+                   "Agent Reliability Engineering" ]
                 </div>
                 <span className="inline-block w-2 h-4 bg-slate-500 animate-pulse align-middle"></span>
               </div>
@@ -377,6 +394,7 @@ const About = () => {
   const experiences = [
     {
       company: "Prema Vision LLC",
+      companyUrl: "https://premavision.net",
       role: "Founder & Lead Engineer",
       period: "Present",
       desc: "Driving AI automation and IT consulting. Building custom agents and cloud architecture for clients.",
@@ -411,14 +429,15 @@ const About = () => {
             </h2>
             <div className="prose prose-invert text-slate-400 text-base sm:text-lg leading-relaxed">
               <p>
-                I don't just write code; I build systems that scale. With a background deeply rooted in 
-                <span className="text-orange-400 font-semibold"> backend engineering</span> and 
-                <span className="text-purple-400 font-semibold"> DevOps</span>, 
-                I've transitioned into the frontier of <span className="text-blue-400 font-semibold">Artificial Intelligence</span>.
+                I focus on practical AI engineering: tracing, evaluation, and feedback loops that improve quality in production, not just demos.
               </p>
               <p className="mt-4">
                 My approach is simple: Automate the boring stuff, architect for resilience, and keep the user experience buttery smooth. 
-                Whether it's optimizing a billing portal for Autodesk or deploying AI agents for Prema Vision, the goal is always efficiency.
+                Whether it's optimizing a billing portal for Autodesk or deploying AI agents for{' '}
+                <a href="https://premavision.net" target="_blank" rel="noreferrer" className="text-indigo-300 hover:text-white transition-colors">
+                  Prema Vision
+                </a>
+                , the goal is always efficiency.
               </p>
               <p className="mt-4 italic border-l-4 border-indigo-500 pl-4 text-slate-500">
                 "Future-oriented architecture with a sharp focus on business value."
@@ -438,7 +457,15 @@ const About = () => {
 
                  <div className="relative z-10">
                    <div className="flex justify-between items-start mb-2">
-                     <h3 className="text-xl font-bold text-white group-hover:text-orange-400 transition-colors">{exp.company}</h3>
+                     <h3 className="text-xl font-bold text-white group-hover:text-orange-400 transition-colors">
+                       {exp.companyUrl ? (
+                         <a href={exp.companyUrl} target="_blank" rel="noreferrer" className="hover:underline decoration-orange-400/60">
+                           {exp.company}
+                         </a>
+                       ) : (
+                         exp.company
+                       )}
+                     </h3>
                      <span className="text-xs font-mono text-slate-300 bg-white/10 backdrop-blur-md px-2 py-1 rounded border border-white/10">{exp.period}</span>
                    </div>
                    <p className="text-sm font-medium text-indigo-300 mb-2">{exp.role}</p>
@@ -568,8 +595,8 @@ const Services = () => {
   const services = [
     {
       icon: <Bot size={32} />,
-      title: "AI & LLM Agents",
-      desc: "Custom LangChain integration, RAG pipelines, and autonomous agents.",
+      title: "AI Quality & Observability",
+      desc: "LangSmith tracing, evaluators, and feedback workflows for LangChain and LangGraph applications.",
       image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=500&q=80"
     },
     {
@@ -754,6 +781,7 @@ const CaseStudies = () => {
     ,
   {
     title: "Prema Vision AI Automations",
+    projectUrl: "https://premavision.net",
     tags: ["Next.js", "OpenAI", "AWS"],
     desc: "Designed a suite of reusable patterns for AI-driven automations: CRM overlays, contract analysis, and ops bots for consulting clients.",
     color: "from-red-500 to-orange-600",
@@ -798,7 +826,13 @@ const CaseStudies = () => {
                   </div>
                   
                   <h3 className={`text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${project.color} mb-4`}>
-                    {project.title}
+                    {project.projectUrl ? (
+                      <a href={project.projectUrl} target="_blank" rel="noreferrer" className="hover:opacity-80 transition-opacity">
+                        {project.title}
+                      </a>
+                    ) : (
+                      project.title
+                    )}
                   </h3>
                   <p className="text-slate-400 leading-relaxed mb-6">
                     {project.desc}
@@ -1056,7 +1090,7 @@ const Blog = () => {
         <li>Perfect for prototyping private/internal agents.</li>
       </ul>
 
-      <p>For Prema Vision AI automations, local inference accelerates prompt iteration,
+      <p>For <a href="https://premavision.net" target="_blank" rel="noreferrer">Prema Vision</a> AI automations, local inference accelerates prompt iteration,
       agent design, and UI prototyping without depending on cloud infrastructure.</p>
     `
   },
@@ -1482,6 +1516,23 @@ const Contact = () => {
             <p className="text-sm sm:text-base text-slate-400 px-2">
               Whether you need an AI agent implementation, a backend audit, or full-stack leadership, let's chat.
             </p>
+            <p className="text-xs sm:text-sm text-slate-500 mt-3">
+              Client work and project scoping are handled via{' '}
+              <a href="https://premavision.net" target="_blank" rel="noreferrer" className="text-indigo-300 hover:text-white transition-colors">
+                Prema Vision
+              </a>
+              .
+            </p>
+            <div className="mt-4">
+              <a
+                href="https://premavision.net"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center px-5 py-2 rounded-full border border-slate-600 text-slate-200 hover:text-white hover:border-slate-400 transition-colors text-sm font-medium min-h-[44px]"
+              >
+                Go to premaVision.net
+              </a>
+            </div>
           </div>
 
           <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
@@ -1571,7 +1622,20 @@ const Footer = () => {
       <div className="container mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6">
         <div className="text-center md:text-left">
           <h3 className="text-lg sm:text-xl font-bold text-white mb-1 sm:mb-2">Denys Korolkov</h3>
-          <p className="text-slate-500 text-xs sm:text-sm">© {new Date().getFullYear()} Prema Vision LLC. All rights reserved.</p>
+          <p className="text-slate-500 text-xs sm:text-sm">
+            © {new Date().getFullYear()}{' '}
+            <a href="https://premavision.net" target="_blank" rel="noreferrer" className="text-indigo-300 hover:text-white transition-colors">
+              Prema Vision LLC
+            </a>
+            . All rights reserved.
+          </p>
+          <p className="text-slate-500 text-xs sm:text-sm mt-1">
+            Personal site for engineering work. Consulting services are offered via{' '}
+            <a href="https://premavision.net" target="_blank" rel="noreferrer" className="text-indigo-300 hover:text-white transition-colors">
+              Prema Vision
+            </a>
+            .
+          </p>
         </div>
         
         <div className="flex gap-4 sm:gap-6">
