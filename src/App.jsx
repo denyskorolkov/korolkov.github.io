@@ -1426,7 +1426,8 @@ const FloridaFun = () => {
   );
 };
 
-const CONTACT_FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbz9VeBXlkur7VEM-9-ON8j3WsIXJauqd-1-XsGcmYgDOs8eTkaE4NedKlCfbp5NXoJh/exec';
+// v2, hardened 2026-08-11 — old endpoint was being spammed directly (bypassed the site)
+const CONTACT_FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbydnxBOSy-mWkYah0lr2h6eUoxgfBafKBGbxkAb4LrKmNmEG1STUHQhoFEcKQO1RNiV/exec';
 
 const contactReasons = [
   'AI / LLM Integration',
@@ -1442,12 +1443,18 @@ const contactReasons = [
   'Just Saying Hi / Cool Build Share'
 ];
 
+// Must match FORM_GUARD_TOKEN in the Apps Script backend. Not a secret —
+// just filters out generic bots replaying the old payload shape, which is
+// what's been spamming this endpoint directly (see 2026-08 incident).
+const FORM_GUARD_TOKEN = 'kp-guard-2026-08';
+
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     projectType: contactReasons[0],
-    message: ''
+    message: '',
+    website: '' // honeypot — real users never see/fill this field
   });
   const [submitting, setSubmitting] = useState(false);
   const [feedback, setFeedback] = useState(null);
@@ -1480,7 +1487,9 @@ const Contact = () => {
           name: formData.name.trim(),
           email: formData.email.trim(),
           projectType: formData.projectType,
-          message: formData.message.trim()
+          message: formData.message.trim(),
+          website: formData.website,
+          formGuard: FORM_GUARD_TOKEN
         })
       });
 
@@ -1495,7 +1504,8 @@ const Contact = () => {
         name: '',
         email: '',
         projectType: contactReasons[0],
-        message: ''
+        message: '',
+        website: ''
       });
     } catch (error) {
       setFeedback({
@@ -1536,6 +1546,19 @@ const Contact = () => {
           </div>
 
           <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
+            {/* Honeypot — hidden from real users, bots that autofill every field trip it */}
+            <div style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }} aria-hidden="true">
+              <label htmlFor="website">Leave this field empty</label>
+              <input
+                type="text"
+                id="website"
+                name="website"
+                tabIndex="-1"
+                autoComplete="off"
+                value={formData.website}
+                onChange={updateField('website')}
+              />
+            </div>
             <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
               <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Name</label>
