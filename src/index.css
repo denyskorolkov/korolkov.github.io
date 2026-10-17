@@ -380,6 +380,22 @@ html {
   .snap-row > * {
     flex: 0 0 84%;
     scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+  /* Only sideways: the row never scrolls vertically, and cards inside it do
+     not lift on tap or slide up on reveal, so the whole card stays in view.
+     They still fade in. */
+  .snap-row {
+    overflow-y: hidden;
+    padding-top: 10px;
+    padding-bottom: 26px;
+  }
+  .snap-row > *,
+  .snap-row > *:hover,
+  .snap-row > .reveal {
+    transform: none !important;
+    translate: none !important;
+    scale: none !important;
   }
 }
 
