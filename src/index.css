@@ -149,3 +149,258 @@ html {
   padding: 1rem 1.25rem;
   overflow-x: auto;
 }
+
+/* ---------------------------------------------------------------------
+ * Liquid Glass, dark variant. Base values match routinerun.com/site.css
+ * (.glass and --glass-edge) so both sites speak the same material:
+ * a translucent fill, blur 24px with saturation 1.8, a bright top edge,
+ * plus a specular rim drawn with a masked gradient border.
+ * ------------------------------------------------------------------- */
+.glass,
+.glass-warm,
+.glass-cool,
+.glass-gold {
+  position: relative;
+  background:
+    radial-gradient(120% 70% at 12% 0%, rgba(255, 255, 255, 0.1), transparent 55%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.03));
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  backdrop-filter: blur(24px) saturate(1.8);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.1),
+    0 18px 40px -24px rgba(0, 0, 0, 0.8);
+}
+
+/* tinted glass: the same material over a coloured light */
+.glass-warm {
+  background:
+    radial-gradient(120% 70% at 12% 0%, rgba(255, 255, 255, 0.1), transparent 55%),
+    linear-gradient(135deg, rgba(251, 146, 60, 0.14), rgba(236, 72, 153, 0.08) 50%, rgba(147, 51, 234, 0.12));
+}
+.glass-cool {
+  background:
+    radial-gradient(120% 70% at 12% 0%, rgba(255, 255, 255, 0.1), transparent 55%),
+    linear-gradient(160deg, rgba(99, 102, 241, 0.16), rgba(30, 27, 75, 0.25));
+}
+.glass-gold {
+  background:
+    radial-gradient(120% 70% at 12% 0%, rgba(255, 255, 255, 0.1), transparent 55%),
+    linear-gradient(135deg, rgba(252, 211, 77, 0.1), rgba(236, 72, 153, 0.06) 50%, rgba(147, 51, 234, 0.1));
+}
+
+/* specular rim: light catching the edge, brightest top-left */
+.glass::before,
+.glass-warm::before,
+.glass-cool::before,
+.glass-gold::before,
+.glass-rim::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0.08) 28%,
+    rgba(255, 255, 255, 0) 58%,
+    rgba(255, 255, 255, 0.2)
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  opacity: 0.8;
+}
+.glass:hover::before,
+.glass-warm:hover::before,
+.glass-cool:hover::before,
+.glass-gold:hover::before,
+.glass-rim:hover::before {
+  opacity: 1;
+}
+.glass-rim {
+  position: relative;
+}
+
+/* soft light behind the glass so it has something to bend */
+.ambient {
+  background-image:
+    radial-gradient(45% 55% at 8% 12%, rgba(94, 92, 230, 0.2), transparent 70%),
+    radial-gradient(40% 50% at 92% 88%, rgba(214, 115, 241, 0.14), transparent 70%);
+}
+.ambient-warm {
+  background-image:
+    radial-gradient(45% 55% at 90% 10%, rgba(251, 146, 60, 0.13), transparent 70%),
+    radial-gradient(40% 50% at 8% 90%, rgba(236, 72, 153, 0.12), transparent 70%);
+}
+
+/* ---------------------------------------------------------------------
+ * Motion. The page is about rhythm, so it moves in time:
+ * cards enter on the beat, the score keeps strict tempo, the tune swings.
+ * Everything here switches off under prefers-reduced-motion.
+ * ------------------------------------------------------------------- */
+
+/* cards enter one beat apart; `translate` and `scale` are separate
+   properties so they do not fight Tailwind's hover transform */
+.reveal {
+  opacity: 0;
+  translate: 0 28px;
+  scale: 0.98;
+  transition:
+    opacity 0.8s cubic-bezier(0.2, 0.9, 0.24, 1),
+    translate 0.8s cubic-bezier(0.2, 0.9, 0.24, 1),
+    scale 0.8s cubic-bezier(0.2, 0.9, 0.24, 1),
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  transition-delay: var(--beat, 0ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
+}
+.reveal.reveal-done {
+  transition-delay: 0ms;
+}
+
+/* light follows the pointer across the glass */
+.glass::after,
+.glass-warm::after,
+.glass-cool::after,
+.glass-gold::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 0%), rgba(255, 255, 255, 0.11), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.glass:hover::after,
+.glass-warm:hover::after,
+.glass-cool:hover::after,
+.glass-gold:hover::after {
+  opacity: 1;
+}
+
+/* the score keeps strict tempo: every bar on the same beat */
+@keyframes eq-steady {
+  0%, 100% { transform: scaleY(0.35); }
+  50% { transform: scaleY(1); }
+}
+/* the tune swings: each bar has its own phrase */
+@keyframes eq-jazz {
+  0% { transform: scaleY(0.3); }
+  22% { transform: scaleY(1); }
+  41% { transform: scaleY(0.55); }
+  63% { transform: scaleY(0.9); }
+  82% { transform: scaleY(0.4); }
+  100% { transform: scaleY(0.3); }
+}
+.eq-bar {
+  transform-origin: bottom;
+}
+.eq-steady {
+  animation: eq-steady 1s ease-in-out infinite;
+}
+.eq-jazz {
+  animation: eq-jazz var(--dur, 1.2s) ease-in-out var(--delay, 0s) infinite;
+}
+
+/* sound waves drifting across the music section */
+@keyframes wave-drift {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.wave-drift {
+  animation: wave-drift var(--speed, 18s) linear infinite;
+}
+
+/* stars breathe */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.95; }
+}
+.twinkle {
+  animation: twinkle 4.5s ease-in-out infinite;
+}
+.twinkle-slow {
+  animation: twinkle 7s ease-in-out 1.5s infinite;
+}
+
+/* the roadmap ring fills when it comes into view */
+@keyframes ring-fill {
+  from { stroke-dashoffset: var(--ring-c); }
+}
+.ring-fill {
+  animation: ring-fill 1.6s cubic-bezier(0.2, 0.9, 0.24, 1) 0.3s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+    transition: none;
+  }
+  .eq-steady,
+  .eq-jazz,
+  .wave-drift,
+  .twinkle,
+  .twinkle-slow,
+  .ring-fill {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------
+ * Phones: long stacks of cards become swipeable rows. The next card
+ * peeks in from the right so the row explains itself. Tablets and up
+ * keep the grid.
+ * ------------------------------------------------------------------- */
+@media (max-width: 639px) {
+  .snap-row {
+    display: flex !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 1rem;
+    gap: 14px !important;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding: 6px 1rem 22px;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  .snap-row > * {
+    flex: 0 0 84%;
+    scroll-snap-align: start;
+  }
+}
+
+/* the flow mark: water running along the path */
+@keyframes flow-dash {
+  to { stroke-dashoffset: -26; }
+}
+.flow-dash {
+  animation: flow-dash 1.2s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .flow-dash { animation: none; }
+}
+
+/* phones: a lighter blur keeps scrolling smooth with many glass cards */
+@media (max-width: 639px) {
+  .glass,
+  .glass-warm,
+  .glass-cool,
+  .glass-gold {
+    -webkit-backdrop-filter: blur(14px) saturate(1.6);
+    backdrop-filter: blur(14px) saturate(1.6);
+  }
+}

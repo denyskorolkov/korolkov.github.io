@@ -1,110 +1,38 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { 
-  Code, 
-  Terminal, 
-  Cpu, 
-  Cloud, 
-  Layers, 
-  ArrowRight, 
-  Github, 
-  Linkedin, 
-  Twitter, 
-  Mail, 
-  MapPin, 
-  Sun, 
-  Briefcase, 
-  ExternalLink, 
-  Menu, 
-  X, 
-  Send,
-  Database,
-  Workflow,
-  Bot,
-  Sparkles,
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Check,
   Loader2,
-  Lightbulb,
-  Calendar,
-  Clock,
-  Instagram,
-  ChevronRight,
-  ChevronLeft,
-  ChevronDown,
-  ChevronUp,
-  TrendingUp,
-  BarChart3,
-  Activity
+  Menu,
+  Send,
+  Terminal,
+  X
 } from 'lucide-react';
+import { SiteFooter, useMotion, useMouseParallax, useParallax } from './site.jsx';
+import Orrery from './Orrery.jsx';
+import { BELIEF, CONNECTIONS, CONTACT, HERO, MUSIC, NOTES, NOW, PATH, PROCESS, ROADMAP, SITE, STARS, WORKS } from './content.js';
 
-// --- Gemini API Integration ---
-const apiKey = ""; // API Key injected at runtime
-const useCaseEndpoint = "https://script.google.com/macros/s/AKfycbwcpRzIg9Oj-N5ygXzFLotj3m2ZToaeMM_o8_3uP52oGgAJCxT9TWCS1KuyksZFfHWB/exec";
+const CONTACT_FORM_ENDPOINT =
+  'https://script.google.com/macros/s/AKfycbydnxBOSy-mWkYah0lr2h6eUoxgfBafKBGbxkAb4LrKmNmEG1STUHQhoFEcKQO1RNiV/exec';
 
-const callGemini = async (prompt) => {
-  try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-        }),
-      }
-    );
+// Must match FORM_GUARD_TOKEN in the Apps Script backend. Not a secret —
+// just filters out generic bots replaying the old payload shape, which is
+// what's been spamming this endpoint directly (see 2026-08 incident).
+const FORM_GUARD_TOKEN = 'kp-guard-2026-08';
 
-    if (!response.ok) {
-      throw new Error(`API Error: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated.";
-  } catch (error) {
-    console.error("Gemini API Error:", error);
-    return "System overloaded. Please try again later.";
-  }
-};
-
-// --- Custom Hook for Parallax ---
-const useParallax = (sensitivity = 0.1) => {
-  const [offset, setOffset] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setOffset(window.scrollY * sensitivity);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [sensitivity]);
-
-  return offset;
-};
-
-// --- Custom Hook for Mouse Parallax (Hero) ---
-const useMouseParallax = (sensitivity = 0.02) => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setPosition({
-        x: (e.clientX - window.innerWidth / 2) * sensitivity,
-        y: (e.clientY - window.innerHeight / 2) * sensitivity,
-      });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [sensitivity]);
-
-  return position;
-};
-
-// --- Components ---
+const NAV_LINKS = [
+  { name: 'Music', href: '#music' },
+  { name: 'Now', href: '#now' },
+  { name: 'Roadmap', href: '#roadmap' },
+  { name: 'Work', href: '#works' },
+  { name: 'Stars', href: '#stars' },
+  { name: 'Notes', href: '/notes/' }
+];
 
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const navRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -112,116 +40,63 @@ const Nav = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Close mobile menu on scroll
-  useEffect(() => {
-    if (isOpen) {
-      const handleScroll = () => setIsOpen(false);
-      window.addEventListener('scroll', handleScroll, { once: true });
-      return () => window.removeEventListener('scroll', handleScroll);
-    }
-  }, [isOpen]);
-
-  // Close mobile menu when clicking outside
-  useEffect(() => {
-    if (isOpen) {
-      const handleClickOutside = (e) => {
-        // Don't close if clicking on the nav element or its children
-        if (navRef.current && !navRef.current.contains(e.target)) {
-          setIsOpen(false);
-        }
-      };
-      // Use a small delay to avoid immediate closure when opening
-      const timeoutId = setTimeout(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-        document.addEventListener('touchstart', handleClickOutside);
-      }, 100);
-      
-      return () => {
-        clearTimeout(timeoutId);
-        document.removeEventListener('mousedown', handleClickOutside);
-        document.removeEventListener('touchstart', handleClickOutside);
-      };
-    }
-  }, [isOpen]);
-
-  const navLinks = [
-    { name: 'About', href: '#about' },
-    { name: 'Services', href: '#services' },
-    { name: 'Work', href: '#work' },
-    { name: 'Blog', href: '#blog' },
-    { name: 'Florida 🌴', href: '#florida', isSpecial: true },
-  ];
-
   return (
-    <nav ref={navRef} className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-slate-900/90 backdrop-blur-md border-b border-slate-800 py-3 md:py-4' : 'bg-transparent py-4 md:py-6'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
-        <a href="#" className="text-xl sm:text-2xl font-bold tracking-tighter text-white flex items-center gap-2">
-          <Terminal className="w-5 h-5 sm:w-6 sm:h-6 text-orange-400" />
-          <span>DENYS<span className="text-slate-500">.DEV</span></span>
+    <nav
+      className={`fixed z-50 w-full transition-all duration-300 ${
+        scrolled
+          ? 'border-b border-slate-800 bg-slate-900/90 py-3 backdrop-blur-md md:py-4'
+          : 'bg-transparent py-4 md:py-6'
+      }`}
+    >
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 sm:px-6">
+        <a href="/" className="flex items-center gap-2 text-xl font-bold tracking-tighter text-white sm:text-2xl">
+          <Terminal className="h-5 w-5 text-orange-400 sm:h-6 sm:w-6" aria-hidden="true" />
+          <span>
+            DENYS<span className="text-slate-500">.DEV</span>
+          </span>
         </a>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <a 
-              key={link.name} 
-              href={link.href} 
-              className={`text-sm font-medium transition-colors uppercase tracking-widest ${
-                link.isSpecial 
-                ? 'text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-purple-500 font-bold hover:opacity-80' 
-                : 'text-slate-300 hover:text-orange-400'
-              }`}
+        <div className="hidden items-center gap-8 md:flex">
+          {NAV_LINKS.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="text-sm font-medium text-slate-400 transition-colors hover:text-white"
             >
               {link.name}
             </a>
           ))}
-          <a href="#contact" className="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full text-sm font-bold transition-all shadow-lg shadow-indigo-500/20">
-            Let's Talk
+          <a
+            href="#contact"
+            className="rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 px-5 py-2 text-sm font-bold text-white transition-opacity hover:opacity-90"
+          >
+            Say hello
           </a>
         </div>
 
-        {/* Mobile Menu Button - Larger touch target */}
-        <button 
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsOpen(!isOpen);
-          }} 
-          className="md:hidden text-white p-2 -mr-2 min-w-[44px] min-h-[44px] flex items-center justify-center z-10 relative"
-          aria-label="Toggle menu"
+        <button
+          type="button"
+          aria-label={isOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={isOpen}
+          onClick={() => setIsOpen((v) => !v)}
+          className="flex min-h-[44px] min-w-[44px] items-center justify-center text-white md:hidden"
         >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+          {isOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
-      {/* Mobile Nav - Improved with backdrop and animation */}
       {isOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-slate-900/98 backdrop-blur-lg border-b border-slate-800 animate-in slide-in-from-top-2 duration-300">
-          <div className="p-4 sm:p-6 flex flex-col gap-2">
-            {navLinks.map((link) => (
-              <a 
-                key={link.name} 
-                href={link.href} 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsOpen(false);
-                }}
-                className="text-base sm:text-lg font-medium text-slate-300 hover:text-orange-400 py-3 px-2 transition-colors min-h-[44px] flex items-center"
-              >
-                {link.name}
-              </a>
-            ))}
-            <a 
-              href="#contact" 
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsOpen(false);
-              }}
-              className="mt-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full text-sm font-bold transition-all text-center min-h-[44px] flex items-center justify-center"
+        <div className="mt-3 border-t border-slate-800 bg-slate-950/95 px-4 py-2 backdrop-blur-md md:hidden">
+          {[...NAV_LINKS, { name: 'Say hello', href: '#contact' }].map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              onClick={() => setIsOpen(false)}
+              className="flex min-h-[48px] items-center border-b border-slate-800/80 text-base text-slate-300 last:border-0 hover:text-white"
             >
-              Let's Talk
+              {link.name}
             </a>
-          </div>
+          ))}
         </div>
       )}
     </nav>
@@ -229,1230 +104,1014 @@ const Nav = () => {
 };
 
 const Hero = () => {
-  const mousePos = useMouseParallax(0.05);
-  const scrollY = useParallax(0.5);
+  const mousePos = useMouseParallax(0.02);
+  const scrollY = useParallax(0.25);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Dynamic Background */}
-      <div className="absolute inset-0 bg-slate-950">
-        {/* Gradient Blob */}
-        <div 
-          className="absolute top-[-20%] left-[-10%] w-[60vw] h-[60vw] bg-indigo-600/20 rounded-full blur-[100px] animate-pulse" 
-          style={{ transform: `translate(${mousePos.x * -1}px, ${mousePos.y * -1}px)` }}
+    <section className="relative flex min-h-screen items-center overflow-hidden pt-24">
+      {/* Palm Coast at sunset: the sun sits behind the photo, a flow of steps runs over the water */}
+      <div className="absolute inset-0 bg-slate-950" aria-hidden="true">
+        <img
+          src={HERO.background}
+          alt=""
+          fetchpriority="high"
+          decoding="async"
+          className="absolute inset-0 h-[115%] w-full object-cover object-[68%_center] opacity-90"
+          style={{ transform: `translate3d(${mousePos.x * -1}px, ${scrollY * -1 + mousePos.y * -1}px, 0) scale(1.04)` }}
         />
-        <div 
-          className="absolute bottom-[-20%] right-[-10%] w-[50vw] h-[50vw] bg-orange-500/10 rounded-full blur-[100px]"
-          style={{ transform: `translate(${mousePos.x}px, ${mousePos.y}px)` }}
-        />
-        
-        {/* Grid Lines */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/75 to-slate-950/5" />
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-slate-950 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-slate-950/80 to-transparent" />
       </div>
 
-      {/* Retro Wave Sun & Palm - SVG Illustration */}
-      <div 
-        className="absolute bottom-0 md:bottom-20 right-0 md:right-20 opacity-20 sm:opacity-30 md:opacity-60 pointer-events-none select-none"
-        style={{ transform: `translateY(${scrollY * 0.2}px)` }}
-      >
-        <svg width="600" height="600" viewBox="0 0 200 200" className="w-full max-w-[60vw] sm:max-w-[80vw] md:max-w-lg">
-          <defs>
-            <linearGradient id="sunGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#FF7F50" />
-              <stop offset="100%" stopColor="#8A2BE2" />
-            </linearGradient>
-          </defs>
-          <circle cx="100" cy="120" r="60" fill="url(#sunGradient)" />
-          <rect x="40" y="130" width="120" height="5" fill="#020617" />
-          <rect x="40" y="140" width="120" height="8" fill="#020617" />
-          <rect x="40" y="152" width="120" height="12" fill="#020617" />
-          <path d="M140 180 Q 150 120 180 100" stroke="#1e293b" strokeWidth="8" fill="none" />
-          <path d="M140 180 Q 130 130 110 110" stroke="#1e293b" strokeWidth="6" fill="none" />
-          {/* Palm Leaves */}
-          <path d="M180 100 Q 190 110 195 130" stroke="#1e293b" strokeWidth="4" fill="none" />
-          <path d="M180 100 Q 160 90 140 100" stroke="#1e293b" strokeWidth="4" fill="none" />
-          <path d="M180 100 Q 190 80 200 90" stroke="#1e293b" strokeWidth="4" fill="none" />
-        </svg>
-      </div>
+      <div className="container relative z-10 mx-auto max-w-6xl px-4 py-16 sm:px-6">
+        <div className="flex flex-col items-start gap-10 md:flex-row md:items-center md:gap-14">
+          <div className="max-w-3xl md:flex-1">
+            <p className="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium text-slate-200 sm:text-sm">
+              <span className="h-1.5 w-1.5 rounded-full bg-orange-400" />
+              {HERO.eyebrow}
+            </p>
 
-      <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-          <div className="md:w-2/3 space-y-4 sm:space-y-6 w-full">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-900/30 border border-indigo-500/30 text-indigo-300 text-xs font-bold tracking-widest uppercase mb-4">
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              Available for Consulting
-            </div>
-            
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white leading-tight">
-              Architecting <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-pink-500 to-purple-600">
-                Intelligence.
+            <h1 className="mt-6 text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl md:text-6xl">
+              {HERO.lead}
+              <br />
+              <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-purple-600 bg-clip-text text-transparent">
+                {HERO.rest}
               </span>
             </h1>
-            
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
-              {/* Avatar - Using User's Placeholder */}
-              <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full border-2 border-orange-400 p-1 shadow-[0_0_20px_rgba(251,146,60,0.3)] overflow-hidden bg-slate-800 flex-shrink-0">
-                <img 
-                  src="https://share.cleanshot.com/7vhzJrxf+" /* User's uploaded photo path */
-                  onError={(e) => {e.target.onerror = null; e.target.src="https://ui-avatars.com/api/?name=Denys+Korolkov&background=0D8ABC&color=fff&size=128"}}
-                  alt="Denys Korolkov" 
-                  className="w-full h-full rounded-full object-cover"
-                />
-              </div>
-              
-              <div className="text-base sm:text-lg md:text-xl text-slate-400 max-w-2xl leading-relaxed space-y-1">
-                <p>I build production AI systems and observability workflows for LangChain and LangGraph teams.</p>
-                <p>
-                  For consulting engagements, visit{' '}
+
+            <p className="mt-8 max-w-2xl text-lg leading-relaxed text-slate-200 sm:text-xl">{HERO.body}</p>
+
+            <div className="mt-10 flex flex-col flex-wrap gap-3 sm:flex-row sm:gap-4">
+              <a
+                href="#why"
+                className="group flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-bold text-slate-900 transition-all hover:bg-slate-200 sm:text-base"
+              >
+                Why I keep building this
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+              </a>
+              <a
+                href="#now"
+                className="glass flex min-h-[44px] items-center justify-center rounded-full px-7 py-3 text-center text-sm font-medium text-white transition-all sm:text-base"
+              >
+                What I am doing now
+              </a>
+            </div>
+
+            <ul className="mt-8 flex flex-wrap gap-2">
+              {HERO.status.map((item) => (
+                <li key={item.label}>
                   <a
-                    href="https://premavision.net"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-indigo-300 hover:text-white transition-colors"
+                    href={item.href}
+                    className="glass inline-flex min-h-[36px] items-center gap-2 rounded-full px-3.5 py-1.5 text-xs text-slate-200 transition-colors hover:text-white sm:text-sm"
                   >
-                    Prema Vision
+                    <span
+                      className={`h-1.5 w-1.5 rounded-full ${
+                        item.kind === 'looking' ? 'animate-pulse bg-orange-400' : 'bg-indigo-400'
+                      }`}
+                    />
+                    {item.label}
                   </a>
-                  .
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-4">
-              <a href="#work" className="group bg-white text-slate-900 px-6 sm:px-8 py-3 rounded-full font-bold hover:bg-slate-200 transition-all flex items-center justify-center gap-2 min-h-[44px] text-sm sm:text-base">
-                View Case Studies
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a href="#contact" className="px-6 sm:px-8 py-3 rounded-full border border-slate-700 text-white font-medium hover:bg-slate-800 transition-all text-center min-h-[44px] flex items-center justify-center text-sm sm:text-base">
-                Contact Me
-              </a>
-            </div>
-
-            {/* Tech Stack Marquee */}
-            <div className="pt-8 sm:pt-12 opacity-60">
-              <p className="text-xs uppercase tracking-widest text-slate-500 mb-3 sm:mb-4">Powering Systems With</p>
-              <div className="flex flex-wrap gap-3 sm:gap-6 text-sm sm:text-base text-slate-400">
-                 <span className="hover:text-orange-400 transition-colors">LangSmith</span>
-                 <span className="hidden sm:inline">•</span>
-                 <span className="hover:text-blue-400 transition-colors">LangGraph</span>
-                 <span className="hidden sm:inline">•</span>
-                 <span className="hover:text-green-400 transition-colors">LangChain</span>
-                 <span className="hidden sm:inline">•</span>
-                 <span className="hover:text-purple-400 transition-colors">TypeScript</span>
-                 <span className="hidden sm:inline">•</span>
-                 <span className="hover:text-cyan-400 transition-colors">Python</span>
-                 <span className="hidden sm:inline">•</span>
-                 <span className="hover:text-pink-400 transition-colors">AWS</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Side - Terminal/Code Graphic */}
-          <div className="md:w-1/3 hidden md:block">
-            <div className="bg-slate-900 rounded-lg border border-slate-700 shadow-2xl p-4 font-mono text-sm transform rotate-2 hover:rotate-0 transition-transform duration-500 opacity-90">
-              <div className="flex gap-2 mb-4 border-b border-slate-800 pb-2">
-                <div className="w-3 h-3 rounded-full bg-red-500" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                <div className="w-3 h-3 rounded-full bg-green-500" />
-              </div>
-              <div className="text-slate-300 space-y-2">
-                <p className="text-green-400">➜  ~ whoami</p>
-                <div className="flex items-center gap-2">
-                  <div className="hidden w-6 h-6 rounded-full overflow-hidden bg-slate-700">
-                      <img src="IMG_9573 Medium.png" onError={(e) => {e.target.src="https://ui-avatars.com/api/?name=DK&background=random&size=32"}} className="w-full h-full object-cover" />
-                  </div>
-                  <span>Denys Korolkov</span>
-                </div>
-                <p className="text-green-400">➜  ~ current_status</p>
-                <p>
-                  Building AI Agents @{' '}
-                  <a href="https://premavision.net" target="_blank" rel="noreferrer" className="underline decoration-slate-500 hover:text-white transition-colors">
-                    Prema Vision
-                  </a>
-                </p>
-                <p className="text-green-400">➜  ~ location</p>
-                <p>Palm Coast, FL 🌴</p>
-                <p className="text-green-400">➜  ~ skills --verbose</p>
-                <div className="pl-4 text-orange-300">
-                  [ "AI Quality & Observability",<br/>
-                   "LLM Evaluation",<br/>
-                   "ML Inference Systems",<br/>
-                   "Agent Reliability Engineering" ]
-                </div>
-                <span className="inline-block w-2 h-4 bg-slate-500 animate-pulse align-middle"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-// --- About Section with Flip Cards ---
-const About = () => {
-  const experiences = [
-    {
-      company: "Prema Vision LLC",
-      companyUrl: "https://premavision.net",
-      role: "Founder & Lead Engineer",
-      period: "Present",
-      desc: "Driving AI automation and IT consulting. Building custom agents and cloud architecture for clients.",
-      image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=600&q=80",
-      filterColor: "bg-indigo-900/80"
-    },
-    {
-      company: "BigPanda",
-      role: "Integration Engineer",
-      period: "Previous",
-      desc: "Built Biggy AI UI integrations, aided K8s/Argo CD releases, and automated documentation workflows.",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80",
-      filterColor: "bg-slate-900/80"
-    },
-    {
-      company: "Autodesk",
-      role: "Software Engineer",
-      period: "Previous",
-      desc: "Optimized Checkout Flow and Account Billing Portal. Worked on microfrontends and high-scale AWS performance.",
-      image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=600&q=80",
-      filterColor: "bg-blue-950/80"
-    }
-  ];
-
-  return (
-    <section id="about" className="py-12 sm:py-16 md:py-20 bg-slate-950 relative">
-      <div className="container mx-auto px-4 sm:px-6">
-        <div className="grid md:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
-          <div>
-             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6 flex items-center gap-3">
-              <Cpu className="text-indigo-500 w-6 h-6 sm:w-7 sm:h-7" /> The Engine Room
-            </h2>
-            <div className="prose prose-invert text-slate-400 text-base sm:text-lg leading-relaxed">
-              <p>
-                I focus on practical AI engineering: tracing, evaluation, and feedback loops that improve quality in production, not just demos.
-              </p>
-              <p className="mt-4">
-                My approach is simple: Automate the boring stuff, architect for resilience, and keep the user experience buttery smooth. 
-                Whether it's optimizing a billing portal for Autodesk or deploying AI agents for{' '}
-                <a href="https://premavision.net" target="_blank" rel="noreferrer" className="text-indigo-300 hover:text-white transition-colors">
-                  Prema Vision
-                </a>
-                , the goal is always efficiency.
-              </p>
-              <p className="mt-4 italic border-l-4 border-indigo-500 pl-4 text-slate-500">
-                "Future-oriented architecture with a sharp focus on business value."
-              </p>
-            </div>
-          </div>
-
-          <div className="space-y-4 sm:space-y-6">
-             {experiences.map((exp, idx) => (
-               <div key={idx} className="group relative overflow-hidden p-4 sm:p-6 rounded-xl border border-slate-800 transition-all duration-500 hover:border-orange-500/50 hover:shadow-[0_0_20px_-5px_rgba(249,115,22,0.2)] hover:-translate-y-1 cursor-default">
-                 
-                 {/* Background Image with Filter */}
-                 <div className="absolute inset-0 z-0">
-                   <img src={exp.image} alt="" className="w-full h-full object-cover opacity-40 group-hover:scale-110 transition-transform duration-700" />
-                   <div className={`absolute inset-0 ${exp.filterColor} backdrop-blur-[2px] transition-opacity`} />
-                 </div>
-
-                 <div className="relative z-10">
-                   <div className="flex justify-between items-start mb-2">
-                     <h3 className="text-xl font-bold text-white group-hover:text-orange-400 transition-colors">
-                       {exp.companyUrl ? (
-                         <a href={exp.companyUrl} target="_blank" rel="noreferrer" className="hover:underline decoration-orange-400/60">
-                           {exp.company}
-                         </a>
-                       ) : (
-                         exp.company
-                       )}
-                     </h3>
-                     <span className="text-xs font-mono text-slate-300 bg-white/10 backdrop-blur-md px-2 py-1 rounded border border-white/10">{exp.period}</span>
-                   </div>
-                   <p className="text-sm font-medium text-indigo-300 mb-2">{exp.role}</p>
-                   <p className="text-slate-300 text-sm">{exp.desc}</p>
-                 </div>
-               </div>
-             ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-// --- AI Strategy Generator Component ---
-const AIStrategyGenerator = () => {
-  const [industry, setIndustry] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [useCases, setUseCases] = useState([]);
-  const [error, setError] = useState("");
-
-  const handleGenerate = async () => {
-    if (!industry.trim()) {
-      setError("Drop in one industry name.");
-      return;
-    }
-    setLoading(true);
-    setError("");
-    setUseCases([]);
-
-    try {
-      const response = await fetch(
-        `${useCaseEndpoint}?industry=${encodeURIComponent(industry.trim())}`
-      );
-
-      if (!response.ok) {
-        throw new Error(`Request failed with ${response.status}`);
-      }
-
-      const data = await response.json();
-      const payload =
-        Array.isArray(data?.useCases) ? data.useCases :
-        Array.isArray(data?.ideas) ? data.ideas :
-        Array.isArray(data?.data) ? data.data :
-        Array.isArray(data) ? data : [];
-
-      if (!payload.length) {
-        throw new Error("No ideas returned");
-      }
-
-      setUseCases(payload);
-    } catch (err) {
-      console.error("Strategy generator error:", err);
-      setError("Couldn’t generate ideas right now. Try again in a bit.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="mt-8 sm:mt-12 md:mt-16 bg-slate-900/80 border border-slate-700 rounded-2xl p-4 sm:p-6 md:p-8 max-w-3xl mx-auto backdrop-blur-sm shadow-2xl relative overflow-hidden">
-      {/* Aesthetic gradient top border */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-orange-500" />
-      
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-4 sm:mb-6 gap-4">
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Sparkles className="text-orange-400 w-5 h-5" />
-            <h3 className="text-lg sm:text-xl font-bold text-white">AI Strategy Generator</h3>
-          </div>
-          <p className="text-slate-400 text-xs sm:text-sm">
-            Curious how AI applies to you? Enter your industry, and I'll generate 3 use cases instantly.
-          </p>
-        </div>
-      </div>
-
-      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4">
-        <input 
-          type="text" 
-          value={industry}
-          onChange={(e) => setIndustry(e.target.value)}
-          placeholder="e.g. Real Estate, Logistics..."
-          className="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-white text-sm sm:text-base focus:border-indigo-500 outline-none transition-all min-h-[44px]"
-          onKeyDown={(e) => e.key === 'Enter' && handleGenerate()}
-        />
-        <button 
-          onClick={handleGenerate}
-          disabled={loading || !industry}
-          className="bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-800 disabled:text-slate-500 text-white font-bold px-4 sm:px-6 py-3 rounded-lg transition-all flex items-center justify-center gap-2 whitespace-nowrap min-h-[44px] text-sm sm:text-base"
-        >
-          {loading ? <Loader2 className="animate-spin w-4 h-4" /> : <Sparkles className="w-4 h-4" />}
-          Generate Ideas
-        </button>
-      </div>
-
-      {error && (
-        <p className="text-sm text-red-400 mb-4">{error}</p>
-      )}
-
-      {useCases.length > 0 && (
-        <div className="bg-slate-950/50 rounded-lg p-6 border border-slate-800 animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <div className="grid gap-4">
-            {useCases.map((idea, idx) => (
-              <div key={`${idea?.title || idea?.id || idx}-${idx}`} className="p-4 bg-slate-900/70 rounded-xl border border-slate-800">
-                <div className="flex items-center justify-between mb-2 text-xs uppercase tracking-widest text-slate-500">
-                  <span>Use Case #{idx + 1}</span>
-                  {idea?.impactScore && (
-                    <span className="text-orange-400 font-semibold">Impact {idea.impactScore}/10</span>
-                  )}
-                </div>
-                <h4 className="text-lg font-semibold text-white mb-2">
-                  {idea?.title || idea?.heading || `Idea ${idx + 1}`}
-                </h4>
-                <p className="text-slate-300 text-sm leading-relaxed">
-                  {idea?.description || idea?.summary || idea?.idea || "No description provided."}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
-
-const Services = () => {
-  const services = [
-    {
-      icon: <Bot size={32} />,
-      title: "AI Quality & Observability",
-      desc: "LangSmith tracing, evaluators, and feedback workflows for LangChain and LangGraph applications.",
-      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=500&q=80"
-    },
-    {
-      icon: <Database size={32} />,
-      title: "Backend Systems",
-      desc: "Robust Python/Node.js architectures for high concurrency.",
-      image: "https://images.unsplash.com/photo-1558494949-ef526b004297?auto=format&fit=crop&w=500&q=80"
-    },
-    {
-      icon: <Cloud size={32} />,
-      title: "Cloud & DevOps",
-      desc: "Kubernetes, AWS, and CI/CD pipelines. Works everywhere.",
-      image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=500&q=80"
-    },
-    {
-      icon: <Workflow size={32} />,
-      title: "Automation (n8n)",
-      desc: "Connecting disparate tools into seamless workflows.",
-      image: "https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?auto=format&fit=crop&w=500&q=80"
-    }
-  ];
-
-  return (
-    <section id="services" className="py-12 sm:py-16 md:py-20 bg-slate-900/50">
-      <div className="container mx-auto px-4 sm:px-6">
-        <div className="text-center mb-8 sm:mb-12 md:mb-16">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">Technical Expertise</h2>
-          <p className="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto px-4">Deploying cutting-edge solutions for modern business problems.</p>
-        </div>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-12">
-          {services.map((s, i) => (
-            <div key={i} className="relative overflow-hidden rounded-2xl border border-slate-800 transition-all duration-300 hover:border-indigo-500 hover:shadow-[0_0_30px_-10px_rgba(99,102,241,0.3)] hover:-translate-y-2 group cursor-default h-56 sm:h-64 flex flex-col justify-end p-6 sm:p-8">
-              {/* Background Image Overlay */}
-              <div className="absolute inset-0 z-0">
-                <img 
-                  src={i === 1 ? "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=500&q=80" : s.image} 
-                  alt="" 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-                />
-                <div className="absolute inset-0 bg-slate-950/80 group-hover:bg-slate-900/70 transition-colors" />
-              </div>
-              
-              <div className="relative z-10">
-                <div className="mb-4 text-indigo-500 group-hover:text-orange-400 transition-colors transform duration-300 origin-left">
-                  {s.icon}
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">{s.title}</h3>
-                <p className="text-slate-300 text-sm leading-relaxed">{s.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Insert AI Feature */}
-        <AIStrategyGenerator />
-
-      </div>
-    </section>
-  );
-};
-
-// --- Project Modal Component ---
-const ProjectModal = ({ project, onClose }) => {
-  if (!project) return null;
-  
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = 'unset'; };
-  }, []);
-
-  return (
-    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-950/90 backdrop-blur-md animate-in fade-in duration-300" onClick={onClose}>
-      <div 
-        className="bg-slate-900 w-full sm:max-w-3xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto rounded-t-2xl sm:rounded-2xl border border-slate-800 shadow-2xl relative animate-in slide-in-from-bottom-8 duration-500" 
-        onClick={e => e.stopPropagation()}
-      >
-        <button 
-          onClick={onClose} 
-          className="absolute top-4 right-4 p-2 bg-slate-800/50 hover:bg-slate-700 text-slate-400 hover:text-white rounded-full transition-all z-10 min-w-[44px] min-h-[44px] flex items-center justify-center"
-          aria-label="Close modal"
-        >
-          <X size={20} />
-        </button>
-
-        <div className={`h-24 sm:h-32 w-full bg-gradient-to-r ${project.color} relative overflow-hidden`}>
-           <div className="absolute inset-0 bg-black/20" />
-           <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-8 flex gap-2 flex-wrap">
-              {project.tags.map(tag => (
-                <span key={tag} className="px-2 py-1 rounded-md bg-black/40 text-white text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm">
-                  {tag}
-                </span>
+                </li>
               ))}
-           </div>
-        </div>
-
-        <div className="p-4 sm:p-6 md:p-10">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-6">{project.title}</h2>
-          
-          <div className="space-y-4 sm:space-y-6 text-sm sm:text-base text-slate-300 leading-relaxed">
-            <div>
-              <h3 className="text-lg font-bold text-white mb-2">The Challenge</h3>
-              <p>{project.details?.challenge || "Details coming soon."}</p>
-            </div>
-            <div>
-              <h3 className="text-lg font-bold text-white mb-2">The Solution</h3>
-              <p>{project.details?.solution || "Details coming soon."}</p>
-            </div>
-            <div>
-               <h3 className="text-lg font-bold text-white mb-2">Impact</h3>
-               <p>{project.details?.impact || "Details coming soon."}</p>
-            </div>
+            </ul>
           </div>
 
-          <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-slate-800 flex justify-end">
-            <button onClick={onClose} className="px-6 py-3 rounded-lg bg-slate-800 text-white hover:bg-slate-700 transition-colors text-sm font-bold min-h-[44px]">
-              Close Project
-            </button>
+          <div className="relative mx-auto w-48 flex-shrink-0 sm:w-56 md:mx-0 md:w-64">
+            <div className="absolute -inset-4 rounded-full bg-gradient-to-br from-orange-400/40 via-pink-500/30 to-purple-600/40 blur-2xl" aria-hidden="true" />
+            <div className="relative aspect-square w-full overflow-hidden rounded-full border-2 border-orange-400/70 shadow-[0_0_50px_-8px_rgba(251,146,60,0.6)]">
+              <img
+                src="/denys-korolkov.webp"
+                alt="Denys Korolkov"
+                width="640"
+                height="640"
+                fetchpriority="high"
+                className="h-full w-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-const CaseStudies = () => {
-  const [activeProject, setActiveProject] = useState(null);
-  const [showAll, setShowAll] = useState(false);
-
-  const allProjects = [
-  {
-    title: "Checkout & Billing Portal Modernization",
-    tags: ["React", "AWS", "Microfrontends"],
-    desc: "Led modernization of a legacy checkout and billing portal for a large SaaS platform, focusing on performance, reliability, and smoother plan changes.",
-    color: "from-orange-400 to-pink-600",
-    image:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80",
-    efficiency: "40%", // LCP / conversion & reliability uplift
-    details: {
-      challenge:
-        "The existing monolithic billing portal powered sign-up, upgrades, and invoices. Under traffic spikes it slowed down, and any change to pricing or plans felt risky. Product teams struggled to experiment without touching a fragile core flow.",
-      solution:
-        "Split the flow into React microfrontends with a clear contract to Node.js services on AWS. Introduced Vite/Storybook for UI consistency, improved observability with AWS X-Ray and structured logging, and gradually refactored critical screens (checkout, invoices, account changes) behind feature flags.",
-      impact:
-        "Improved core page LCP to under ~1s on key flows, stabilized SLA at 99.9–100% for billing endpoints, and unlocked safer experiments around pricing and plan changes without full-portal redeploys."
-    }
-  },
-  {
-    title: "BigPanda Integrations Platform",
-    tags: ["Node.js", "Kubernetes", "MongoDB"],
-    desc: "Owned key integrations and backend services for a monitoring/incident management platform running at enterprise scale.",
-    color: "from-blue-500 to-indigo-500",
-    image:
-  "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80",
-    efficiency: "65%", // onboarding & ops gains
-    details: {
-      challenge:
-        "Customers needed stable, high-throughput integrations with monitoring tools, ticketing systems, and notification channels. Existing flows were hard to extend, and every new integration added operational overhead.",
-      solution:
-        "Designed and maintained Node.js/Kubernetes services for inbound and outbound integrations, standardized payload mapping and retry semantics, and added better metrics around throughput and failure modes. Automated test coverage and CI/CD pipelines using GitHub Actions, Jenkins, and Argo CD for predictable rollouts.",
-      impact:
-        "Reduced time to onboard new integrations by ~65%, cut incident noise from flaky connectors, and gave customer-facing teams a more reliable platform to plug into new tools without bespoke one-off work each time."
-    }
-  },
-  {
-    title: "Biggy AI Incident Copilot",
-    tags: ["React", "Node.js", "BigPanda UI"],
-    desc: "Implemented the UI and end-to-end user experience for an AI-powered incident analysis assistant used by SRE and on-call engineers.",
-    color: "from-purple-500 to-indigo-600",
-    image:
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80",
-    efficiency: "50%",
-    details: {
-        challenge:
-        "SREs had to juggle multiple dashboards, alert feeds, and historical incidents. Critical context was scattered, slowing triage and increasing cognitive load.",
-        solution:
-        "Designed and implemented the Biggy AI UI layer: integrated incident data streams, added contextual insights panels, improved search UX, and created a conversational interface for interacting with the AI backend. Collaborated closely with backend/AI teams to shape request/response flows, guardrails, and result presentation.",
-        impact:
-        "Engineers using the Biggy interface reached actionable insights up to 50% faster in supported services. Reduced repeated questions to senior SREs during high-severity incidents by surfacing relevant historical context directly in the UI."
-    }
-  }
-    ,
-  {
-    title: "Prema Vision AI Automations",
-    projectUrl: "https://premavision.net",
-    tags: ["Next.js", "OpenAI", "AWS"],
-    desc: "Designed a suite of reusable patterns for AI-driven automations: CRM overlays, contract analysis, and ops bots for consulting clients.",
-    color: "from-red-500 to-orange-600",
-    image:
-      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80",
-    efficiency: "80%", // time saved on repetitive workflows
-    details: {
-      challenge:
-        "SMB and mid-market clients had repetitive, high-touch workflows (sales outreach, contract review, operational triage) but lacked in-house teams to design robust AI automations safely.",
-      solution:
-        "Developed a set of opinionated building blocks using Next.js, OpenAI APIs, serverless backends on AWS, and vector search. Patterns include CRM overlay assistants, contract analyzers, anomaly-detection helpers, and integration templates that can be adapted per client.",
-      impact:
-        "For early consulting clients, reduced time spent on repeated manual tasks by ~80% in targeted workflows (contract review, lead research, ops triage), while keeping implementations maintainable and auditable."
-    }
-  }
-];
-
-
-
-  const visibleProjects = showAll ? allProjects : allProjects.slice(0, 3);
-
-  return (
-    <section id="work" className="py-12 sm:py-16 md:py-24 bg-slate-950 overflow-hidden">
-      <div className="container mx-auto px-4 sm:px-6">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-6 sm:mb-8 md:mb-12 flex items-center gap-2">
-          <Layers className="text-orange-500 w-6 h-6 sm:w-7 sm:h-7" /> Case Studies
-        </h2>
-        
-        <div className="flex flex-col gap-6 sm:gap-8 mb-8 sm:mb-12">
-          {visibleProjects.map((project, i) => (
-            <div key={i} className="group relative rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 animate-in fade-in slide-in-from-bottom-4 duration-500 flex flex-col md:flex-row hover:border-slate-700 transition-all">
-              
-              {/* Left Content */}
-              <div className="md:w-3/5 p-4 sm:p-6 md:p-8 flex flex-col justify-between">
-                <div>
-                   <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tags.map(tag => (
-                      <span key={tag} className="text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  
-                  <h3 className={`text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${project.color} mb-4`}>
-                    {project.projectUrl ? (
-                      <a href={project.projectUrl} target="_blank" rel="noreferrer" className="hover:opacity-80 transition-opacity">
-                        {project.title}
-                      </a>
-                    ) : (
-                      project.title
-                    )}
-                  </h3>
-                  <p className="text-slate-400 leading-relaxed mb-6">
-                    {project.desc}
-                  </p>
-                </div>
-
-                <button 
-                  onClick={() => setActiveProject(project)}
-                  className="inline-flex items-center text-sm font-bold text-white hover:text-orange-400 transition-colors mt-auto py-2 min-h-[44px]"
-                >
-                  View Full Details <ArrowRight className="w-4 h-4 ml-2" />
-                </button>
-              </div>
-
-              {/* Right Image/Dashboard Area */}
-              <div className="md:w-2/5 h-48 sm:h-64 md:h-auto relative overflow-hidden">
-                 {/* Overlay Gradient */}
-                 <div className={`absolute inset-0 bg-gradient-to-l from-transparent to-slate-900 z-10`} />
-                 <div className="absolute inset-0 bg-slate-900/20 z-10 group-hover:bg-transparent transition-colors" />
-                 
-                 <img 
-                   src={project.image} 
-                   alt="Dashboard" 
-                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-100" 
-                 />
-                 
-                 {/* Floating Stat Card Overlay (Cosmetic) */}
-                 <div className="absolute bottom-4 right-4 z-20 bg-slate-900/90 backdrop-blur-md border border-slate-700 p-3 rounded-lg shadow-xl transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                   <div className="flex items-center gap-3">
-                      <div className={`p-2 rounded-full bg-gradient-to-br ${project.color}`}>
-                        <TrendingUp className="w-4 h-4 text-white" />
-                      </div>
-                      <div>
-                        <div className="text-[10px] text-slate-400 uppercase font-bold">Efficiency</div>
-                        <div className="text-sm font-bold text-white">+{project.efficiency}</div>
-                      </div>
-                   </div>
-                 </div>
-              </div>
-            </div>
-          ))}
-        </div>
-        
-        {/* Expand/Collapse Button */}
-        <div className="flex justify-center">
-          <button 
-            onClick={() => setShowAll(!showAll)}
-            className="flex items-center gap-2 px-6 py-3 rounded-full bg-slate-800 text-white font-bold hover:bg-slate-700 transition-all border border-slate-700 min-h-[44px] text-sm sm:text-base"
-          >
-            {showAll ? (
-              <>Show Less <ChevronUp size={18} /></>
-            ) : (
-              <>Load More Projects <ChevronDown size={18} /></>
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* Project Modal */}
-      {activeProject && (
-        <ProjectModal project={activeProject} onClose={() => setActiveProject(null)} />
-      )}
     </section>
   );
 };
 
-// --- Article Modal Component ---
-const ArticleModal = ({ post, onClose }) => {
-  if (!post) return null;
-  
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = 'unset'; };
-  }, []);
+const SectionTitle = ({ children, gradient, aside }) => (
+  <div className="flex flex-wrap items-baseline justify-between gap-3">
+    <h2 className="text-2xl font-bold text-white sm:text-3xl md:text-4xl">
+      <span className={`bg-gradient-to-r ${gradient} bg-clip-text text-transparent`}>{children}</span>
+    </h2>
+    {aside}
+  </div>
+);
 
-  return (
-    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-950/90 backdrop-blur-md animate-in fade-in duration-300" onClick={onClose}>
-      <div 
-        className="bg-slate-900 w-full sm:max-w-3xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto rounded-t-2xl sm:rounded-2xl border border-slate-800 shadow-2xl relative animate-in slide-in-from-bottom-8 duration-500" 
-        onClick={e => e.stopPropagation()}
-      >
-        <button 
-          onClick={onClose} 
-          className="absolute top-4 right-4 p-2 bg-slate-800/50 hover:bg-slate-700 text-slate-400 hover:text-white rounded-full transition-all z-10 min-w-[44px] min-h-[44px] flex items-center justify-center"
-          aria-label="Close modal"
-        >
-          <X size={20} />
-        </button>
+/* A generated background image behind a whole section, fading into the
+ * page colour so text on top stays readable. */
+const SectionBackdrop = ({ image, position = 'object-right', opacity = 'opacity-60', fade = 'down', className = 'inset-0' }) => (
+  <div className={`pointer-events-none absolute ${className}`} aria-hidden="true">
+    <img src={image} alt="" loading="lazy" className={`h-full w-full object-cover ${position} ${opacity}`} />
+    <div
+      className={`absolute inset-0 ${
+        fade === 'up'
+          ? 'bg-gradient-to-t from-slate-950/10 via-slate-950/55 to-slate-950'
+          : fade === 'both'
+          ? 'bg-gradient-to-b from-slate-950 via-slate-950/40 to-slate-950'
+          : 'bg-gradient-to-b from-slate-950/20 via-slate-950/50 to-slate-950'
+      }`}
+    />
+  </div>
+);
 
-        <div className="h-32 sm:h-48 w-full bg-gradient-to-r from-slate-800 to-slate-900 relative overflow-hidden">
-           <div className="absolute inset-0 bg-grid-slate-700/[0.2] bg-[size:20px_20px]" />
-           <div className="absolute bottom-0 left-0 w-full h-16 sm:h-24 bg-gradient-to-t from-slate-900 to-transparent" />
-           <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-8 flex gap-3">
-              <span className="px-2 sm:px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-bold uppercase tracking-wider border border-indigo-500/20">
-                {post.cat}
-              </span>
-           </div>
-        </div>
+const BELIEF_ACCENTS = {
+  shape: 'from-orange-400 to-pink-500',
+  decisions: 'from-pink-500 to-purple-500',
+  everyone: 'from-purple-400 to-indigo-400'
+};
 
-        <div className="p-4 sm:p-6 md:p-10">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
-            {post.title}
-          </h2>
-          <div className="flex items-center gap-4 sm:gap-6 text-xs sm:text-sm text-slate-500 mb-6 sm:mb-8 pb-6 sm:pb-8 border-b border-slate-800">
-            <div className="flex items-center gap-2">
-              <Calendar size={16} />
-              {post.date}
-            </div>
-          </div>
-
-          <div className="field-notes-html text-slate-300 leading-loose">
-             {post.content ? (
-                <div dangerouslySetInnerHTML={{__html: post.content}} />
-             ) : (
-               <div className="space-y-6">
-                 <p className="text-xl text-slate-400 font-light italic mb-8">
-                   "{post.excerpt}"
-                 </p>
-                 <p>
-                   In the rapidly evolving landscape of software engineering, understanding the core principles of {post.cat} is crucial. 
-                   We are seeing a paradigm shift in how we approach scalability and performance.
-                 </p>
-                 <h3 className="text-2xl font-bold text-white mt-8 mb-4">The Core Challenge</h3>
-                 <p>
-                   Most organizations struggle not with the technology itself, but with the integration of that technology into existing legacy workflows. 
-                   When we talk about <strong>{post.title}</strong>, we are really talking about a fundamental change in operational philosophy.
-                 </p>
-                 <div className="bg-slate-950 p-6 rounded-lg border border-slate-800 my-6 font-mono text-sm text-blue-300 overflow-x-auto">
-                    <code>
-                      # Example Configuration<br/>
-                      apiVersion: apps/v1<br/>
-                      kind: Deployment<br/>
-                      metadata:<br/>
-                      &nbsp;&nbsp;name: service-name<br/>
-                      spec:<br/>
-                      &nbsp;&nbsp;replicas: 3
-                    </code>
-                 </div>
-                 <p>
-                   By leveraging modern architectures, we can reduce latency by up to 40% while maintaining high availability. 
-                   This isn't just theoretical; it's what I've observed deploying systems at scale.
-                 </p>
-                 <h3 className="text-2xl font-bold text-white mt-8 mb-4">Conclusion</h3>
-                 <p>
-                   The future belongs to those who can effectively bridge the gap between traditional DevOps practices and the new wave of AI-driven development.
-                 </p>
-               </div>
-             )}
-          </div>
-        </div>
+const Belief = () => (
+  <section id="why" className="ambient relative scroll-mt-20 bg-slate-900/40 py-16 sm:py-20 md:py-24">
+    <div className="container mx-auto max-w-6xl px-4 sm:px-6">
+      <SectionTitle gradient="from-orange-400 to-pink-500">{BELIEF.heading}</SectionTitle>
+      <div className="snap-row hide-scrollbar mt-10 grid gap-6 md:grid-cols-3">
+        {BELIEF.cards.map((card, i) => (
+          <article
+            key={card.key}
+            className="glass group overflow-hidden rounded-3xl p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_30px_-10px_rgba(99,102,241,0.35)] sm:p-8"
+          >
+            <span
+              className={`pointer-events-none absolute -bottom-8 -right-1 select-none bg-gradient-to-br ${BELIEF_ACCENTS[card.key]} bg-clip-text font-mono text-[7rem] font-bold leading-none text-transparent opacity-20 transition-opacity group-hover:opacity-40`}
+              aria-hidden="true"
+            >
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <h3 className={`relative bg-gradient-to-r ${BELIEF_ACCENTS[card.key]} bg-clip-text text-xl font-bold text-transparent`}>
+              {card.title}
+            </h3>
+            <p className="relative mt-4 text-base leading-relaxed text-slate-400">{card.body}</p>
+          </article>
+        ))}
       </div>
     </div>
-  );
-}
+  </section>
+);
 
-// --- Blog with Scroll Component ---
-const Blog = () => {
-  const [filter, setFilter] = useState('All');
-  const [activePost, setActivePost] = useState(null);
-  const [summary, setSummary] = useState({}); 
-  const [loadingSummary, setLoadingSummary] = useState({}); 
-  const scrollContainerRef = useRef(null);
+const Now = () => (
+  <section id="now" className="ambient-warm scroll-mt-20 bg-slate-950 py-16 sm:py-20 md:py-24">
+    <div className="container mx-auto max-w-6xl px-4 sm:px-6">
+      <SectionTitle
+        gradient="from-cyan-400 to-indigo-500"
+        aside={<p className="font-mono text-xs uppercase tracking-widest text-slate-500">{NOW.asOf}</p>}
+      >
+        {NOW.heading}
+      </SectionTitle>
 
-  const categories = ['All', 'AI Agents', 'DevOps', 'Backend'];
-  
-  // Enhanced list of posts to demonstrate scrolling
-  const posts = [
-  {
-    title: "AI Assistants in Production: Lessons from Real Implementations",
-    cat: "AI Agents",
-    date: "Nov 18, 2025",
-    excerpt: "How AI assistants evolve from simple RAG demos into reliable, enterprise-ready automations.",
-    readTime: "6 min read",
-    content: `
-      <p>Most AI assistant demos stop at RAG — a vector search, a response, job done.</p>
-
-      <p>In production, this is nowhere near enough. Real-world AI assistants require:</p>
-      <ul>
-        <li>consistent output formatting,</li>
-        <li>audit logs and traceability,</li>
-        <li>stable request/response contracts,</li>
-        <li>UI flows that reduce cognitive load,</li>
-        <li>fallback logic when AI inevitably fails.</li>
-      </ul>
-
-      <p>The biggest lesson: <strong>AI is only as good as the surrounding architecture.</strong></p>
-
-      <p>With LangGraph, tool schemas, and structured workflows, assistants evolve from “chat toys” into
-      <strong>actual actors in business processes</strong> — from incident triage to CRM intelligence to contract analysis.</p>
-    `
-  },
-
-  {
-    title: "Scaling Node.js Services on Kubernetes the Right Way",
-    cat: "DevOps",
-    date: "Nov 05, 2025",
-    excerpt: "Real-world strategies for handling high-throughput Node.js workloads on Kubernetes.",
-    readTime: "7 min read",
-    content: `
-      <p>Node.js works beautifully — until concurrency spikes and your cluster begins melting down.</p>
-
-      <p>Key lessons from real production workloads:</p>
-      <ul>
-        <li>Horizontal autoscaling beats vertical tuning almost every time.</li>
-        <li>Queue-based isolation prevents cascading failures.</li>
-        <li>The Node.js Event Loop must be monitored independently.</li>
-        <li>Single heavy requests silently destroy throughput.</li>
-        <li>Poorly tuned probes can cause death spirals of restarts.</li>
-      </ul>
-
-      <p>The winning model:
-      <strong>stateless Node pods + queues + aggressive autoscaling + smart retries.</strong></p>
-
-      <p>This combination kept high-volume integrations stable in environments similar to BigPanda, where
-      <strong>reliability is non-negotiable</strong>.</p>
-    `
-  },
-
-  {
-    title: "Python vs Go for Production Microservices",
-    cat: "Backend",
-    date: "Oct 21, 2025",
-    excerpt: "Choosing the right runtime for high-throughput APIs and AI-backed microservices.",
-    readTime: "5 min read",
-    content: `
-      <p>Python is the language of AI. Go is the language of scalable microservices.</p>
-
-      <p>In real architectures, the two complement each other:</p>
-      <ul>
-        <li><strong>Python</strong> for ETL, orchestration, automations, AI workflows.</li>
-        <li><strong>Go</strong> for gateways, schedulers, queues, and high-throughput APIs.</li>
-      </ul>
-
-      <p>Go consistently outperforms Python by 3–5× where raw latency matters.
-      Python dominates where tooling, ML, and rapid development matter.</p>
-
-      <p>The best teams choose the language <strong>per component, not per organization.</strong></p>
-    `
-  },
-
-  {
-    title: "Running Local LLMs on Mac Studio for Private Workflows",
-    cat: "AI Agents",
-    date: "Oct 02, 2025",
-    excerpt: "Why local LLMs matter for secure, ultra-fast development loops.",
-    readTime: "4 min read",
-    content: `
-      <p>Local LLMs on Mac Studio are more practical than ever. Models up to 70B run surprisingly well.</p>
-
-      <p>Advantages:</p>
-      <ul>
-        <li>Zero data leaves your device.</li>
-        <li>Ultra-low latency — no API hops.</li>
-        <li>No token-based cost pressure.</li>
-        <li>Perfect for prototyping private/internal agents.</li>
-      </ul>
-
-      <p>For <a href="https://premavision.net" target="_blank" rel="noreferrer">Prema Vision</a> AI automations, local inference accelerates prompt iteration,
-      agent design, and UI prototyping without depending on cloud infrastructure.</p>
-    `
-  },
-
-  {
-    title: "Optimizing AWS Lambda Cold Starts in 2025",
-    cat: "Backend",
-    date: "Sep 15, 2025",
-    excerpt: "Techniques for keeping serverless APIs responsive during load spikes.",
-    readTime: "5 min read",
-    content: `
-      <p>Cold starts still matter — especially for latency-sensitive backend services.</p>
-
-      <p>Strategies that consistently work:</p>
-      <ul>
-        <li>Provisioned Concurrency for critical paths.</li>
-        <li>Lightweight periodic warmers.</li>
-        <li>Splitting heavy handlers into cold-resistant parts.</li>
-        <li>Reducing bundle size and dependency count.</li>
-        <li>Using runtimes with faster init (Go, Rust).</li>
-      </ul>
-
-      <p>We used these approaches extensively in billing and checkout flows where performance is revenue-critical.</p>
-    `
-  },
-
-  {
-    title: "Terraform Best Practices for Scalable Infrastructure",
-    cat: "DevOps",
-    date: "Aug 28, 2025",
-    excerpt: "Patterns for structuring Terraform modules that don’t collapse under scale.",
-    readTime: "7 min read",
-    content: `
-      <p>Terraform at team scale is a different discipline than Terraform for a solo project.</p>
-
-      <p>Patterns that survive scale:</p>
-      <ul>
-        <li>Versioned modules stored in a dedicated registry.</li>
-        <li>Clear split between root and reusable modules.</li>
-        <li>GitOps automation via Argo CD or Atlantis.</li>
-        <li>Remote state with locking and strict access control.</li>
-        <li>Explicit dependency graphs.</li>
-      </ul>
-
-      <p>These patterns reduce drift and make infra changes predictable even with many contributors.</p>
-    `
-  },
-
-  {
-    title: "Prompt Engineering for Developers: 2025 Edition",
-    cat: "AI Agents",
-    date: "Aug 07, 2025",
-    excerpt: "Structured prompts, tools, and agent patterns for real production systems.",
-    readTime: "6 min read",
-    content: `
-      <p>Prompt engineering has matured into <strong>protocol design</strong>.</p>
-
-      <p>Effective production prompts include:</p>
-      <ul>
-        <li>System schemas and constraints.</li>
-        <li>Strict formatting contracts.</li>
-        <li>Tool/function declarations.</li>
-        <li>Error and retry strategies.</li>
-        <li>Safety and logging rules.</li>
-      </ul>
-
-      <p>Developers who design prompts like APIs build assistants that behave predictably — not magically.</p>
-    `
-  },
-
-  {
-    title: "Building Resilient Distributed Systems",
-    cat: "Backend",
-    date: "Jul 16, 2025",
-    excerpt: "Retries, fallbacks, idempotency, and timeouts — and why they matter at scale.",
-    readTime: "9 min read",
-    content: `
-      <p>In distributed systems, failure is not an exception — it’s ambient noise.</p>
-
-      <p>Resilience requires:</p>
-      <ul>
-        <li>Idempotent operations.</li>
-        <li>Circuit breakers and bulkheads.</li>
-        <li>Retries with jitter.</li>
-        <li>Dead-letter queues.</li>
-        <li>Strict timeouts everywhere.</li>
-      </ul>
-
-      <p>These patterns prevented cascading outages in high-volume integration services 
-      and kept production systems stable under unpredictable load.</p>
-    `
-  },
-
-  {
-    title: "AWS Cost Optimization: Real Savings for Real Systems",
-    cat: "DevOps",
-    date: "Jun 24, 2025",
-    excerpt: "How to cut AWS bills by 30%+ with zero impact on performance.",
-    readTime: "6 min read",
-    content: `
-      <p>Most inflated AWS bills aren’t caused by traffic — they’re caused by architecture.</p>
-
-      <p>Real savings come from:</p>
-      <ul>
-        <li>Spot Instances for stateless services.</li>
-        <li>Savings Plans + Compute Optimizer.</li>
-        <li>Right-sizing EKS nodes.</li>
-        <li>S3 Intelligent Tiering.</li>
-        <li>Trimmed Lambda packages.</li>
-      </ul>
-
-      <p>Across clients, these steps consistently delivered
-      <strong>30–55% savings</strong> with no SLA degradation.</p>
-    `
-  },
-
-  {
-    title: "LangGraph and Multi-Agent Orchestration",
-    cat: "AI Agents",
-    date: "Jun 03, 2025",
-    excerpt: "Why complex automations require graph-based state machines, not linear flows.",
-    readTime: "8 min read",
-    content: `
-      <p>Linear chains break as soon as workflows become real-world complex.</p>
-
-      <p>LangGraph enables:</p>
-      <ul>
-        <li>Stateful agent behavior.</li>
-        <li>Branching logic.</li>
-        <li>Loops and retries.</li>
-        <li>Human-in-the-loop actions.</li>
-        <li>Deterministic orchestration.</li>
-      </ul>
-
-      <p>For enterprise AI automations — contract analysis, CRM overlays, ops assistants —
-      graph-based orchestration is quickly becoming the standard.</p>
-    `
-  }
-];
-
-
-  const filteredPosts = filter === 'All' ? posts : posts.filter(p => p.cat === filter);
-
-  const handleSummarize = async (post) => {
-    if (summary[post.title]) return; 
-    setLoadingSummary(prev => ({ ...prev, [post.title]: true }));
-    const prompt = `Generate 3 brief, punchy, technical bullet points about "${post.title}".`;
-    const result = await callGemini(prompt);
-    setSummary(prev => ({ ...prev, [post.title]: result }));
-    setLoadingSummary(prev => ({ ...prev, [post.title]: false }));
-  };
-
-  const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
-    }
-  };
-
-  const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
-    }
-  };
-
-  return (
-    <section id="blog" className="py-12 sm:py-16 md:py-24 bg-slate-900/30 border-y border-slate-800">
-      <div className="container mx-auto px-4 sm:px-6">
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 sm:mb-8">
-          <div className="mb-4 md:mb-0">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">Field Notes</h2>
-            <p className="text-sm sm:text-base text-slate-500">Thoughts on code, architecture, and the AI revolution.</p>
-          </div>
-          
-          {/* Filters */}
-          <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 -mx-4 sm:mx-0 px-4 sm:px-0">
-            {categories.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setFilter(cat)}
-                className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all whitespace-nowrap min-h-[44px] flex items-center ${
-                  filter === cat 
-                  ? 'bg-white text-slate-900' 
-                  : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
+      <div className="snap-row hide-scrollbar mt-10 grid gap-6 md:grid-cols-2">
+        {NOW.cards.map((card) => {
+          const looking = card.kind === 'Looking for';
+          const idea = card.kind === 'Next idea';
+          return (
+            <article
+              key={card.key}
+              className={`flex flex-col rounded-3xl p-6 transition-all duration-300 hover:-translate-y-2 sm:p-8 ${
+                looking
+                  ? 'glass-warm hover:shadow-[0_0_30px_-10px_rgba(251,146,60,0.4)]'
+                  : idea
+                  ? 'glass-gold hover:shadow-[0_0_30px_-10px_rgba(252,211,77,0.35)]'
+                  : 'glass hover:shadow-[0_0_30px_-10px_rgba(99,102,241,0.35)]'
+              }`}
+            >
+              <p
+                className={`inline-flex w-fit items-center gap-2 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-widest ${
+                  looking ? 'bg-orange-400/15 text-orange-300' : idea ? 'bg-amber-300/15 text-amber-200' : 'bg-indigo-500/15 text-indigo-300'
                 }`}
               >
-                {cat}
-              </button>
+                <span className={`h-1.5 w-1.5 rounded-full ${looking ? 'animate-pulse bg-orange-400' : idea ? 'bg-amber-300' : 'bg-indigo-400'}`} />
+                {card.kind}
+              </p>
+              <div className="mt-5 flex items-center gap-4">
+                {card.icon && (
+                  <img
+                    loading="lazy"
+                    decoding="async"
+                    src={card.icon}
+                    alt=""
+                    width="56"
+                    height="56"
+                    className="h-12 w-12 flex-shrink-0 rounded-[22%] shadow-lg"
+                  />
+                )}
+                <h3 className="text-xl font-bold text-white">{card.title}</h3>
+              </div>
+              <p className="mt-4 flex-1 text-base leading-relaxed text-slate-400">{card.body}</p>
+              <a
+                href={card.link.href}
+                {...(card.link.external ? { target: '_blank', rel: 'noreferrer' } : {})}
+                className="mt-6 inline-flex min-h-[44px] items-center gap-1.5 text-sm font-bold text-white transition-colors hover:text-orange-400"
+              >
+                {card.link.label}
+                {card.link.external ? (
+                  <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                ) : (
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                )}
+              </a>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+);
+
+/* Roadmap in Routine Run's own visual language (routinerun.com/site.css):
+ * the dusk sky, the cream moon, the pink-to-violet ring, amber step beads
+ * for done and current steps, SF type and glass cards. */
+const RR_FONT = {
+  fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif'
+};
+const RR_RING = 'linear-gradient(135deg,#FE0494 0%,#FD02B4 28%,#E302FC 60%,#D673F1 100%)';
+
+const ProgressRing = ({ done, total }) => {
+  const r = 15;
+  const c = 2 * Math.PI * r;
+  return (
+    <svg width="38" height="38" viewBox="0 0 38 38" aria-hidden="true" className="flex-shrink-0">
+      <defs>
+        <linearGradient id="rr-ring" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#FE0494" />
+          <stop offset="60%" stopColor="#E302FC" />
+          <stop offset="100%" stopColor="#D673F1" />
+        </linearGradient>
+      </defs>
+      <circle cx="19" cy="19" r={r} fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="4" />
+      <circle
+        cx="19"
+        cy="19"
+        r={r}
+        fill="none"
+        stroke="url(#rr-ring)"
+        strokeWidth="4"
+        strokeLinecap="round"
+        strokeDasharray={c}
+        strokeDashoffset={c * (1 - done / total)}
+        transform="rotate(-90 19 19)"
+        className="ring-fill"
+        style={{ '--ring-c': c }}
+      />
+    </svg>
+  );
+};
+
+const STEP_CHIP = {
+  done: { label: 'Done', className: 'bg-[#30D158]/15 text-[#30D158]' },
+  now: { label: 'Now', className: 'text-white', style: { background: RR_RING } },
+  next: { label: 'Next', className: 'bg-[#40C8E0]/15 text-[#40C8E0]' },
+  later: { label: 'Later', className: 'bg-white/10 text-white/60' }
+};
+
+const StepBead = ({ state, n }) => {
+  if (state === 'done') {
+    return (
+      <span className="grid h-8 w-8 flex-shrink-0 place-items-center rounded-full bg-[#FF9F0A]/55 text-white">
+        <Check className="h-4 w-4" aria-hidden="true" />
+      </span>
+    );
+  }
+  if (state === 'now') {
+    return (
+      <span className="relative grid h-8 w-8 flex-shrink-0 place-items-center rounded-full bg-[#FF9F0A] text-sm font-semibold text-white shadow-[0_0_0_4px_rgba(255,159,10,0.3),0_0_24px_rgba(255,159,10,0.55)]">
+        <span className="absolute inset-0 animate-ping rounded-full bg-[#FF9F0A]/40" />
+        <span className="relative tabular-nums">{n}</span>
+      </span>
+    );
+  }
+  return (
+    <span className="grid h-8 w-8 flex-shrink-0 place-items-center rounded-full bg-white/10 text-sm font-semibold tabular-nums text-white/60 ring-1 ring-white/15">
+      {n}
+    </span>
+  );
+};
+
+const Roadmap = () => {
+  const steps = ROADMAP.steps;
+  const listRef = useRef(null);
+
+  // On phones the steps are a swipe row: open it on the step in progress.
+  useEffect(() => {
+    const list = listRef.current;
+    if (!list || !window.matchMedia('(max-width: 639px)').matches) return;
+    const now = list.querySelector('[data-state="now"]');
+    if (now) list.scrollLeft = now.offsetLeft - parseFloat(getComputedStyle(list).paddingLeft);
+  }, []);
+  const doneCount = steps.filter((s) => s.state === 'done').length;
+  const current = steps.findIndex((s) => s.state === 'now') + 1;
+
+  return (
+    <section
+      id="roadmap"
+      className="relative scroll-mt-20 overflow-hidden py-16 text-white sm:py-20 md:py-24"
+      style={{ ...RR_FONT, background: 'linear-gradient(180deg,#001C41 0%,#2A1B4E 62%,#6B3A6E 100%)' }}
+    >
+      {/* stars and moon, as on routinerun.com */}
+      <div
+        className="twinkle pointer-events-none absolute inset-x-0 top-0 h-2/3 opacity-80"
+        style={{
+          backgroundImage:
+            'radial-gradient(1.2px 1.2px at 12% 18%,#fff9 50%,transparent),radial-gradient(1px 1px at 28% 42%,#fff7 50%,transparent),radial-gradient(1.4px 1.4px at 46% 12%,#fffa 50%,transparent),radial-gradient(1px 1px at 63% 30%,#fff6 50%,transparent),radial-gradient(1.2px 1.2px at 78% 8%,#fff9 50%,transparent),radial-gradient(1px 1px at 88% 36%,#fff6 50%,transparent),radial-gradient(1px 1px at 6% 55%,#fff5 50%,transparent),radial-gradient(1.3px 1.3px at 38% 60%,#fff6 50%,transparent)'
+        }}
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute -right-12 -top-6 h-32 w-32 rounded-full opacity-50 sm:right-[6%] sm:top-10 sm:h-56 sm:w-56 sm:opacity-100"
+        style={{
+          background:
+            'radial-gradient(circle,#FDD9E3 0 34%,rgba(253,217,227,.28) 35%,rgba(253,217,227,.08) 55%,transparent 70%)'
+        }}
+        aria-hidden="true"
+      />
+
+      <div className="container relative mx-auto max-w-6xl px-4 sm:px-6">
+        <p className="text-[13px] font-semibold uppercase tracking-[0.06em] text-white/60">{ROADMAP.heading}</p>
+        <h2 className="mt-2 text-3xl font-bold leading-tight tracking-tight sm:text-4xl md:text-5xl">
+          <span style={{ background: RR_RING, WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>
+            {ROADMAP.title}
+          </span>
+        </h2>
+        <p className="mt-4 max-w-2xl text-[17px] leading-relaxed text-white/75">{ROADMAP.sub}</p>
+
+        {/* Live Activity style pill */}
+        <div className="mt-8 inline-flex items-center gap-3 rounded-full bg-black/40 py-2 pl-2 pr-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12)] backdrop-blur-xl">
+          <img loading="lazy" decoding="async" src="/routine-run-icon.webp" alt="" width="32" height="32" className="h-8 w-8 rounded-[22%]" />
+          <div className="leading-tight">
+            <p className="text-[15px] font-semibold">Routine Run roadmap</p>
+            <p className="text-[13px] tabular-nums text-white/60">
+              {current} of {steps.length} · {doneCount} done
+            </p>
+          </div>
+          <ProgressRing done={doneCount} total={steps.length} />
+        </div>
+
+        {/* step track: beads and segments */}
+        <div className="mt-10 hidden items-center md:flex" aria-hidden="true">
+          {steps.map((step, i) => (
+            <React.Fragment key={step.title}>
+              <span
+                className={`h-3 w-3 flex-shrink-0 rounded-full ${
+                  step.state === 'done'
+                    ? 'bg-[#FF9F0A]/55'
+                    : step.state === 'now'
+                    ? 'scale-150 bg-[#FF9F0A] shadow-[0_0_0_3px_rgba(255,159,10,0.35)]'
+                    : 'bg-white/25'
+                }`}
+              />
+              {i < steps.length - 1 && (
+                <span
+                  className={`h-[3px] flex-1 ${
+                    step.state === 'done' ? 'bg-[#FF9F0A]/70' : 'bg-white/20'
+                  }`}
+                />
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+
+        <ol ref={listRef} className="snap-row hide-scrollbar mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {steps.map((step, i) => {
+            const chip = STEP_CHIP[step.state];
+            return (
+              <li
+                key={step.title}
+                data-state={step.state}
+                className={`flex gap-4 rounded-3xl p-5 transition-transform duration-300 hover:-translate-y-1 ${
+                  step.state === 'now'
+                    ? 'glass-warm !shadow-[inset_0_1px_0_rgba(255,255,255,0.3),0_20px_40px_-20px_rgba(254,4,148,0.6)]'
+                    : 'glass'
+                } ${step.state === 'later' ? 'opacity-75' : ''}`}
+              >
+                <StepBead state={step.state} n={i + 1} />
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span
+                      className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${chip.className}`}
+                      style={chip.style}
+                    >
+                      {chip.label}
+                    </span>
+                    <span className="text-[13px] text-white/55">{step.when}</span>
+                  </div>
+                  <h3 className="mt-2 text-[17px] font-semibold leading-snug">{step.title}</h3>
+                  <p className="mt-1 text-[15px] leading-5 text-white/70">{step.body}</p>
+                </div>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+    </section>
+  );
+};
+
+/* A checklist: boxes scattered with no path between them. */
+const ChecklistMark = () => (
+  <svg viewBox="0 0 96 64" className="h-16 w-24 flex-shrink-0" aria-hidden="true">
+    {[
+      [8, 10, true],
+      [52, 6, false],
+      [30, 30, true],
+      [74, 26, false],
+      [12, 46, false],
+      [60, 46, true]
+    ].map(([x, y, done]) => (
+      <g key={`${x}-${y}`}>
+        <rect x={x} y={y} width="13" height="13" rx="3" fill="none" stroke="rgba(203,213,225,0.55)" strokeWidth="1.5" />
+        {done && <path d={`M${x + 3} ${y + 7} l3 3 l5 -6`} fill="none" stroke="#cbd5e1" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />}
+      </g>
+    ))}
+  </svg>
+);
+
+/* A flow: one line running through stages, moving. */
+const FlowMark = () => (
+  <svg viewBox="0 0 96 64" className="h-16 w-24 flex-shrink-0" aria-hidden="true">
+    <defs>
+      <linearGradient id="flow-mark" x1="0" x2="1">
+        <stop offset="0%" stopColor="#fb923c" />
+        <stop offset="50%" stopColor="#ec4899" />
+        <stop offset="100%" stopColor="#a855f7" />
+      </linearGradient>
+    </defs>
+    <path d="M4 44 C 20 44, 22 18, 38 18 S 58 46, 72 40 S 88 18, 92 16" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="6" strokeLinecap="round" />
+    <path
+      className="flow-dash"
+      d="M4 44 C 20 44, 22 18, 38 18 S 58 46, 72 40 S 88 18, 92 16"
+      fill="none"
+      stroke="url(#flow-mark)"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeDasharray="6 7"
+    />
+    {[[4, 44], [38, 18], [72, 40], [92, 16]].map(([x, y], i) => (
+      <circle key={i} cx={x} cy={y} r="4.5" fill={i < 3 ? '#FF9F0A' : 'rgba(255,255,255,0.25)'} stroke="#020617" strokeWidth="2" />
+    ))}
+  </svg>
+);
+
+const PROCESS_STYLE = {
+  score: {
+    chip: 'bg-slate-700/60 text-slate-200',
+    ring: 'glass',
+    title: 'from-slate-200 to-slate-400',
+    bars: [1, 1, 1, 1, 1, 1, 1, 1]
+  },
+  tune: {
+    chip: 'bg-pink-500/15 text-pink-300',
+    ring: 'glass-warm hover:shadow-[0_0_30px_-10px_rgba(236,72,153,0.45)]',
+    title: 'from-orange-400 via-pink-500 to-purple-500',
+    bars: [0.5, 0.9, 0.35, 1, 0.65, 0.8, 0.45, 0.95]
+  }
+};
+
+const Process = () => (
+  <div id="process" className="relative scroll-mt-24 pt-20 sm:pt-24">
+    <div className="container mx-auto max-w-6xl px-4 sm:px-6">
+      <Movement n="II" gradient="from-orange-400 via-pink-500 to-purple-500">{PROCESS.heading}</Movement>
+      <p className="mt-4 max-w-2xl text-base text-slate-400 sm:text-lg">{PROCESS.sub}</p>
+
+      <div className="mt-8 grid gap-4 sm:grid-cols-2">
+        {PROCESS.contrast.map((item) => (
+          <article key={item.key} className="glass flex items-center gap-5 rounded-3xl p-5 sm:p-6">
+            {item.key === 'checklist' ? <ChecklistMark /> : <FlowMark />}
+            <div>
+              <h3 className={`text-lg font-bold ${item.key === 'flow' ? 'bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent' : 'text-slate-200'}`}>
+                {item.label}
+              </h3>
+              <p className="mt-1 text-sm leading-relaxed text-slate-400">{item.body}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <p className="mt-10 text-base text-slate-300 sm:text-lg">{PROCESS.lead}</p>
+
+      <div className="snap-row hide-scrollbar mt-10 grid gap-6 md:grid-cols-2">
+        {PROCESS.kinds.map((kind) => {
+          const style = PROCESS_STYLE[kind.key];
+          return (
+            <article
+              key={kind.key}
+              className={`rounded-3xl p-6 transition-all duration-300 hover:-translate-y-2 sm:p-8 ${style.ring}`}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className={`inline-block rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-widest ${style.chip}`}>
+                    {kind.label}
+                  </p>
+                  <h3 className={`mt-4 bg-gradient-to-r ${style.title} bg-clip-text text-3xl font-bold text-transparent`}>
+                    {kind.title}
+                  </h3>
+                </div>
+                {/* a tiny "waveform": even bars for the score, uneven for the tune */}
+                <div className="flex h-12 items-end gap-1" aria-hidden="true">
+                  {style.bars.map((h, i) => (
+                    <span
+                      key={i}
+                      className={`eq-bar w-1.5 rounded-full ${
+                        kind.key === 'tune'
+                          ? 'eq-jazz bg-gradient-to-t from-orange-400 to-purple-500'
+                          : 'eq-steady bg-slate-500'
+                      }`}
+                      style={
+                        kind.key === 'tune'
+                          ? { height: `${h * 100}%`, '--dur': `${0.7 + h * 0.9}s`, '--delay': `${-i * 0.37}s` }
+                          : { height: '100%' }
+                      }
+                    />
+                  ))}
+                </div>
+              </div>
+              <p className="mt-5 text-base leading-relaxed text-slate-300">{kind.good}</p>
+              <p className="mt-4 border-t border-white/10 pt-4 text-base leading-relaxed text-slate-400">{kind.cost}</p>
+            </article>
+          );
+        })}
+      </div>
+
+      <p className="mt-8 max-w-3xl text-base leading-relaxed text-slate-300">{PROCESS.close}</p>
+    </div>
+  </div>
+);
+
+const LENS_ACCENTS = {
+  math: 'from-cyan-400 to-indigo-400',
+  architecture: 'from-indigo-400 to-purple-400',
+  psychology: 'from-purple-400 to-pink-400',
+  history: 'from-pink-400 to-orange-400',
+  astrology: 'from-amber-200 to-pink-300'
+};
+
+const Connections = () => (
+  <div id="connections" className="relative scroll-mt-24 pt-20 sm:pt-24">
+    <div className="container mx-auto max-w-6xl px-4 sm:px-6">
+      <Movement n="III" gradient="from-cyan-400 via-indigo-400 to-purple-500">{CONNECTIONS.heading}</Movement>
+      <div className="mt-4 max-w-3xl space-y-3">
+        {CONNECTIONS.intro.map((paragraph) => (
+          <p key={paragraph.slice(0, 32)} className="text-base leading-relaxed text-slate-300 sm:text-lg">
+            {paragraph}
+          </p>
+        ))}
+      </div>
+
+      {/* five lenses */}
+      <div className="snap-row hide-scrollbar mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        {CONNECTIONS.lenses.map((lens) => (
+          <article
+            key={lens.key}
+            className="glass rounded-3xl p-5 transition-all duration-300 hover:-translate-y-1"
+          >
+            <h3 className={`bg-gradient-to-r ${LENS_ACCENTS[lens.key]} bg-clip-text text-base font-bold text-transparent`}>
+              {lens.name}
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-slate-400">{lens.body}</p>
+          </article>
+        ))}
+      </div>
+
+      {/* the mathematics of an interview */}
+      <article className="glass-cool mt-6 grid gap-8 rounded-3xl p-6 sm:p-10 lg:grid-cols-[1.3fr_1fr]">
+        <div>
+          <p className="font-mono text-xs uppercase tracking-widest text-cyan-300/80">{CONNECTIONS.math.where}</p>
+          <h3 className="mt-2 text-xl font-bold text-white sm:text-2xl">{CONNECTIONS.math.title}</h3>
+          <div className="mt-4 space-y-3">
+            {CONNECTIONS.math.paragraphs.map((paragraph) => (
+              <p key={paragraph.slice(0, 32)} className="text-base leading-relaxed text-slate-300">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        </div>
+        <div className="flex flex-col justify-center rounded-xl border border-slate-800 bg-slate-950/80 p-5 font-mono sm:p-6">
+          {CONNECTIONS.math.formulas.map((formula) => (
+            <p key={formula} className="py-2 text-lg text-cyan-200 sm:text-xl">
+              {formula}
+            </p>
+          ))}
+          <p className="mt-4 border-t border-slate-800 pt-4 text-xs leading-relaxed text-slate-500">
+            {CONNECTIONS.math.legend}
+          </p>
+        </div>
+      </article>
+
+      {/* history as production logs, over the neon ruins */}
+      <div className="glass-rim mt-14 overflow-hidden rounded-3xl bg-slate-950 p-6 sm:p-10">
+        <img
+          loading="lazy"
+          decoding="async"
+          src={CONNECTIONS.history.image}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover object-right opacity-70"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-slate-950/30" aria-hidden="true" />
+      <div className="relative">
+      <h3 className="text-xl font-bold text-white sm:text-2xl">{CONNECTIONS.history.title}</h3>
+      <div className="snap-row hide-scrollbar mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {CONNECTIONS.history.items.map((item) => (
+          <article
+            key={item.then}
+            className="glass group rounded-3xl p-5 transition-all duration-300 hover:-translate-y-1"
+          >
+            <p className="flex flex-wrap items-center gap-2 text-sm font-bold">
+              <span className="text-slate-200">{item.then}</span>
+              <ArrowRight className="h-4 w-4 text-orange-400 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+              <span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">{item.now}</span>
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-slate-400">{item.body}</p>
+          </article>
+        ))}
+      </div>
+      </div>
+      </div>
+    </div>
+  </div>
+);
+
+const Movement = ({ n, gradient, children }) => (
+  <div className="flex items-baseline gap-4">
+    <span className="font-serif text-3xl italic text-slate-600 sm:text-4xl" aria-hidden="true">
+      {n}
+    </span>
+    <h3 className="text-2xl font-bold sm:text-3xl">
+      <span className={`bg-gradient-to-r ${gradient} bg-clip-text text-transparent`}>{children}</span>
+    </h3>
+  </div>
+);
+
+/* One section, three movements: rhythm, score and tune, the maths underneath. */
+const Music = () => (
+  <section id="music" className="relative scroll-mt-20 overflow-hidden bg-slate-950 pb-20 pt-16 sm:pb-24 sm:pt-20 md:pt-24">
+    {MUSIC.background && (
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[720px]" aria-hidden="true">
+        <img loading="lazy" decoding="async" src={MUSIC.background} alt="" className="h-full w-full object-cover opacity-40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/30 via-slate-950/60 to-slate-950" />
+      </div>
+    )}
+
+    <SoundWaves />
+
+    <div className="container relative mx-auto max-w-6xl px-4 sm:px-6">
+      <SectionTitle gradient="from-orange-400 via-pink-500 to-purple-600">{MUSIC.heading}</SectionTitle>
+
+      <div className="mt-10 grid items-start gap-8 lg:grid-cols-[1.4fr_1fr]">
+        <div>
+          <Movement n="I" gradient="from-amber-200 to-orange-400">{MUSIC.movement}</Movement>
+          <div className="mt-5 space-y-4">
+            {MUSIC.paragraphs.map((paragraph) => (
+              <p key={paragraph.slice(0, 32)} className="text-base leading-relaxed text-slate-300 sm:text-lg">
+                {paragraph}
+              </p>
             ))}
           </div>
         </div>
 
-        {/* Scroll Controls (Visible on Desktop) */}
-        <div className="hidden md:flex justify-end gap-2 mb-4">
-          <button onClick={scrollLeft} className="p-2 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors">
-            <ChevronLeft size={20} />
-          </button>
-          <button onClick={scrollRight} className="p-2 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors">
-            <ChevronRight size={20} />
-          </button>
-        </div>
-
-        {/* Horizontal Scroll Container - Now with 2 Rows */}
-        <div 
-          ref={scrollContainerRef}
-          className="flex overflow-x-auto gap-4 sm:gap-6 pb-8 snap-x snap-mandatory hide-scrollbar touch-pan-x"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}
-        >
-            {/* Using a grid inside the flex container to force 2 rows if enough items, 
-                or we can just map and group. But a simpler CSS grid approach for horizontal scroll:
-                grid-rows-2 grid-flow-col
-            */}
-            <div className="grid grid-rows-2 grid-flow-col gap-4 sm:gap-6 min-w-full">
-              {filteredPosts.map((post, idx) => (
-                <article 
-                  key={idx} 
-                  onClick={() => setActivePost(post)}
-                  className="w-[85vw] sm:w-[90vw] md:w-[400px] snap-start group cursor-pointer bg-slate-950/50 border border-slate-800/50 p-4 sm:p-6 rounded-xl hover:border-slate-700 transition-all relative hover:-translate-y-1 flex flex-col h-full min-h-[200px]"
-                >
-                  <div className="flex items-baseline gap-3 mb-2">
-                    <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider">{post.cat}</span>
-                    <span className="text-xs text-slate-600">{post.date}</span>
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-orange-400 transition-colors line-clamp-2">
-                    {post.title}
-                  </h3>
-                  <p className="text-slate-400 text-sm leading-relaxed mb-4 flex-grow line-clamp-3">
-                    {post.excerpt}
-                  </p>
-                  
-                  <div className="flex justify-between items-center mt-auto border-t border-slate-800 pt-4">
-                    <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleSummarize(post);
-                      }}
-                      disabled={loadingSummary[post.title]}
-                      className="hidden text-xs font-bold text-indigo-400 hover:text-indigo-300 flex items-center gap-1 bg-indigo-500/10 px-3 py-1.5 rounded-full transition-colors"
-                    >
-                      {loadingSummary[post.title] ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
-                      {summary[post.title] ? "Done" : "AI Brief"}
-                    </button>
-
-                    <span className="text-xs font-bold text-slate-500 group-hover:text-white flex items-center gap-1 transition-colors">
-                      Read <ArrowRight className="w-3 h-3" />
-                    </span>
-                  </div>
-                  
-                  {summary[post.title] && (
-                    <div className="mt-3 p-3 bg-indigo-950/30 rounded-lg border border-indigo-500/20 animate-in fade-in zoom-in-95 duration-300" onClick={e => e.stopPropagation()}>
-                      <p className="text-xs text-indigo-200 font-mono whitespace-pre-line leading-relaxed">
-                        {summary[post.title]}
-                      </p>
-                    </div>
-                  )}
-                </article>
-              ))}
-            </div>
-        </div>
-      </div>
-
-      {activePost && (
-        <ArticleModal post={activePost} onClose={() => setActivePost(null)} />
-      )}
-
-    </section>
-  );
-};
-
-const FloridaFun = () => {
-  return (
-    <section id="florida" className="py-12 sm:py-16 md:py-24 relative overflow-hidden">
-      {/* Background Mesh */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-950 to-indigo-950 z-0" />
-      
-      <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <div className="flex flex-col md:flex-row items-center gap-8 sm:gap-12">
-          <div className="md:w-1/2 w-full">
-             <div className="inline-block p-2 sm:p-3 rounded-2xl bg-orange-500/20 text-orange-300 mb-4 sm:mb-6 rotate-[-3deg]">
-               <Sun className="w-6 h-6 sm:w-8 sm:h-8 inline mr-2" />
-               <span className="font-bold tracking-wide text-sm sm:text-base">Sunshine State of Mind</span>
-             </div>
-             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">
-               Palm Coast HQ
-             </h2>
-             <p className="text-base sm:text-lg text-slate-300 mb-4 sm:mb-6">
-               Based in beautiful Florida. Yes, we have alligators. No, they don't write Python (yet).
-             </p>
-             <p className="text-sm sm:text-base text-slate-400 mb-6 sm:mb-8">
-               When I'm not fine-tuning LLMs or debugging k8s clusters, I'm enjoying the quiet innovation of Palm Coast. 
-               Remote work allows for high-tech output with a low-stress input.
-             </p>
-             
-             <div className="grid grid-cols-3 gap-3 sm:gap-4">
-               <div className="bg-slate-900/80 p-3 sm:p-4 rounded-lg text-center backdrop-blur-sm border border-slate-700 min-h-[80px] sm:min-h-[100px] flex flex-col justify-center">
-                 <div className="text-xl sm:text-2xl font-bold text-white">98%</div>
-                 <div className="text-xs text-slate-400 uppercase">Humidity</div>
-               </div>
-               <a href="https://www.instagram.com/florida_for_fun/" className="bg-pink-600/20 hover:bg-pink-600/30 transition-colors p-3 sm:p-4 rounded-lg text-center backdrop-blur-sm border border-pink-500/30 group min-h-[80px] sm:min-h-[100px] flex flex-col justify-center">
-                 <div className="flex justify-center mb-1"><Instagram className="w-6 h-6 sm:w-8 sm:h-8 text-pink-500 group-hover:scale-110 transition-transform" /></div>
-                 <div className="text-xs text-pink-300 uppercase font-bold">Instagram</div>
-               </a>
-                <div className="bg-slate-900/80 p-3 sm:p-4 rounded-lg text-center backdrop-blur-sm border border-slate-700 min-h-[80px] sm:min-h-[100px] flex flex-col justify-center">
-                 <div className="text-xl sm:text-2xl font-bold text-white">100%</div>
-                 <div className="text-xs text-slate-400 uppercase">Focus</div>
-               </div>
-             </div>
-          </div>
-
-          <div className="md:w-1/2 relative">
-            {/* Simple geometric visual representation of Florida vibe */}
-            <a
-              href="https://www.google.com/maps/place/Palm+Coast,+FL"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group block rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
+        <div className="grid gap-4">
+          {MUSIC.ratios.map((ratio) => (
+            <div
+              key={ratio.name}
+              className="glass flex items-center gap-5 rounded-3xl p-5 transition-all duration-300 hover:-translate-y-1"
             >
-              <div className="aspect-square rounded-3xl overflow-hidden bg-gradient-to-tr from-orange-400 to-purple-600 p-1 shadow-2xl rotate-2 group-hover:rotate-0 transition-transform duration-700">
-                <div className="bg-slate-900 w-full h-full rounded-[20px] flex items-center justify-center relative overflow-hidden">
-                   {/* Updated Map Background */}
-                   <div className="absolute inset-0 bg-[url('https://share.cleanshot.com/CWt6nCZM+')] bg-cover bg-center opacity-50 grayscale group-hover:grayscale-0 transition-all duration-700"></div>
-                   <div className="relative z-10 bg-slate-900/80 p-6 rounded-xl backdrop-blur-md border border-slate-700 text-center">
-                     <MapPin className="w-6 h-6 text-orange-400 mx-auto mb-2" />
-                     <p className="font-mono text-sm text-white mb-1">Palm Coast, FL</p>
-                     <span className="text-xs uppercase tracking-wide text-orange-200/80">Open in Google Maps</span>
-                   </div>
-                </div>
+              <svg viewBox="0 0 120 40" className="h-10 w-28 flex-shrink-0" aria-hidden="true">
+                <defs>
+                  <linearGradient id={`wave-${ratio.name}`} x1="0" x2="1">
+                    <stop offset="0%" stopColor="#fb923c" />
+                    <stop offset="50%" stopColor="#ec4899" />
+                    <stop offset="100%" stopColor="#a855f7" />
+                  </linearGradient>
+                </defs>
+                <RatioWave a={ratio.a} b={ratio.b} stroke={`url(#wave-${ratio.name})`} />
+              </svg>
+              <div>
+                <p className="font-mono text-2xl text-white">
+                  {ratio.a} : {ratio.b}
+                </p>
+                <p className="text-sm text-slate-400">{ratio.label}</p>
               </div>
-            </a>
-          </div>
+            </div>
+          ))}
         </div>
       </div>
-    </section>
+    </div>
+
+    <Process />
+    <Connections />
+  </section>
+);
+
+/* Two sine waves at frequency ratio a:b, summed: what an interval looks like. */
+function wavePath(a, b, phase = 0) {
+  const points = [];
+  for (let x = 0; x <= 120; x += 2) {
+    const t = (x / 120) * Math.PI * 4 + phase;
+    const y = 20 + 8 * Math.sin((t * a) / b) + 8 * Math.sin(t);
+    points.push(`${x === 0 ? 'M' : 'L'}${x} ${y.toFixed(2)}`);
+  }
+  return points.join(' ');
+}
+
+/* The interval as it sounds: two tones at ratio a:b, summed and flowing.
+ * Animates only while on screen, and never under reduced motion. */
+const RatioWave = ({ a, b, stroke }) => {
+  const pathRef = useRef(null);
+
+  useEffect(() => {
+    const path = pathRef.current;
+    if (!path || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    let frame = 0;
+    let visible = false;
+    let start = 0;
+    const tick = (now) => {
+      if (!start) start = now;
+      path.setAttribute('d', wavePath(a, b, ((now - start) / 1000) * 2.2));
+      if (visible) frame = requestAnimationFrame(tick);
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      cancelAnimationFrame(frame);
+      if (visible) frame = requestAnimationFrame(tick);
+    });
+    observer.observe(path);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(frame);
+    };
+  }, [a, b]);
+
+  return (
+    <path ref={pathRef} d={wavePath(a, b)} fill="none" stroke={stroke} strokeWidth="2" strokeLinecap="round" />
   );
 };
 
-// v2, hardened 2026-08-11 — old endpoint was being spammed directly (bypassed the site)
-const CONTACT_FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbydnxBOSy-mWkYah0lr2h6eUoxgfBafKBGbxkAb4LrKmNmEG1STUHQhoFEcKQO1RNiV/exec';
+/* Three sine waves drifting behind the music heading. Each path covers two
+ * periods of the viewBox so a -50% translate loops without a seam. */
+const sinePath = (amplitude, periods, mid) => {
+  const width = 2400;
+  const points = [];
+  for (let x = 0; x <= width; x += 8) {
+    const y = mid + amplitude * Math.sin((x / width) * Math.PI * 2 * periods);
+    points.push(`${x === 0 ? 'M' : 'L'}${x} ${y.toFixed(1)}`);
+  }
+  return points.join(' ');
+};
 
-const contactReasons = [
-  'AI / LLM Integration',
-  'Backend Architecture',
-  'DevOps / Cloud Infra',
-  'General Consulting',
-  'Fractional CTO / Advisory',
-  'Product Strategy / Roadmapping',
-  'Podcast or Interview Invite',
-  'Speaking / Panel / Event',
-  'Mentorship or Career Chat',
-  'Coffee / Beach Hang in Palm Coast',
-  'Just Saying Hi / Cool Build Share'
+const SOUND_WAVES = [
+  { d: sinePath(26, 6, 80), stroke: '#fb923c', speed: '22s', opacity: 0.35 },
+  { d: sinePath(18, 10, 86), stroke: '#ec4899', speed: '15s', opacity: 0.3 },
+  { d: sinePath(34, 4, 76), stroke: '#a855f7', speed: '30s', opacity: 0.28 }
 ];
 
-// Must match FORM_GUARD_TOKEN in the Apps Script backend. Not a secret —
-// just filters out generic bots replaying the old payload shape, which is
-// what's been spamming this endpoint directly (see 2026-08 incident).
-const FORM_GUARD_TOKEN = 'kp-guard-2026-08';
+const SoundWaves = () => (
+  <div className="pointer-events-none absolute inset-x-0 top-1 h-12 overflow-hidden sm:h-16 md:top-2 md:h-[5.5rem]" aria-hidden="true">
+    {SOUND_WAVES.map((wave) => (
+      <svg
+        key={wave.stroke}
+        viewBox="0 0 2400 160"
+        preserveAspectRatio="none"
+        className="wave-drift absolute left-0 top-0 h-full w-[200%]"
+        style={{ '--speed': wave.speed, opacity: wave.opacity }}
+      >
+        <path d={wave.d} fill="none" stroke={wave.stroke} strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+      </svg>
+    ))}
+  </div>
+);
+
+const Works = () => (
+  <section id="works" className="ambient scroll-mt-20 bg-slate-950 py-16 sm:py-20 md:py-24">
+    <div className="container mx-auto max-w-6xl px-4 sm:px-6">
+      <SectionTitle gradient="from-orange-400 via-pink-500 to-purple-600">{WORKS.heading}</SectionTitle>
+
+      <div className="snap-row hide-scrollbar mt-10 grid gap-6 md:grid-cols-3">
+        {WORKS.items.map((item) => (
+          <article
+            key={item.key}
+            className="glass group flex flex-col rounded-3xl p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_30px_-10px_rgba(99,102,241,0.35)] sm:p-8"
+          >
+            <img
+              loading="lazy"
+              decoding="async"
+              src={item.logo}
+              alt=""
+              width="72"
+              height="72"
+              className={`h-16 w-16 transition-transform duration-300 group-hover:scale-105 ${
+                item.plain
+                  ? 'object-contain drop-shadow-[0_8px_22px_rgba(168,85,247,0.35)]'
+                  : 'rounded-[22%] bg-slate-900 shadow-lg'
+              }`}
+            />
+            <h3 className="mt-5 text-xl font-bold text-white">{item.name}</h3>
+            <p className="mt-1 text-xs uppercase tracking-widest text-slate-500">{item.status}</p>
+            <p className="mt-4 flex-1 text-base leading-relaxed text-slate-400">{item.body}</p>
+            {item.note && <p className="mt-3 text-sm text-slate-500">{item.note}</p>}
+            <ul className="mt-5 flex flex-wrap gap-x-6">
+              {item.links.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex min-h-[44px] items-center gap-1.5 text-sm font-bold text-white transition-colors hover:text-orange-400"
+                  >
+                    {link.label}
+                    <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const Stars = () => (
+  <section id="stars" className="relative scroll-mt-20 overflow-hidden bg-slate-950 py-16 sm:py-20 md:py-24">
+    <div
+      className="twinkle-slow pointer-events-none absolute inset-0 opacity-70"
+      style={{
+        backgroundImage:
+          'radial-gradient(1px 1px at 8% 20%,#fff8 50%,transparent),radial-gradient(1.2px 1.2px at 22% 70%,#fff6 50%,transparent),radial-gradient(1px 1px at 41% 35%,#fff7 50%,transparent),radial-gradient(1.4px 1.4px at 57% 82%,#fff8 50%,transparent),radial-gradient(1px 1px at 69% 14%,#fff6 50%,transparent),radial-gradient(1.2px 1.2px at 83% 58%,#fff7 50%,transparent),radial-gradient(1px 1px at 94% 30%,#fff5 50%,transparent)'
+      }}
+      aria-hidden="true"
+    />
+    <div className="pointer-events-none absolute -left-24 top-1/3 h-72 w-72 rounded-full bg-purple-700/20 blur-[90px]" aria-hidden="true" />
+    {STARS.background && (
+      <SectionBackdrop image={STARS.background} className="inset-x-0 top-0 h-[880px]" opacity="opacity-70" />
+    )}
+
+    <div className="container relative mx-auto max-w-6xl px-4 sm:px-6">
+      <SectionTitle gradient="from-amber-200 via-pink-300 to-purple-400">{STARS.heading}</SectionTitle>
+      <p className="mt-4 max-w-2xl text-base text-slate-400 sm:text-lg">{STARS.sub}</p>
+
+      <article className="glass-cool mt-10 grid items-center gap-8 rounded-3xl p-6 sm:p-10 lg:grid-cols-[1fr_1.05fr]">
+        <div className="order-2 lg:order-1">
+          <h3 className="bg-gradient-to-r from-amber-200 via-pink-300 to-purple-400 bg-clip-text text-2xl font-bold text-transparent sm:text-3xl">
+            {STARS.orrery.title}
+          </h3>
+          <div className="mt-4 space-y-3">
+            {STARS.orrery.paragraphs.map((paragraph) => (
+              <p key={paragraph.slice(0, 32)} className="text-base leading-relaxed text-slate-300">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+          <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm text-slate-400">
+            {STARS.orrery.legend.map((item) => (
+              <li key={item.mark} className="flex items-center gap-2">
+                {item.mark === 'orbit' && <span className="h-3.5 w-3.5 rounded-full border border-white/40" />}
+                {item.mark === 'planet' && <span className="h-3 w-3 rounded-full bg-pink-500 shadow-[0_0_10px_rgba(236,72,153,0.8)]" />}
+                {item.mark === 'step' && <span className="h-2.5 w-2.5 rounded-full bg-[#FF9F0A]" />}
+                {item.text}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="order-1 flex justify-center lg:order-2">
+          <Orrery />
+        </div>
+      </article>
+
+      <div className="snap-row hide-scrollbar mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {STARS.cards.map((card) => (
+          <article
+            key={card.key}
+            className="group rounded-2xl border border-purple-500/20 bg-gradient-to-b from-indigo-950/60 to-slate-950/60 p-6 transition-all duration-300 hover:-translate-y-2 hover:border-amber-300/50 hover:shadow-[0_0_30px_-10px_rgba(252,211,77,0.35)]"
+          >
+            <span
+              className="block bg-gradient-to-br from-amber-200 to-pink-400 bg-clip-text text-4xl leading-none text-transparent"
+              aria-hidden="true"
+            >
+              {card.glyph}
+            </span>
+            <h3 className="mt-4 text-lg font-bold text-white">{card.title}</h3>
+            <p className="mt-3 text-sm leading-relaxed text-slate-400">{card.body}</p>
+          </article>
+        ))}
+      </div>
+
+      {/* The eclipse: Sun and Rahu in the 10th house, drawn as a dark disk with a corona */}
+      <article className="glass-rim mt-6 overflow-hidden rounded-3xl bg-slate-950">
+        <img
+          loading="lazy"
+          decoding="async"
+          src={STARS.eclipse.image}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover object-right opacity-90"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/85 to-slate-950/10" aria-hidden="true" />
+        <div className="relative max-w-2xl p-6 sm:p-10 md:py-14">
+          <p className="bg-gradient-to-r from-amber-200 to-pink-400 bg-clip-text text-2xl leading-none text-transparent" aria-hidden="true">
+            {STARS.eclipse.glyph}
+          </p>
+          <h3 className="mt-3 text-xl font-bold text-white sm:text-2xl">{STARS.eclipse.title}</h3>
+          <div className="mt-4 space-y-3">
+            {STARS.eclipse.paragraphs.map((paragraph) => (
+              <p key={paragraph.slice(0, 32)} className="text-base leading-relaxed text-slate-300">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        </div>
+      </article>
+
+      <div className="glass-gold mt-6 rounded-3xl p-6 sm:p-8">
+        <h3 className="text-lg font-bold text-amber-100 sm:text-xl">{STARS.clients.title}</h3>
+        <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {STARS.clients.items.map((item) => (
+            <li key={item.who}>
+              <p className="font-semibold text-white">{item.who}</p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-400">{item.why}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+);
+
+const PATH_ACCENTS = ['from-orange-400 to-pink-500', 'from-pink-500 to-purple-500', 'from-purple-400 to-indigo-400', 'from-indigo-400 to-cyan-400'];
+
+const Path = () => (
+  <section className="relative overflow-hidden bg-slate-950 py-16 sm:py-20 md:py-24">
+    <SectionBackdrop image="/journey-bg.webp" position="object-center" opacity="opacity-75" fade="both" />
+    <div className="container relative mx-auto max-w-6xl px-4 sm:px-6">
+      <SectionTitle gradient="from-purple-400 to-indigo-500">{PATH.heading}</SectionTitle>
+      <p className="mt-4 text-base text-slate-400 sm:text-lg">{PATH.lead}</p>
+      <div className="snap-row hide-scrollbar mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {PATH.tiles.map((tile, i) => (
+          <article
+            key={tile.key}
+            className="glass rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1"
+          >
+            <h3 className={`bg-gradient-to-r ${PATH_ACCENTS[i]} bg-clip-text text-xl font-bold text-transparent`}>
+              {tile.name}
+            </h3>
+            <p className="mt-3 text-sm leading-relaxed text-slate-400">{tile.body}</p>
+          </article>
+        ))}
+      </div>
+      <p className="mt-6 text-base text-slate-300">{PATH.close}</p>
+    </div>
+  </section>
+);
+
+const NotesTeaser = () => (
+  <section className="ambient bg-slate-950 py-16 sm:py-20">
+    <div className="container mx-auto max-w-6xl px-4 sm:px-6">
+      <SectionTitle
+        gradient="from-orange-400 to-purple-500"
+        aside={
+          <a
+            href="/notes/"
+            className="inline-flex min-h-[44px] items-center gap-2 text-sm font-bold text-white transition-colors hover:text-orange-400"
+          >
+            All notes
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </a>
+        }
+      >
+        Notes
+      </SectionTitle>
+      <p className="mt-4 text-base text-slate-400">How the pieces behind Routine Run actually fit together.</p>
+      <div className="snap-row hide-scrollbar mt-8 grid gap-6 md:grid-cols-3">
+        {NOTES.slice(0, 3).map((note) => (
+          <a
+            key={note.slug}
+            href={`/notes/#${note.slug}`}
+            className="glass group flex flex-col rounded-3xl p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_30px_-10px_rgba(99,102,241,0.35)]"
+          >
+            <p className="font-mono text-xs uppercase tracking-widest text-slate-500">{note.date}</p>
+            <h3 className="mt-3 flex-1 text-lg font-bold text-white transition-colors group-hover:text-orange-300">
+              {note.title}
+            </h3>
+            <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-slate-400">{note.body[0]}</p>
+            <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-white">
+              Read
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+);
 
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    projectType: contactReasons[0],
+    projectType: CONTACT.reasons[0],
     message: '',
     website: '' // honeypot — real users never see/fill this field
   });
@@ -1503,7 +1162,7 @@ const Contact = () => {
       setFormData({
         name: '',
         email: '',
-        projectType: contactReasons[0],
+        projectType: CONTACT.reasons[0],
         message: '',
         website: ''
       });
@@ -1517,37 +1176,28 @@ const Contact = () => {
     }
   };
 
+  const fieldClass =
+    'w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 text-base text-white outline-none transition-all placeholder:text-slate-600 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 min-h-[44px]';
+  const labelClass = 'text-xs font-bold uppercase tracking-wider text-slate-500';
+
   return (
-    <section id="contact" className="py-12 sm:py-16 md:py-24 bg-slate-950">
-      <div className="container mx-auto px-4 sm:px-6 max-w-4xl">
-        <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 border border-slate-700 shadow-2xl">
-          <div className="text-center mb-6 sm:mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4">Ready to Scale?</h2>
-            <p className="text-sm sm:text-base text-slate-400 px-2">
-              Whether you need an AI agent implementation, a backend audit, or full-stack leadership, let's chat.
-            </p>
-            <p className="text-xs sm:text-sm text-slate-500 mt-3">
-              Client work and project scoping are handled via{' '}
-              <a href="https://premavision.net" target="_blank" rel="noreferrer" className="text-indigo-300 hover:text-white transition-colors">
-                Prema Vision
-              </a>
-              .
-            </p>
-            <div className="mt-4">
-              <a
-                href="https://premavision.net"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center px-5 py-2 rounded-full border border-slate-600 text-slate-200 hover:text-white hover:border-slate-400 transition-colors text-sm font-medium min-h-[44px]"
-              >
-                Go to premaVision.net
-              </a>
-            </div>
+    <section id="contact" className="relative scroll-mt-20 overflow-hidden bg-slate-950 py-16 sm:py-20 md:py-28">
+      <SectionBackdrop image="/horizon-bg.webp" position="object-bottom" opacity="opacity-90" fade="up" />
+      <div className="container relative mx-auto max-w-4xl px-4 sm:px-6">
+        <div className="glass-cool rounded-3xl p-6 sm:p-8 md:p-12">
+          <div className="mb-8 text-center">
+            <h2 className="text-xl font-bold leading-snug text-white sm:text-2xl md:text-3xl">
+              {CONTACT.heading}
+            </h2>
+            <p className="mt-3 text-sm text-slate-400 sm:text-base">{CONTACT.sub}</p>
           </div>
 
-          <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-5" onSubmit={handleSubmit}>
             {/* Honeypot — hidden from real users, bots that autofill every field trip it */}
-            <div style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }} aria-hidden="true">
+            <div
+              style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}
+              aria-hidden="true"
+            >
               <label htmlFor="website">Leave this field empty</label>
               <input
                 type="text"
@@ -1559,56 +1209,70 @@ const Contact = () => {
                 onChange={updateField('website')}
               />
             </div>
-            <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
+
+            <div className="grid gap-5 md:grid-cols-2">
               <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Name</label>
-                <input 
-                  type="text" 
+                <label className={labelClass} htmlFor="name">
+                  Name
+                </label>
+                <input
+                  id="name"
+                  type="text"
                   value={formData.name}
                   onChange={updateField('name')}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-white text-base focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all min-h-[44px]"
-                  placeholder="John Doe"
+                  className={fieldClass}
+                  placeholder="Your name"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Email</label>
-                <input 
-                  type="email" 
+                <label className={labelClass} htmlFor="email">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
                   value={formData.email}
                   onChange={updateField('email')}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-white text-base focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all min-h-[44px]"
-                  placeholder="john@company.com"
+                  className={fieldClass}
+                  placeholder="you@company.com"
                 />
               </div>
             </div>
-            
+
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Project Type</label>
-              <select 
+              <label className={labelClass} htmlFor="projectType">
+                What is this about
+              </label>
+              <select
+                id="projectType"
                 value={formData.projectType}
                 onChange={updateField('projectType')}
-                className="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-slate-300 text-base focus:border-indigo-500 outline-none transition-all min-h-[44px]"
+                className={`${fieldClass} text-slate-300`}
               >
-                {contactReasons.map((reason) => (
+                {CONTACT.reasons.map((reason) => (
                   <option key={reason}>{reason}</option>
                 ))}
               </select>
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Message</label>
-              <textarea 
+              <label className={labelClass} htmlFor="message">
+                Message
+              </label>
+              <textarea
+                id="message"
                 rows="5"
                 value={formData.message}
                 onChange={updateField('message')}
-                className="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-white text-base focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all resize-y"
-                placeholder="Tell me about your technical challenges..."
-              ></textarea>
+                className={`${fieldClass} resize-y`}
+                placeholder="What is it, and who carries it today?"
+              />
             </div>
 
             {feedback && (
               <div
-                className={`text-sm rounded-xl border px-4 py-3 ${
+                role="status"
+                className={`rounded-xl border px-4 py-3 text-sm ${
                   feedback.type === 'success'
                     ? 'border-emerald-500/50 bg-emerald-500/10 text-emerald-200'
                     : 'border-red-500/40 bg-red-500/10 text-red-200'
@@ -1620,18 +1284,25 @@ const Contact = () => {
 
             <button
               disabled={submitting || !isValid}
-              className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-4 rounded-lg shadow-lg transform active:scale-[0.99] transition-all flex justify-center items-center gap-2 min-h-[44px] text-base"
+              className="flex min-h-[44px] w-full transform items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 py-4 text-base font-bold text-white shadow-lg transition-all hover:from-indigo-500 hover:to-purple-500 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
             >
               {submitting ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" /> Sending...
+                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> Sending
                 </>
               ) : (
                 <>
-                  <Send className="w-4 h-4" /> Send Message
+                  <Send className="h-4 w-4" aria-hidden="true" /> Send
                 </>
               )}
             </button>
+
+            <p className="text-center text-sm text-slate-500">
+              Or email{' '}
+              <a href={`mailto:${SITE.email}`} className="text-slate-300 hover:text-white">
+                {SITE.email}
+              </a>
+            </p>
           </form>
         </div>
       </div>
@@ -1639,59 +1310,29 @@ const Contact = () => {
   );
 };
 
-const Footer = () => {
-  return (
-    <footer className="bg-slate-950 py-8 sm:py-12 border-t border-slate-900">
-      <div className="container mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6">
-        <div className="text-center md:text-left">
-          <h3 className="text-lg sm:text-xl font-bold text-white mb-1 sm:mb-2">Denys Korolkov</h3>
-          <p className="text-slate-500 text-xs sm:text-sm">
-            © {new Date().getFullYear()}{' '}
-            <a href="https://premavision.net" target="_blank" rel="noreferrer" className="text-indigo-300 hover:text-white transition-colors">
-              Prema Vision LLC
-            </a>
-            . All rights reserved.
-          </p>
-          <p className="text-slate-500 text-xs sm:text-sm mt-1">
-            Personal site for engineering work. Consulting services are offered via{' '}
-            <a href="https://premavision.net" target="_blank" rel="noreferrer" className="text-indigo-300 hover:text-white transition-colors">
-              Prema Vision
-            </a>
-            .
-          </p>
-        </div>
-        
-        <div className="flex gap-4 sm:gap-6">
-          <a href="https://github.com/denyskorolkov" className="text-slate-400 hover:text-white transition-colors hover:scale-110 transform min-w-[44px] min-h-[44px] flex items-center justify-center"><Github size={20} /></a>
-          <a href="https://linkedin.com/in/denyskorolkov/" className="text-slate-400 hover:text-white transition-colors hover:scale-110 transform min-w-[44px] min-h-[44px] flex items-center justify-center"><Linkedin size={20} /></a>
-          <a href="https://x.com/denys_korolkov" className="text-slate-400 hover:text-white transition-colors hover:scale-110 transform min-w-[44px] min-h-[44px] flex items-center justify-center"><Twitter size={20} /></a>
-          <a href="mailto:denys.korolkov@gmail.com" className="text-slate-400 hover:text-white transition-colors hover:scale-110 transform min-w-[44px] min-h-[44px] flex items-center justify-center"><Mail size={20} /></a>
-        </div>
-      </div>
-    </footer>
-  );
-};
-
-// --- Main App Component ---
-
 export default function App() {
+  useMotion();
+
   return (
-    <div className="bg-slate-950 min-h-screen font-sans text-slate-200 selection:bg-orange-500/30 selection:text-orange-200">
+    <div className="min-h-screen bg-slate-950 font-sans text-slate-200 selection:bg-orange-500/30 selection:text-orange-200">
       <Nav />
       <main>
         <Hero />
-        <About />
-        <Services />
-        <CaseStudies />
-        <Blog />
-        <FloridaFun />
+        <Belief />
+        <Music />
+        <Now />
+        <Roadmap />
+        <Works />
+        <Stars />
+        <Path />
+        <NotesTeaser />
         <Contact />
       </main>
-      <Footer />
-      
-      {/* Floating Gradient Orbs for Ambiance */}
-      <div className="fixed top-20 left-0 w-64 h-64 bg-purple-900/10 rounded-full blur-3xl pointer-events-none -z-10" />
-      <div className="fixed bottom-20 right-0 w-96 h-96 bg-blue-900/10 rounded-full blur-3xl pointer-events-none -z-10" />
+      <SiteFooter />
+
+      {/* Floating gradient orbs for ambiance */}
+      <div className="pointer-events-none fixed left-0 top-20 -z-10 h-64 w-64 rounded-full bg-purple-900/10 blur-3xl" />
+      <div className="pointer-events-none fixed bottom-20 right-0 -z-10 h-96 w-96 rounded-full bg-blue-900/10 blur-3xl" />
     </div>
   );
 }
