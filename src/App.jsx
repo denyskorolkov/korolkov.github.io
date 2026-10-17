@@ -9,7 +9,7 @@ import {
   Terminal,
   X
 } from 'lucide-react';
-import { SiteFooter, useMotion, useMouseParallax, useParallax } from './site.jsx';
+import { SiteFooter, useMotion } from './site.jsx';
 import Orrery from './Orrery.jsx';
 import { BELIEF, CONNECTIONS, CONTACT, HERO, MUSIC, NOTES, NOW, PATH, PROCESS, ROADMAP, SITE, STARS, WORKS } from './content.js';
 
@@ -20,6 +20,13 @@ const CONTACT_FORM_ENDPOINT =
 // just filters out generic bots replaying the old payload shape, which is
 // what's been spamming this endpoint directly (see 2026-08 incident).
 const FORM_GUARD_TOKEN = 'kp-guard-2026-08';
+
+/* Every background has a 1920 px and a 960 px WebP. Phones take the small one. */
+const responsive = (src, sizes = '100vw') => ({
+  src,
+  srcSet: `${src.replace('.webp', '-960.webp')} 960w, ${src} 1920w`,
+  sizes
+});
 
 const NAV_LINKS = [
   { name: 'Music', href: '#music' },
@@ -103,21 +110,56 @@ const Nav = () => {
   );
 };
 
+/* Drifts the hero image with scroll and pointer by writing the transform
+ * straight to the element in a requestAnimationFrame, so the hero never
+ * re-renders while you move. Stops below the hero and under reduced motion. */
+const useHeroParallax = (ref) => {
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    let frame = 0;
+    let mx = 0;
+    let my = 0;
+    const apply = () => {
+      frame = 0;
+      const y = window.scrollY;
+      if (y > window.innerHeight * 1.2) return;
+      el.style.transform = `translate3d(${-mx}px, ${-(y * 0.25 + my)}px, 0) scale(1.04)`;
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(apply);
+    };
+    const onMove = (e) => {
+      mx = (e.clientX - window.innerWidth / 2) * 0.02;
+      my = (e.clientY - window.innerHeight / 2) * 0.02;
+      schedule();
+    };
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('pointermove', onMove, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('pointermove', onMove);
+    };
+  }, [ref]);
+};
+
 const Hero = () => {
-  const mousePos = useMouseParallax(0.02);
-  const scrollY = useParallax(0.25);
+  const imageRef = useRef(null);
+  useHeroParallax(imageRef);
 
   return (
     <section className="relative flex min-h-screen items-center overflow-hidden pt-24">
       {/* Palm Coast at sunset: the sun sits behind the photo, a flow of steps runs over the water */}
       <div className="absolute inset-0 bg-slate-950" aria-hidden="true">
         <img
-          src={HERO.background}
+          {...responsive(HERO.background)}
           alt=""
           fetchpriority="high"
           decoding="async"
-          className="absolute inset-0 h-[115%] w-full object-cover object-[68%_center] opacity-90"
-          style={{ transform: `translate3d(${mousePos.x * -1}px, ${scrollY * -1 + mousePos.y * -1}px, 0) scale(1.04)` }}
+          ref={imageRef}
+          className="absolute inset-0 h-[115%] w-full object-cover object-[68%_center] opacity-90 will-change-transform"
+          style={{ transform: 'translate3d(0, 0, 0) scale(1.04)' }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/75 to-slate-950/5" />
         <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-slate-950 to-transparent" />
@@ -209,7 +251,7 @@ const SectionTitle = ({ children, gradient, aside }) => (
  * page colour so text on top stays readable. */
 const SectionBackdrop = ({ image, position = 'object-right', opacity = 'opacity-60', fade = 'down', className = 'inset-0' }) => (
   <div className={`pointer-events-none absolute ${className}`} aria-hidden="true">
-    <img src={image} alt="" loading="lazy" className={`h-full w-full object-cover ${position} ${opacity}`} />
+    <img {...responsive(image)} alt="" loading="lazy" decoding="async" className={`h-full w-full object-cover ${position} ${opacity}`} />
     <div
       className={`absolute inset-0 ${
         fade === 'up'
@@ -706,7 +748,7 @@ const Connections = () => (
         <img
           loading="lazy"
           decoding="async"
-          src={CONNECTIONS.history.image}
+          {...responsive(CONNECTIONS.history.image, '(min-width: 1152px) 1100px, 100vw')}
           alt=""
           aria-hidden="true"
           className="absolute inset-0 h-full w-full object-cover object-right opacity-70"
@@ -751,7 +793,7 @@ const Music = () => (
   <section id="music" className="relative scroll-mt-20 overflow-hidden bg-slate-950 pb-20 pt-16 sm:pb-24 sm:pt-20 md:pt-24">
     {MUSIC.background && (
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[720px]" aria-hidden="true">
-        <img loading="lazy" decoding="async" src={MUSIC.background} alt="" className="h-full w-full object-cover opacity-40" />
+        <img loading="lazy" decoding="async" {...responsive(MUSIC.background)} alt="" className="h-full w-full object-cover opacity-40" />
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950/30 via-slate-950/60 to-slate-950" />
       </div>
     )}
@@ -1004,7 +1046,7 @@ const Stars = () => (
         <img
           loading="lazy"
           decoding="async"
-          src={STARS.eclipse.image}
+          {...responsive(STARS.eclipse.image, '(min-width: 1152px) 1100px, 100vw')}
           alt=""
           aria-hidden="true"
           className="absolute inset-0 h-full w-full object-cover object-right opacity-90"
