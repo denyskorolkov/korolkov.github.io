@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Github, Linkedin, Mail, Terminal, Twitter } from 'lucide-react';
+import { Github, Linkedin, Mail, Terminal } from 'lucide-react';
+
+/* The X mark. lucide-react only ships the old Twitter bird. */
+const XLogo = ({ size = 20, ...props }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor" {...props}>
+    <path d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.4l-5.8-7.58-6.64 7.58H.47l8.6-9.83L0 1.15h7.6l5.24 6.93 6.06-6.93Zm-1.29 19.49h2.04L6.49 3.24H4.3l13.32 17.4Z" />
+  </svg>
+);
 import { SITE } from './content.js';
 
 /* Pieces shared by the home page and /notes, plus the two parallax hooks
@@ -110,7 +117,7 @@ export function SiteFooter() {
   const social = [
     { href: SITE.links.github, label: 'GitHub', Icon: Github },
     { href: SITE.links.linkedin, label: 'LinkedIn', Icon: Linkedin },
-    { href: SITE.links.x, label: 'X', Icon: Twitter },
+    { href: SITE.links.x, label: 'X', Icon: XLogo },
     { href: `mailto:${SITE.email}`, label: 'Email', Icon: Mail }
   ];
 

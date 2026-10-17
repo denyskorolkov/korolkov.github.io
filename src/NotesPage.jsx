@@ -38,6 +38,25 @@ export default function NotesPage() {
                   {paragraph}
                 </p>
               ))}
+              {note.milestones && (
+                <ol className="relative mt-6 space-y-5 border-l border-white/10 pl-6">
+                  {note.milestones.map((m, i) => (
+                    <li key={m.when} className="relative">
+                      <span
+                        className={`absolute -left-[31px] top-1 h-3 w-3 rounded-full ${
+                          i === note.milestones.length - 1
+                            ? 'bg-[#FF9F0A] shadow-[0_0_0_4px_rgba(255,159,10,0.25)]'
+                            : 'bg-[#FF9F0A]/60'
+                        }`}
+                        aria-hidden="true"
+                      />
+                      <p className="font-mono text-xs uppercase tracking-widest text-orange-300/80">{m.when}</p>
+                      <p className="mt-1 text-base leading-relaxed text-slate-300">{m.what}</p>
+                    </li>
+                  ))}
+                </ol>
+              )}
+              {note.close && <p className="mt-6 text-base leading-relaxed text-slate-400">{note.close}</p>}
             </article>
           ))}
         </div>

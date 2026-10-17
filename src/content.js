@@ -417,6 +417,29 @@ export const WORKS = {
  * post-mortems when the details are confirmed. */
 export const NOTES = [
   {
+    /* Dates from the structed-app git history; numbers only the ones already
+     * public in the approved LinkedIn Experience of 15 Oct 2026. */
+    slug: 'structed-milestones',
+    title: 'Structed, milestone by milestone',
+    date: 'December 2025 to October 2026',
+    body: [
+      'Structed turns one AI-led client interview into a structured set of requirements. I came in as CTO at the very start and I am still involved. These are the steps it took, in the order they happened.'
+    ],
+    milestones: [
+      { when: 'December 2025', what: 'Designed it with the founder from a blank page: the architecture and the agent concept. An outsourced team started on the base.' },
+      { when: 'February 2026', what: 'Audited the base, ended the outsourcing and took over all engineering.' },
+      { when: 'March 2026', what: 'Traces on every run, model routing, and prompts that domain experts can edit without a developer.' },
+      { when: 'April 2026', what: 'Simulated clients: an AI persona can now run an interview end to end, so a change is tested before a real client sees it.' },
+      { when: 'June 2026', what: 'The domain taxonomy moved out of code into a database with its own admin, and an MCP server opened interviews to AI assistants.' },
+      { when: 'July 2026', what: 'Paid accounts through Stripe, a moderation step before a brief reaches the client, deploys without downtime, and a security pass.' },
+      { when: 'August 2026', what: 'Self-serve sign-up with a trial, organizations with seats, and test personas run against the live stack and compared run against run. Selected for the Grishin Robotics accelerator, cohort 4.' },
+      { when: '17 September 2026', what: 'Demo day in London. Marina pitched, and the product could show its own measurements.' },
+      { when: 'October 2026', what: 'Still involved.' }
+    ],
+    close:
+      'Along the way: 16 professions and 100+ specializations living as data rather than code, replies down from 20–60 seconds to 1–13, and 1,400+ automated tests.'
+  },
+  {
     /* From the structed-app git history (22 Aug to 17 Sep 2026), the
      * approved LinkedIn line about cohort 4, and the public posts by Grishin
      * Robotics and Marina Shmayger. Security fixes are described without
