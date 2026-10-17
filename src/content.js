@@ -417,14 +417,16 @@ export const WORKS = {
  * post-mortems when the details are confirmed. */
 export const NOTES = [
   {
-    /* From the structed-app git history, 22 Aug to 17 Sep 2026, and the
-     * approved LinkedIn line about cohort 4. Security fixes are described
-     * without specifics on purpose. */
+    /* From the structed-app git history (22 Aug to 17 Sep 2026), the
+     * approved LinkedIn line about cohort 4, and the public posts by Grishin
+     * Robotics and Marina Shmayger. Security fixes are described without
+     * specifics on purpose. */
     slug: 'four-weeks-to-demo-day',
     title: 'Four weeks to a demo day',
     date: '17 September 2026',
     body: [
-      'In August 2026 Structed was selected for the Grishin Robotics accelerator, cohort 4, in London. Demo day was set for 17 September. For the founders it was a sprint; for me, as CTO, it was four weeks to turn the product into something you could check rather than take on trust.',
+      'In late August 2026 Structed joined the Grishin Robotics accelerator, cohort 4, in London: 22 teams, 30 days, then a demo day on 17 September at 22 Bishopsgate, three minutes each on stage.',
+      'Marina pitched. Her loop ran every week: pitch, get recorded, get feedback, watch it back, rebuild. Mine was the same loop for the product, as CTO: run an interview, measure it, fix what broke, run it again. Four weeks to turn Structed into something you could check rather than take on trust.',
       'Most of the work was measurement. A question in an interview either lands on something the brief still needs or it does not, so every interview got its hit-rate curve, the admin got a page to compare runs, and the question "did this change help" got answered as a probability instead of a p-value.',
       'Some of it was about not losing what the client said: a brief that quietly dropped facts the client had given, a finished answer lost to a single stray character, and an honest "I can’t answer that" that the agent never wrote down.',
       'Some of it was for the client on the other side of the screen. The interview now tells people how far through they are, and shows them what the agent already knows so they can add to it. The rest was the security review you want done before anyone else looks.',
