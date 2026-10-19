@@ -723,6 +723,7 @@ const Connections = () => (
         <div>
           <p className="font-mono text-xs uppercase tracking-widest text-cyan-300/80">{CONNECTIONS.math.where}</p>
           <h3 className="mt-2 text-xl font-bold text-white sm:text-2xl">{CONNECTIONS.math.title}</h3>
+          <p className="mt-3 text-base font-medium leading-relaxed text-white">{CONNECTIONS.math.lead}</p>
           <div className="mt-4 space-y-3">
             {CONNECTIONS.math.paragraphs.map((paragraph) => (
               <p key={paragraph.slice(0, 32)} className="text-base leading-relaxed text-slate-300">

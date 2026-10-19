@@ -132,6 +132,7 @@ export const CONNECTIONS = {
   math: {
     title: 'The mathematics of an interview',
     where: 'Structed AI',
+    lead: 'Structed talks to your client for you and hands back a detailed project brief after one interview, even when the client can\'t explain what they need. Under it sits the question of when to stop asking.',
     paragraphs: [
       'I treated a client interview as a finite set of things the brief still needs. Each question either lands on one of them or it does not.',
       'The chance of landing splits into three factors: did we aim at something still open, does the client know it, did the agent write it down. When results drop, they drop in exactly one of the three, and each one is fixed by different work.',
