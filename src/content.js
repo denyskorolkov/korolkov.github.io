@@ -11,7 +11,7 @@ export const SITE = {
   email: 'denys.korolkov@gmail.com',
   links: {
     routineRun: 'https://routinerun.com',
-    beta: 'https://routinerun.com/beta',
+    appStore: 'https://apps.apple.com/app/id6812338054',
     linkedin: 'https://linkedin.com/in/denyskorolkov/',
     github: 'https://github.com/denyskorolkov',
     x: 'https://x.com/denys_korolkov'
@@ -165,8 +165,8 @@ export const NOW = {
       title: 'Routine Run',
       icon: '/routine-run-icon.webp',
       body:
-        'The iPhone and Apple Watch app is in public beta on TestFlight. Next comes the App Store, then the browser.',
-      link: { label: 'Join the beta', href: SITE.links.beta, external: true }
+        'The iPhone and Apple Watch app is on the App Store, since 25 October 2026. Next comes the browser.',
+      link: { label: 'Get it on the App Store', href: SITE.links.appStore, external: true }
     },
     {
       key: 'ai-projects',
@@ -228,14 +228,14 @@ export const ROADMAP = {
       body: 'An MCP connector in Claude’s directory and the MCP registry. Apple’s own models write a routine from one sentence.'
     },
     {
-      state: 'now',
-      when: 'In progress',
+      state: 'done',
+      when: '25 October 2026',
       title: 'On the App Store',
       body: 'Version 1.0, open to everyone on iPhone and Apple Watch.'
     },
     {
-      state: 'next',
-      when: 'With the release',
+      state: 'now',
+      when: 'In progress',
       title: 'App Clip pilots',
       body: 'Local businesses put a code at the door. Visitors run the steps without installing anything.'
     },
@@ -363,7 +363,7 @@ export const CONTACT = {
     'I lead a company (CEO, COO, CTO)',
     'An App Clip pilot for my business',
     'Routine Run: partnership',
-    'Routine Run: beta, feedback, a bug',
+    'Routine Run: feedback, a bug',
     'Siri, App Intents, Apple Watch',
     'Podcast or interview',
     'Speaking, panel or event',
@@ -387,7 +387,7 @@ export const WORKS = {
         'A process people carry in their heads becomes one that runs: described once in a sentence, walked through step by step, improved run by run. The iPhone and Apple Watch app is its first form; underneath is a platform for the systems and AI assistants a business already uses.',
       links: [
         { label: 'routinerun.com', href: SITE.links.routineRun },
-        { label: 'TestFlight beta', href: SITE.links.beta }
+        { label: 'App Store', href: SITE.links.appStore }
       ]
     },
     {
