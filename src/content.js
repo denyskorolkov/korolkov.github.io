@@ -211,9 +211,9 @@ export const ROADMAP = {
     },
     {
       state: 'done',
-      when: 'Beta',
+      when: 'September 2026',
       title: 'Public beta on TestFlight',
-      body: 'Anyone with an iPhone can join. No account, private by default.'
+      body: 'Testers joined from a public link before the release. No account, private by default.'
     },
     {
       state: 'done',
